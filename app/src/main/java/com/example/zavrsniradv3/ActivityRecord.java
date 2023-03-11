@@ -1,0 +1,197 @@
+package com.example.zavrsniradv3;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.routing.OSRMRoadManager;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class ActivityRecord extends AppCompatActivity{
+    public String url="";
+    private static final int REQUEST_LOCATION = 1;
+    LocationManager locationManager;
+    String latitude, longitude;
+    private MapView map;
+    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+    MyLocationNewOverlay myLocationOverlay;
+    String e,pa,id,ime;
+    Road road;
+    String userAgent = System.getProperty("http.agent");
+    public ArrayList<Oprema>listOp;
+    String tip="";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Intent i=getIntent();
+        url=i.getStringExtra("URL");
+        e=i.getStringExtra("EMAIL");
+        pa=i.getStringExtra("PASSWORD");
+        id=i.getStringExtra("id");
+        ime=i.getStringExtra("ime");
+        listOp=i.getParcelableArrayListExtra("listOp");
+
+        Context ctx = getApplicationContext();
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
+        setContentView(R.layout.activity_record);
+        map = (MapView) findViewById(R.id.map);
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        map.setMultiTouchControls(true);
+        /*if (ActivityCompat.checkSelfPermission(
+                ActivityRecord.this,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                ActivityRecord.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        } else {
+            Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(locationGPS!=null){
+                Log.d("MainActivity",locationGPS.getLatitude()+" "+locationGPS.getLongitude());
+            }
+        }*/
+
+        GeoPoint start=new GeoPoint(46.4208585,16.53123);
+        IMapController mapController=map.getController();
+        mapController.setZoom(11.0);
+        mapController.setCenter(start);
+
+        requestPermissionsIfNecessary(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+    });
+
+        myLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), map);
+        myLocationOverlay.enableMyLocation();
+        map.getOverlays().add(myLocationOverlay);
+        map.invalidate();
+        // Get the current location
+        GeoPoint currentLocation = myLocationOverlay.getMyLocation();
+        if (currentLocation != null) {
+            Log.d("MainActivity", "Current location: " + currentLocation.getLatitude() + ", " + currentLocation.getLongitude());
+        } else {
+            Log.d("MainActivity", "Current location not available");
+        }
+
+
+        String[] items = new String[3];
+        items[0]="Trčanje";
+        items[1]="Šetnja";
+        items[2]="Biciklizam";
+
+        Spinner spinner = (Spinner) findViewById(R.id.odabir);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.spinner_item1, items);
+        adapter.setDropDownViewResource(R.layout.spinner_item1);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                TextView t=(TextView) findViewById(R.id.toolbar_title);
+                t.setText(items[pos]);
+                tip=items[pos];
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        ArrayList<String> permissionsToRequest = new ArrayList<>();
+        for (int i = 0; i < grantResults.length; i++) {
+            permissionsToRequest.add(permissions[i]);
+        }
+        if (permissionsToRequest.size() > 0) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    permissionsToRequest.toArray(new String[0]),
+                    REQUEST_PERMISSIONS_REQUEST_CODE);
+        }
+    }
+
+    private void requestPermissionsIfNecessary(String[] permissions) {
+        ArrayList<String> permissionsToRequest = new ArrayList<>();
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Permission is not granted
+                permissionsToRequest.add(permission);
+            }
+        }
+        if (permissionsToRequest.size() > 0) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    permissionsToRequest.toArray(new String[0]),
+                    REQUEST_PERMISSIONS_REQUEST_CODE);
+        }
+    }
+
+    public void klik(View view){
+        Intent intent=new Intent(this,SportTracking.class);
+        intent.putExtra("id",id);
+        intent.putExtra("ime",ime);
+        intent.putExtra("URL",url);
+        intent.putExtra("listOp",listOp);
+        intent.putExtra("tip",tip);
+        SimpleDateFormat s=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dat=s.format(Calendar.getInstance().getTime());
+        intent.putExtra("dat",dat);
+        startActivity(intent);
+    }
+    public void zatvori(View view){
+        Intent intent=new Intent(this,HOME.class);
+        intent.putExtra("URL",url);
+        intent.putExtra("EMAIL",e);
+        intent.putExtra("PASS",pa);
+        startActivity(intent);
+    }
+}

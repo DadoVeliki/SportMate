@@ -1,0 +1,137 @@
+package com.example.zavrsniradv3;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+public class Aktivnost implements Parcelable {
+    private int id;
+    private int idUsera;
+    private String imePrezime;
+    private String datum;
+    private String naslov;
+    private float udaljenost;
+    private int nmv;
+    private String vrijeme;
+    private int brojLajkova;
+    private String vrsta;
+    private float avgBrzina;
+    private String oprema;
+
+    public Aktivnost(int id,int idUsera,String imePrezime, String datum, String naslov, float udaljenost, int nmv, String vrijeme, int brojLajkova,String vrsta,float avgBrzina,String oprema) {
+        this.id=id;
+        this.idUsera=idUsera;
+        this.imePrezime = imePrezime;
+        this.datum = datum;
+        this.naslov = naslov;
+        this.udaljenost = udaljenost;
+        this.nmv = nmv;
+        this.vrijeme = vrijeme;
+        this.brojLajkova = brojLajkova;
+        this.vrsta=vrsta;
+        this.avgBrzina=avgBrzina;
+        this.oprema=oprema;
+    }
+
+    protected Aktivnost(Parcel in) {
+        id = in.readInt();
+        idUsera = in.readInt();
+        imePrezime = in.readString();
+        datum = in.readString();
+        naslov = in.readString();
+        udaljenost = in.readFloat();
+        nmv = in.readInt();
+        vrijeme = in.readString();
+        brojLajkova = in.readInt();
+        vrsta=in.readString();
+        avgBrzina=in.readFloat();
+        oprema=in.readString();
+    }
+
+    public static final Creator<Aktivnost> CREATOR = new Creator<Aktivnost>() {
+        @Override
+        public Aktivnost createFromParcel(Parcel in) {
+            return new Aktivnost(in);
+        }
+
+        @Override
+        public Aktivnost[] newArray(int size) {
+            return new Aktivnost[size];
+        }
+    };
+
+    public int getIdUsera() {
+        return idUsera;
+    }
+
+    public String getImePrezime() {
+        return imePrezime;
+    }
+
+    public String getDatum() {
+        return datum;
+    }
+
+    public String getNaslov() {
+        return naslov;
+    }
+
+    public float getUdaljenost() {
+        return udaljenost;
+    }
+
+    public int getNmv() {
+        return nmv;
+    }
+
+    public String getVrijeme() {
+        return vrijeme;
+    }
+
+    public int getBrojLajkova() {
+        return brojLajkova;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getVrsta() {
+        return vrsta;
+    }
+
+    public float getAvgBrzina() {
+        return avgBrzina;
+    }
+
+    public String getOprema() {
+        return oprema;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeInt(idUsera);
+        parcel.writeString(imePrezime);
+        parcel.writeString(datum);
+        parcel.writeString(naslov);
+        parcel.writeFloat(udaljenost);
+        parcel.writeInt(nmv);
+        parcel.writeString(vrijeme);
+        parcel.writeInt(brojLajkova);
+        parcel.writeString(vrsta);
+        parcel.writeFloat(avgBrzina);
+        parcel.writeString(oprema);
+    }
+}

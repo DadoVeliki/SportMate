@@ -1,0 +1,159 @@
+package com.example.zavrsniradv3;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+public class LOGIN extends AppCompatActivity {
+    TextInputEditText loginEmail,loginLozinka;
+    String email,lozinka;
+    //public String url="http://192.168.0.187:80/";
+    public String url="https://74c0-95-168-120-65.eu.ngrok.io/";
+    Boolean dobar=false;
+    public ArrayList<Korisnik>lista;
+    Boolean imali=false;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        lista=new ArrayList<Korisnik>();
+        email=lozinka="";
+        loginEmail=(TextInputEditText) findViewById(R.id.eEmail);
+        loginLozinka=(TextInputEditText) findViewById(R.id.eLozinka);
+
+
+    }
+
+    public void register(View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle);
+        View izgled=getLayoutInflater().inflate(R.layout.dialog_registracija,null);
+        builder.setView(izgled);
+        builder.show();
+        Button btnReg=(Button)izgled.findViewById(R.id.button2);
+        btnReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextInputEditText ime=(TextInputEditText) izgled.findViewById(R.id.ime);
+                TextInputEditText prezime=(TextInputEditText) izgled.findViewById(R.id.prezime);
+                TextInputEditText email=(TextInputEditText) izgled.findViewById(R.id.email);
+                TextInputEditText lozinka=(TextInputEditText) izgled.findViewById(R.id.lozinka);
+                String name=ime.getText().toString();
+                String surname=prezime.getText().toString();
+                String mail=email.getText().toString();
+                String password=lozinka.getText().toString();
+
+                if(ispravnostEmaila(mail)==true){
+                    StringRequest request = new StringRequest(url+"zav/dohvatiSve.php", new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONArray array = new JSONArray(response);
+                                for (int loop = 0; loop < array.length(); loop++) {
+                                    JSONObject object = array.getJSONObject(loop);
+                                    lista.add(new Korisnik(object.getInt("id"),
+                                            object.getString("ime"),
+                                            object.getString("prezime"),
+                                            object.getString("email"),
+                                            object.getString("lozinka"),
+                                            object.getInt("brojPratitelji"),
+                                            object.getInt("brojPratim")));
+                                }
+                                for (Korisnik k:lista) {
+                                    if(k.getEmail().equals(mail)){
+                                        imali=true;
+                                    }
+                                }
+                                if(imali==false){
+                                    String locUrl=url+"zav/insertData.php";
+                                    String type = "register";
+                                    BackgroundWorker backgroundWorker = new BackgroundWorker(LOGIN.this,1);
+                                    backgroundWorker.execute(locUrl,type,name,surname,mail,password,url);
+                                }
+                            }
+                            catch (Exception e) {
+                                AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
+                                alertDialog.setTitle("Greška");
+                                alertDialog.setMessage(""+e.getMessage());
+                                //alertDialog.show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    });
+                    Volley.newRequestQueue(LOGIN.this).add(request);
+
+
+                }
+
+
+                ime.setText("");
+                prezime.setText("");
+                email.setText("");
+                lozinka.setText("");
+            }
+        });
+    }
+    public void login(View view){
+       //loginEmail.setText("davidlego009@gmail.com");
+       // loginLozinka.setText("dUUo79GG");
+       loginEmail.setText("dora@gmail.com");
+       loginLozinka.setText("123");
+        String email=loginEmail.getText().toString();
+        String password=loginLozinka.getText().toString();
+        //String url = "http://10.0.2.2:80/validateData.php";
+        //String url = "http://192.168.0.187:80/validateData.php";
+        // String url="https://d853-95-168-121-0.eu.ngrok.io/validateData.php";
+        String locUrl=url+"zav/validateData.php";
+        String type = "login";
+        BackgroundWorker backgroundWorker = new BackgroundWorker(LOGIN.this,2);
+        // backgroundWorker.execute(locUrl,type,"znj","6969",url);
+        //backgroundWorker.execute(locUrl,type,"a","b",url);
+        backgroundWorker.execute(locUrl,type,email,password,url);
+        loginEmail.setText("");
+        loginLozinka.setText("");
+    }
+    public static boolean patternMatches(String emailAddress, String regexPattern) {
+        return Pattern.compile(regexPattern)
+                .matcher(emailAddress)
+                .matches();
+    }
+    public boolean ispravnostEmaila(String emailAddress) {
+        return patternMatches(emailAddress,"^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$");
+    }
+}
