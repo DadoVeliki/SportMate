@@ -88,7 +88,7 @@ public class Objave extends AppCompatActivity {
 
                             ime.setText(o.getImePrezime());
                             datum.setText("dana "+makniNule(dtf2.format(d))+". "+kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
-                            naslov.setText(o.getNaslov());
+                            naslov.setText(o.getNaslov().toUpperCase());
                             tekst.setText(""+o.getTekst());
                             String a="<a href='https://"+o.getLink()+"'>"+o.getLink()+"</a>";
                             pov.setClickable(true);

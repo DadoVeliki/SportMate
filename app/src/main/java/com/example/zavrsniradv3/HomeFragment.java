@@ -210,6 +210,7 @@ public class HomeFragment extends Fragment {
             TextView udalj=(TextView)akt.findViewById(R.id.dist);
             TextView nmv=(TextView)akt.findViewById(R.id.elev);
             TextView vri=(TextView)akt.findViewById(R.id.time);
+            TextView avg=(TextView)akt.findViewById(R.id.avg);
             TextView like=(TextView)akt.findViewById(R.id.like);
 
 
@@ -225,10 +226,11 @@ public class HomeFragment extends Fragment {
 
             ime.setText(a.getImePrezime());
             datum.setText("dana "+makniNule(dtf2.format(d))+". "+kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
-            naslov.setText(a.getNaslov());
+            naslov.setText(a.getNaslov().toUpperCase());
             udalj.setText(a.getUdaljenost()+" km");
             nmv.setText(a.getNmv()+" m");
             vri.setText(a.getVrijeme());
+            avg.setText(a.getAvgBrzina()+" km/h");
             like.setText(a.getBrojLajkova()+" oznaka sviđa mi se");
             BottomNavigationView bnv=(BottomNavigationView)akt.findViewById(R.id.bottomAkt);
             bnv.setOnItemSelectedListener(item ->{
@@ -321,7 +323,7 @@ public class HomeFragment extends Fragment {
 
             ime.setText(o.getImePrezime());
             datum.setText("dana "+makniNule(dtf2.format(d))+". "+kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
-            naslov.setText(o.getNaslov());
+            naslov.setText(o.getNaslov().toUpperCase());
             tekst.setText(""+o.getTekst());
             String a="<a href='https://"+o.getLink()+"'>"+o.getLink()+"</a>";
             pov.setClickable(true);

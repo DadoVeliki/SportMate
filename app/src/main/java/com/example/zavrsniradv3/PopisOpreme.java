@@ -70,31 +70,34 @@ public class PopisOpreme extends AppCompatActivity {
                                 object.getInt("idCije")));
                     }
                     for(Oprema o:listaOpreme){
-                        View op=getLayoutInflater().inflate(R.layout.prikaz_opreme,null);
-                        TextView nick=(TextView)op.findViewById(R.id.nick);
-                        TextView name=(TextView)op.findViewById(R.id.name);
-                        ImageView vrsta=(ImageView)op.findViewById(R.id.vrsta);
+                        if(o.getIdCije()==Integer.parseInt(id)){
 
-                        nick.setText(o.getNadimak());
-                        name.setText(o.getMarka()+" "+o.getModel());
-                        if(o.getTip().equals("Bicikl")){
-                            vrsta.setImageResource(R.drawable.bajk2);
-                        }
-                        else if(o.getTip().equals("Tenisice")){
-                            vrsta.setImageResource(R.drawable.patike);
-                        }
-                        LinearLayout p=(LinearLayout)op.findViewById(R.id.parent);
-                        l.addView(p);
-                        ImageView remove=(ImageView) op.findViewById(R.id.remove);
-                        remove.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                String locUrl=url+"zav/ukloniOpremu.php";
-                                String type = "uklOp";
-                                BackgroundWorker backgroundWorker = new BackgroundWorker(PopisOpreme.this,7);
-                                backgroundWorker.execute(locUrl,type,o.getId()+"");
+                            View op=getLayoutInflater().inflate(R.layout.prikaz_opreme,null);
+                            TextView nick=(TextView)op.findViewById(R.id.nick);
+                            TextView name=(TextView)op.findViewById(R.id.name);
+                            ImageView vrsta=(ImageView)op.findViewById(R.id.vrsta);
+
+                            nick.setText(o.getNadimak());
+                            name.setText(o.getMarka()+" "+o.getModel());
+                            if(o.getTip().equals("Bicikl")){
+                                vrsta.setImageResource(R.drawable.bajk2);
                             }
-                        });
+                            else if(o.getTip().equals("Tenisice")){
+                                vrsta.setImageResource(R.drawable.patike);
+                            }
+                            LinearLayout p=(LinearLayout)op.findViewById(R.id.parent);
+                            l.addView(p);
+                            ImageView remove=(ImageView) op.findViewById(R.id.remove);
+                            remove.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    String locUrl=url+"zav/ukloniOpremu.php";
+                                    String type = "uklOp";
+                                    BackgroundWorker backgroundWorker = new BackgroundWorker(PopisOpreme.this,7);
+                                    backgroundWorker.execute(locUrl,type,o.getId()+"");
+                                }
+                            });
+                    }
                     }
                     //sendList();
 
