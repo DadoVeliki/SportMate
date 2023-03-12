@@ -30,8 +30,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Objave extends AppCompatActivity {
     public String url="";
+    int[]images;
+    ArrayList<Korisnik>listUs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,8 @@ public class Objave extends AppCompatActivity {
             }
         });
         Intent intent=getIntent();
+        images=intent.getIntArrayExtra("images");
+        listUs=intent.getParcelableArrayListExtra("listUs");
         String id=intent.getStringExtra("id");
         url=intent.getStringExtra("URL");
         ArrayList<ObjavaC>listaObjava=intent.getParcelableArrayListExtra("listOb");
@@ -77,7 +83,8 @@ public class Objave extends AppCompatActivity {
                             TextView tekst=(TextView)ob.findViewById(R.id.tekst1);
                             TextView pov=(TextView)ob.findViewById(R.id.link);
                             TextView like=(TextView)ob.findViewById(R.id.like);
-
+                            CircleImageView profile=(CircleImageView)ob.findViewById(R.id.profile_image);
+                            profile.setImageResource(images[listUs.get(o.getIdUsera()-1).getSlika()]);
                             LocalDateTime d=LocalDateTime.parse(o.getDatum(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                             Log.d("datum",""+d);
                             final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy.", Locale.ENGLISH);

@@ -24,6 +24,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class PopisKorisnika extends AppCompatActivity {
     ArrayList<Korisnik>listUs;
     ArrayList<Odnos>listOd;
@@ -32,6 +34,7 @@ public class PopisKorisnika extends AppCompatActivity {
     int br1,br2;
     int brpratMoj=0;
     int brpratOn=0;
+    int[]images;
     public ArrayList<Integer>pratitelji;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,7 @@ public class PopisKorisnika extends AppCompatActivity {
         pratitelji=new ArrayList<Integer>();
         listOd=new ArrayList<Odnos>();
         Intent i=getIntent();
+        images=i.getIntArrayExtra("images");
         url=i.getStringExtra("URL");
         String id=i.getStringExtra("id");
         //br1=i.getIntExtra("br1",0);
@@ -90,9 +94,10 @@ public class PopisKorisnika extends AppCompatActivity {
                             View us = getLayoutInflater().inflate(R.layout.prikaz_usera, null);
                             TextView name = (TextView) us.findViewById(R.id.ime);
                             TextView desc = (TextView) us.findViewById(R.id.op);
+                            CircleImageView profile=(CircleImageView)us.findViewById(R.id.profile_image);
                             name.setText(k.getIme() + " " + k.getPrezime());
-                            desc.setText("Neka drzava");
-
+                            desc.setText(k.getOpis());
+                            profile.setImageResource(images[k.getSlika()]);
                             LinearLayout p = (LinearLayout) us.findViewById(R.id.parent);
                             int br = brojac++;
                             Button btn = (Button) us.findViewById(R.id.btn);

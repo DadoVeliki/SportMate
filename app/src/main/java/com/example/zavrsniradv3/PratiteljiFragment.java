@@ -18,8 +18,10 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class PratiteljiFragment extends Fragment {
+import de.hdodenhof.circleimageview.CircleImageView;
 
+public class PratiteljiFragment extends Fragment {
+    int[]images;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -27,7 +29,7 @@ public class PratiteljiFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         String id=this.getArguments().getString("id");
         String url=this.getArguments().getString("URL");
-
+        images=this.getArguments().getIntArray("images");
         View fragprat=inflater.inflate(R.layout.fragment_pratitelji, container, false);
         ArrayList<Odnos> listOd=this.getArguments().getParcelableArrayList("listaOdnosa");
         ArrayList<Korisnik>listUs=this.getArguments().getParcelableArrayList("lista");
@@ -61,8 +63,9 @@ public class PratiteljiFragment extends Fragment {
                 TextView name = (TextView) us.findViewById(R.id.ime);
                 TextView desc = (TextView) us.findViewById(R.id.op);
                 name.setText(listUs.get(pr-1).getIme()+" "+listUs.get(pr-1).getPrezime());
-                desc.setText("Neka drzava");
-
+                desc.setText(listUs.get(pr-1).getOpis());
+                CircleImageView profile=(CircleImageView)us.findViewById(R.id.profile_image);
+                profile.setImageResource(images[listUs.get(pr-1).getSlika()]);
                 Button btn = (Button) us.findViewById(R.id.btn);
                 btn.setId(pr);
                 btn.setContentDescription("0");

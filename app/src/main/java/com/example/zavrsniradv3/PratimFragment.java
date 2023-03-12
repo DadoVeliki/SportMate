@@ -16,8 +16,12 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class PratimFragment extends Fragment {
+import de.hdodenhof.circleimageview.CircleImageView;
 
+public class PratimFragment extends Fragment {
+    int[]images;
+    public ArrayList<Integer>pratitelji;
+    int br2=0;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -31,7 +35,8 @@ public class PratimFragment extends Fragment {
         ArrayList<Odnos> listOd=this.getArguments().getParcelableArrayList("listaOdnosa");
         ArrayList<Korisnik>listUs=this.getArguments().getParcelableArrayList("lista");
         LinearLayout l=(LinearLayout) fragPratim.findViewById(R.id.ll4);
-
+        images=this.getArguments().getIntArray("images");
+        pratitelji=new ArrayList<Integer>();
         for(Odnos o:listOd){
             try{
                 if(o.getIdKojiPrati()==Integer.parseInt(id)){
@@ -42,6 +47,9 @@ public class PratimFragment extends Fragment {
                 Log.e("nije broj: ",id+"");
             }
         }
+        for(Korisnik k:listUs){
+            pratitelji.add(k.getBrojPratitelji());
+        }
         int brojac=1;
         for(int pr:pratim){
             View us = getLayoutInflater().inflate(R.layout.prikaz_usera, null);
@@ -49,7 +57,9 @@ public class PratimFragment extends Fragment {
             TextView name = (TextView) us.findViewById(R.id.ime);
             TextView desc = (TextView) us.findViewById(R.id.op);
             name.setText(listUs.get(pr-1).getIme()+" "+listUs.get(pr-1).getPrezime());
-            desc.setText("Neka drzava");
+            desc.setText(listUs.get(pr-1).getOpis());
+            CircleImageView profile=(CircleImageView)us.findViewById(R.id.profile_image);
+            profile.setImageResource(images[listUs.get(pr-1).getSlika()]);
 
             Button btn = (Button) us.findViewById(R.id.btn);
             btn.setId(pr);
@@ -65,25 +75,33 @@ public class PratimFragment extends Fragment {
                     Log.d("INDEX: ", btn.getContentDescription() + "");
                     int con = Integer.parseInt(btn.getContentDescription().toString());
                     if (con == 0) {
-                        btn.setText("PRATIM");
-                        btn.setBackgroundColor(Color.WHITE);
-                        btn.setTextColor(Color.parseColor("#FF5722"));
-                        btn.setContentDescription("1");
-                        String idOsoba = btn.getId()  + "";
+                        zaprati(btn);
+                        //int brojPrat=listUs.get(btn.getId()-1).getBrojPratitelji();
+                        pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) + 1);
+                        String idOsoba = btn.getId() + "";
                         String locurl = url + "zav/unosOdnos.php";
                         String type = "odn";
-                        BackgroundWorker backgroundWorker = new BackgroundWorker(getContext(), 5);
-                        backgroundWorker.execute(locurl, type, id, idOsoba);
+                        //brojPrat++;
+
+                        br2++;
+                        // Log.d("brojPrat ",brojPrat+"");
+                        BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 5);
+                        backgroundWorker.execute(locurl, type, id, idOsoba, pratitelji.get(btn.getId() - 1) + "", br2 + "");
                     } else {
                         btn.setText("PRATI");
                         btn.setTextColor(Color.WHITE);
                         btn.setBackgroundColor(Color.parseColor("#FF5722"));
-                        btn.setContentDescription("0");
+                        btn.setContentDescription("" + 0);
+                        //int brojPrat=listUs.get(btn.getId()-1).getBrojPratitelji();
+                        pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) - 1);
+                        //Log.d("brojPratUk ",brojPrat+"");
                         String idOsoba = btn.getId() + "";
                         String locurl = url + "zav/ukloniOdnos.php";
                         String type = "odn";
-                        BackgroundWorker backgroundWorker = new BackgroundWorker(getContext(), 5);
-                        backgroundWorker.execute(locurl, type, id, idOsoba);
+                        //brojPrat--;
+                        br2--;
+                        BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 5);
+                        backgroundWorker.execute(locurl, type, id, idOsoba, pratitelji.get(btn.getId() - 1) + "", br2 + "");
                     }
 
                 }
@@ -92,5 +110,11 @@ public class PratimFragment extends Fragment {
         }
 
         return fragPratim;
+    }
+    public void zaprati(Button btn){
+        btn.setText("PRATIM");
+        btn.setBackgroundColor(Color.WHITE);
+        btn.setTextColor(Color.parseColor("#FF5722"));
+        btn.setContentDescription(""+1);
     }
 }

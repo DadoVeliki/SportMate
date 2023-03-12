@@ -58,6 +58,8 @@ public class HOME extends AppCompatActivity {
     public String e;
     public int brojPratitelja=0;
     public int brojPratim=0;
+     int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16,};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +95,7 @@ public class HOME extends AppCompatActivity {
                     intent.putExtra("ime",naziv);
                     intent.putExtra("listOp",listaOpreme);
                     intent.putExtra("listRut",listRut);
+                    intent.putExtra("images",images);
                     startActivity(intent);
                     break;
                 case R.id.profile:
@@ -109,6 +112,7 @@ public class HOME extends AppCompatActivity {
                     bundle.putString("email",e);
                     bundle.putInt("brojPratitelja",brojPratitelja);
                     bundle.putInt("brojPratim",brojPratim);
+                    bundle.putIntArray("images",images);
                     //bundle.putString("zadnjiD",zadnji);
                     ProfileFragment p=new ProfileFragment();
                     p.setArguments(bundle);
@@ -384,6 +388,7 @@ public class HOME extends AppCompatActivity {
         bundle1.putString("URL",url);
         bundle1.putString("email",e);
         bundle1.putInt("brojPratim",brojPratim);
+        bundle1.putIntArray("images",images);
         HomeFragment h=new HomeFragment();
         h.setArguments(bundle1);
         replaceFragment(h);

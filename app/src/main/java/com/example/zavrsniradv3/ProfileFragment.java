@@ -99,8 +99,8 @@ public class ProfileFragment extends Fragment {
     public ArrayList<ObjavaC> listOb;
     public ArrayList<Oprema>listOp;
     public ArrayList<Odnos>listOd;
-    int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16,};
-
+   // int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16,};
+    int[]images;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -139,6 +139,7 @@ public class ProfileFragment extends Fragment {
 
         String id=this.getArguments().getString("id");
         String url=this.getArguments().getString("URL");
+        images=this.getArguments().getIntArray("images");
         e=this.getArguments().getString("email");
         /*for(Oprema o:listOp){
             if(o.getIdCije()==Integer.parseInt(id)){
@@ -404,6 +405,7 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("listRut",listRut);
                 intent.putExtra("id",id);
                 intent.putExtra("URL",url);
+                intent.putExtra("images",images);
                 startActivity(intent);
             }
         });
@@ -425,6 +427,7 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("listOb",listOb);
                 intent.putExtra("id",id);
                 intent.putExtra("URL",url);
+                intent.putExtra("images",images);
                 startActivity(intent);
             }
         });
@@ -453,6 +456,7 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("listRut",listRut);
                 intent.putExtra("id",id);
                 intent.putExtra("URL",url);
+                intent.putExtra("images",images);
                 startActivity(intent);
             }
         });
@@ -465,6 +469,7 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("URL",url);
                 intent.putParcelableArrayListExtra("lista",listUs);
                 intent.putParcelableArrayListExtra("listaOdnosa",listOd);
+                intent.putExtra("images",images);
                 startActivity(intent);
             }
         });
@@ -477,6 +482,7 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("URL",url);
                 intent.putParcelableArrayListExtra("lista",listUs);
                 intent.putParcelableArrayListExtra("listaOdnosa",listOd);
+                intent.putExtra("images",images);
                 startActivity(intent);
             }
         });
@@ -492,6 +498,7 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("URL",url);
                 intent.putExtra("id",id);
                 intent.putExtra("br2",br2);
+                intent.putExtra("images",images);
                 startActivity(intent);
             }
         });

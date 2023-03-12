@@ -111,13 +111,14 @@ public class HomeFragment extends Fragment {
     String url="";
     String id="";
     public ArrayList<LikeRelation>listLike;
-    int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16};
-
+    //int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16};
+    int[]images;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         url=this.getArguments().getString("URL");
         id=this.getArguments().getString("id");
+        images=this.getArguments().getIntArray("images");
         ArrayList<Aktivnost> listAkt=((HOME)getActivity()).getAkt();
         ArrayList<ObjavaC>listOb=((HOME)getActivity()).getOb();
         ArrayList<Korisnik>listUs=((HOME)getActivity()).getUs();
@@ -159,11 +160,11 @@ public class HomeFragment extends Fragment {
                         }
                         for(Rute r:listRut) {
                             if (r.getIdAkt() == a.getId()) {
-/*
+
                 new Thread(new Runnable()
                 {
                     public void run()
-                    {*/
+                    {
                                 // Log.d("usera: ",userAgent);
 
                                 RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
@@ -181,11 +182,13 @@ public class HomeFragment extends Fragment {
                                 {
                                     e.printStackTrace();
                                 }
-
-                                //getActivity().runOnUiThread(new Runnable()
-                                //{
-                                  //  public void run()
-                                    //{
+                                if(getActivity()==null){
+                                    return;
+                                }
+                                getActivity().runOnUiThread(new Runnable()
+                                {
+                                    public void run()
+                                    {
                                         if (road.mStatus != Road.STATUS_OK)
                                         {
 
@@ -193,11 +196,11 @@ public class HomeFragment extends Fragment {
 
                                         Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
                                         map.getOverlays().add(roadOverlay);
-                                    //}
-                                //});
-                                //  }
-                                // }
-                                // ).start();
+                                    }
+                                });
+                                  }
+                                 }
+                                 ).start();
                             }
                         }
 
@@ -221,7 +224,7 @@ public class HomeFragment extends Fragment {
             TextView avg=(TextView)akt.findViewById(R.id.avg);
             TextView like=(TextView)akt.findViewById(R.id.like);
             CircleImageView profile=(CircleImageView)akt.findViewById(R.id.profile_image);
-
+            profile.setImageResource(images[listUs.get(a.getIdUsera()-1).getSlika()]);
 
 
             LocalDateTime d=LocalDateTime.parse(a.getDatum(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -232,7 +235,7 @@ public class HomeFragment extends Fragment {
             final DateTimeFormatter dtf4 = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH);
             final DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
 
-            profile.setImageResource(images[listUs.get(a.getIdUsera()-1).getSlika()]);
+
             ime.setText(a.getImePrezime());
             datum.setText("dana "+makniNule(dtf2.format(d))+". "+kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
             naslov.setText(a.getNaslov().toUpperCase());
@@ -321,7 +324,7 @@ public class HomeFragment extends Fragment {
             TextView tekst=(TextView)ob.findViewById(R.id.tekst1);
             TextView pov=(TextView)ob.findViewById(R.id.link);
             TextView like=(TextView)ob.findViewById(R.id.like);
-
+            CircleImageView profile=(CircleImageView)ob.findViewById(R.id.profile_image);
             LocalDateTime d=LocalDateTime.parse(o.getDatum(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             Log.d("datum",""+d);
             final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy.", Locale.ENGLISH);
@@ -329,7 +332,7 @@ public class HomeFragment extends Fragment {
             final DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("MM", Locale.ENGLISH);
             final DateTimeFormatter dtf4 = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH);
             final DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
-
+            profile.setImageResource(images[listUs.get(o.getIdUsera()-1).getSlika()]);
             ime.setText(o.getImePrezime());
             datum.setText("dana "+makniNule(dtf2.format(d))+". "+kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
             naslov.setText(o.getNaslov().toUpperCase());
@@ -466,6 +469,7 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("URL",url);
                 intent.putExtra("id",id+"");
                 intent.putExtra("br2",br2);
+                intent.putExtra("images",images);
                 startActivity(intent);
             }
         });

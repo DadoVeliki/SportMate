@@ -24,6 +24,7 @@ public class Pratitelji extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    int[]images;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class Pratitelji extends AppCompatActivity {
         url=i.getStringExtra("URL");
         listUs=i.getParcelableArrayListExtra("lista");
         listOd=i.getParcelableArrayListExtra("listaOdnosa");
-
+        images=i.getIntArrayExtra("images");
         tabLayout=findViewById(R.id.tablayout);
         viewPager=findViewById(R.id.viewpage);
 
@@ -52,6 +53,7 @@ public class Pratitelji extends AppCompatActivity {
         bundle.putString("URL",url);
         bundle.putParcelableArrayList("lista",listUs);
         bundle.putParcelableArrayList("listaOdnosa",listOd);
+        bundle.putIntArray("images",images);
         PratiteljiFragment p=new PratiteljiFragment();
         p.setArguments(bundle);
 
@@ -62,6 +64,7 @@ public class Pratitelji extends AppCompatActivity {
         bundle1.putString("URL",url);
         bundle1.putParcelableArrayList("lista",listUs);
         bundle1.putParcelableArrayList("listaOdnosa",listOd);
+        bundle1.putIntArray("images",images);
         PratimFragment p1=new PratimFragment();
         p1.setArguments(bundle1);
 
