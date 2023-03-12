@@ -144,7 +144,9 @@ public class HOME extends AppCompatActivity {
                                 object.getString("email"),
                                 object.getString("lozinka"),
                                 object.getInt("brojPratitelji"),
-                                object.getInt("brojPratim")));
+                                object.getInt("brojPratim"),
+                                object.getInt("slika"),
+                                object.getString("opis")));
                     }
                     Intent in=getIntent();
                     String e=in.getStringExtra("EMAIL");

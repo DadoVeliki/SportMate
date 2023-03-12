@@ -52,6 +52,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,6 +111,8 @@ public class HomeFragment extends Fragment {
     String url="";
     String id="";
     public ArrayList<LikeRelation>listLike;
+    int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16};
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,6 +129,10 @@ public class HomeFragment extends Fragment {
         //listRut=new ArrayList<Rute>();
         listLike=new ArrayList<>();
         View akt;
+        for(Korisnik k:listUs){
+            Log.d("user ",k.getId()+" "+k.getIme()+" "+k.getSlika());
+        }
+        Log.d("user ","na indexu "+listUs.get(1).getSlika());
       //  Thread thread;
         for(Aktivnost a:listAkt){
             if(a.getVrsta().equals("man")){
@@ -212,7 +220,7 @@ public class HomeFragment extends Fragment {
             TextView vri=(TextView)akt.findViewById(R.id.time);
             TextView avg=(TextView)akt.findViewById(R.id.avg);
             TextView like=(TextView)akt.findViewById(R.id.like);
-
+            CircleImageView profile=(CircleImageView)akt.findViewById(R.id.profile_image);
 
 
 
@@ -224,6 +232,7 @@ public class HomeFragment extends Fragment {
             final DateTimeFormatter dtf4 = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH);
             final DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
 
+            profile.setImageResource(images[listUs.get(a.getIdUsera()-1).getSlika()]);
             ime.setText(a.getImePrezime());
             datum.setText("dana "+makniNule(dtf2.format(d))+". "+kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
             naslov.setText(a.getNaslov().toUpperCase());

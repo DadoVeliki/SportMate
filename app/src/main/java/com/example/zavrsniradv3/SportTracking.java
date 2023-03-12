@@ -38,6 +38,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -79,6 +80,7 @@ public class SportTracking extends AppCompatActivity {
     String tip="";
     //String selOp="";
     String oprema="";
+    int brojcek=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,7 +171,6 @@ public class SportTracking extends AppCompatActivity {
                         elevation+=rezultat;
                     }
                     Log.d("udaljenost prije: ",udaljenost+"");
-                    //udaljenost/=1000;
                     Log.d("udaljenost poslije: ",udaljenost+"");
                     udalj.setText(String.format("%.2f", udaljenost/1000f));
                     elev.setText(String.format("%.0f",elevation));
@@ -178,8 +179,11 @@ public class SportTracking extends AppCompatActivity {
                     //Log.d("avg;",String.format("%.2f", udaljenost)+"km"+String.format("%.5f", avg)+"km/h");
                     prosj.setText(String.format("%.2f", avg*3.6f));
                     //t2.setText("Udaljenost: "+udaljenost+" Elevacija: "+elevation+" m");
-
-                    listRut.add(new Rute(idAkt,pocLat,pocLong,lat,longi));
+                    if(brojcek==5){
+                        listRut.add(new Rute(idAkt,pocLat,pocLong,lat,longi));
+                        brojcek=0;
+                    }
+                    brojcek++;
                 }
 
                 pocLat=lat;

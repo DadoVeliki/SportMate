@@ -9,9 +9,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -38,14 +41,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class LOGIN extends AppCompatActivity {
     TextInputEditText loginEmail,loginLozinka;
     String email,lozinka;
-    //public String url="http://192.168.0.187:80/";
-    public String url="https://74c0-95-168-120-65.eu.ngrok.io/";
+    public String url="http://192.168.0.187:80/";
+    //public String url="https://be1a-95-168-120-65.eu.ngrok.io/";
     Boolean dobar=false;
     public ArrayList<Korisnik>lista;
     Boolean imali=false;
+    public int odabrana=0;
+    int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +65,37 @@ public class LOGIN extends AppCompatActivity {
 
 
     }
-
+    String[] names={"Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1",};
     public void register(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle);
         View izgled=getLayoutInflater().inflate(R.layout.dialog_registracija,null);
+
+        /*Spinner s=(Spinner)izgled.findViewById(R.id.spinner);
+        CustomAdapter adapter=new CustomAdapter(this,names,images);
+        s.setAdapter(adapter);
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Toast.makeText(getApplicationContext(),images[i],Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });*/
+        GridView g=(GridView)izgled.findViewById(R.id.grid);
+        g.setAdapter(new ImageAdapter(this,images));
+        g.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //Toast.makeText(getApplicationContext(),images[i],Toast.LENGTH_SHORT).show();
+                CircleImageView odabrani=(CircleImageView) izgled.findViewById(R.id.odabrani);
+                odabrani.setImageResource(images[i]);
+                odabrana=i;
+            }
+        });
+
         builder.setView(izgled);
         builder.show();
         Button btnReg=(Button)izgled.findViewById(R.id.button2);
@@ -71,10 +106,12 @@ public class LOGIN extends AppCompatActivity {
                 TextInputEditText prezime=(TextInputEditText) izgled.findViewById(R.id.prezime);
                 TextInputEditText email=(TextInputEditText) izgled.findViewById(R.id.email);
                 TextInputEditText lozinka=(TextInputEditText) izgled.findViewById(R.id.lozinka);
+                TextInputEditText info=(TextInputEditText)izgled.findViewById(R.id.bio);
                 String name=ime.getText().toString();
                 String surname=prezime.getText().toString();
                 String mail=email.getText().toString();
                 String password=lozinka.getText().toString();
+                String opis=info.getText().toString();
 
                 if(ispravnostEmaila(mail)==true){
                     StringRequest request = new StringRequest(url+"zav/dohvatiSve.php", new Response.Listener<String>() {
@@ -90,7 +127,9 @@ public class LOGIN extends AppCompatActivity {
                                             object.getString("email"),
                                             object.getString("lozinka"),
                                             object.getInt("brojPratitelji"),
-                                            object.getInt("brojPratim")));
+                                            object.getInt("brojPratim"),
+                                            object.getInt("slika"),
+                                            object.getString("opis")));
                                 }
                                 for (Korisnik k:lista) {
                                     if(k.getEmail().equals(mail)){
@@ -101,7 +140,7 @@ public class LOGIN extends AppCompatActivity {
                                     String locUrl=url+"zav/insertData.php";
                                     String type = "register";
                                     BackgroundWorker backgroundWorker = new BackgroundWorker(LOGIN.this,1);
-                                    backgroundWorker.execute(locUrl,type,name,surname,mail,password,url);
+                                    backgroundWorker.execute(locUrl,type,name,surname,mail,password,url,odabrana+"",opis);
                                 }
                             }
                             catch (Exception e) {
@@ -126,14 +165,15 @@ public class LOGIN extends AppCompatActivity {
                 prezime.setText("");
                 email.setText("");
                 lozinka.setText("");
+                info.setText("");
             }
         });
     }
     public void login(View view){
-       //loginEmail.setText("davidlego009@gmail.com");
-       // loginLozinka.setText("dUUo79GG");
-       loginEmail.setText("dora@gmail.com");
-       loginLozinka.setText("123");
+       loginEmail.setText("davidlego009@gmail.com");
+        loginLozinka.setText("dUUo79GG");
+       //loginEmail.setText("dora@gmail.com");
+       //loginLozinka.setText("123");
         String email=loginEmail.getText().toString();
         String password=loginLozinka.getText().toString();
         //String url = "http://10.0.2.2:80/validateData.php";

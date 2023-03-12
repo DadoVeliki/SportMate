@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProfileFragment#newInstance} factory method to
@@ -97,6 +99,8 @@ public class ProfileFragment extends Fragment {
     public ArrayList<ObjavaC> listOb;
     public ArrayList<Oprema>listOp;
     public ArrayList<Odnos>listOd;
+    int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16,};
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,6 +133,7 @@ public class ProfileFragment extends Fragment {
         TextView bike=(TextView) prof.findViewById(R.id.opis4);
         TextView onimene=(TextView) prof.findViewById(R.id.onimene);
         TextView janjih=(TextView) prof.findViewById(R.id.janjih);
+        CircleImageView avatar=(CircleImageView)prof.findViewById(R.id.avatar);
         //br1=this.getArguments().getInt("brojPratitelja");
         //br2=this.getArguments().getInt("brojPratim");
 
@@ -173,16 +178,22 @@ public class ProfileFragment extends Fragment {
                                 object.getString("email"),
                                 object.getString("lozinka"),
                                 object.getInt("brojPratitelji"),
-                                object.getInt("brojPratim")));
+                                object.getInt("brojPratim"),
+                                object.getInt("slika"),
+                                object.getString("opis")));
                     }
+
                     for (Korisnik k:listUs) {
                         if(k.getEmail().equals(e)){
                             brojPratitelja=k.getBrojPratitelji();
                             brojPratim=k.getBrojPratim();
+                            avatar.setImageResource(images[k.getSlika()]);
                         }
                     }
+
                     onimene.setText(""+brojPratitelja);
                     janjih.setText(""+brojPratim);
+
                 }
                 catch (Exception e) {
                     AlertDialog alertDialog = new AlertDialog.Builder(getActivity().getApplicationContext()).create();
@@ -225,10 +236,11 @@ public class ProfileFragment extends Fragment {
                         if(a.getIdUsera()==Integer.parseInt(id)){
                             oveGodine+=a.getUdaljenost();
                             brojAktivnosti++;
-                            zadnja=a.getDatum();
+                            if(zadnja.equals("")){
+                                zadnja=a.getDatum();
+                            }
                             listMojiAkt.add(a);
                         }
-
                     }
                     st.setText("Do sada: "+oveGodine+" km");
                     bra.setText(""+brojAktivnosti);

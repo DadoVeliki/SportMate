@@ -13,8 +13,10 @@ public class Korisnik implements Parcelable {
     String lozinka;
     int brojPratitelji;
     int brojPratim;
+    int slika;
+    String opis;
 
-    public Korisnik(int id, String ime, String prezime, String email, String lozinka,int brojPratitelji,int brojPratim) {
+    public Korisnik(int id, String ime, String prezime, String email, String lozinka,int brojPratitelji,int brojPratim,int slika,String opis) {
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
@@ -22,6 +24,8 @@ public class Korisnik implements Parcelable {
         this.lozinka = lozinka;
         this.brojPratitelji=brojPratitelji;
         this.brojPratim=brojPratim;
+        this.slika=slika;
+        this.opis=opis;
     }
 
     protected Korisnik(Parcel in) {
@@ -32,6 +36,8 @@ public class Korisnik implements Parcelable {
         lozinka = in.readString();
         brojPratitelji=in.readInt();
         brojPratim=in.readInt();
+        slika=in.readInt();
+        opis=in.readString();
     }
 
 
@@ -95,6 +101,14 @@ public class Korisnik implements Parcelable {
         return brojPratim;
     }
 
+    public int getSlika() {
+        return slika;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -109,5 +123,7 @@ public class Korisnik implements Parcelable {
         parcel.writeString(lozinka);
         parcel.writeInt(brojPratitelji);
         parcel.writeInt(brojPratim);
+        parcel.writeInt(slika);
+        parcel.writeString(opis);
     }
 }
