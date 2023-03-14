@@ -22,6 +22,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PratiteljiFragment extends Fragment {
     int[]images;
+    int br2;
+    public ArrayList<Integer>pratitelji;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -30,12 +32,14 @@ public class PratiteljiFragment extends Fragment {
         String id=this.getArguments().getString("id");
         String url=this.getArguments().getString("URL");
         images=this.getArguments().getIntArray("images");
+        pratitelji=new ArrayList<Integer>();
         View fragprat=inflater.inflate(R.layout.fragment_pratitelji, container, false);
         ArrayList<Odnos> listOd=this.getArguments().getParcelableArrayList("listaOdnosa");
         ArrayList<Korisnik>listUs=this.getArguments().getParcelableArrayList("lista");
         LinearLayout l=(LinearLayout) fragprat.findViewById(R.id.ll3);
         ArrayList<Integer>praceni=new ArrayList<Integer>();
         ArrayList<Integer>pratim=new ArrayList<Integer>();
+        br2=this.getArguments().getInt("br2");
         for(Odnos o:listOd){
             try{
                 if(o.getIdPracen()==Integer.parseInt(id)){
@@ -56,60 +60,79 @@ public class PratiteljiFragment extends Fragment {
                 Log.e("nije broj: ",id+"");
             }
         }
-        int brojac=1;
+        for(Korisnik k:listUs){
+            pratitelji.add(k.getBrojPratitelji());
+        }
         for(int pr:praceni){
-                View us = getLayoutInflater().inflate(R.layout.prikaz_usera, null);
-                LinearLayout p = (LinearLayout) us.findViewById(R.id.parent);
-                TextView name = (TextView) us.findViewById(R.id.ime);
-                TextView desc = (TextView) us.findViewById(R.id.op);
-                name.setText(listUs.get(pr-1).getIme()+" "+listUs.get(pr-1).getPrezime());
-                desc.setText(listUs.get(pr-1).getOpis());
-                CircleImageView profile=(CircleImageView)us.findViewById(R.id.profile_image);
-                profile.setImageResource(images[listUs.get(pr-1).getSlika()]);
-                Button btn = (Button) us.findViewById(R.id.btn);
-                btn.setId(pr);
-                btn.setContentDescription("0");
-                for (int a = 0; a < pratim.size(); a++) {
-                    if (btn.getId() == pratim.get(a)) {
+            View us = getLayoutInflater().inflate(R.layout.prikaz_usera, null);
+
+            TextView name = (TextView) us.findViewById(R.id.ime);
+            TextView desc = (TextView) us.findViewById(R.id.op);
+            name.setText(listUs.get(pr-1).getIme()+" "+listUs.get(pr-1).getPrezime());
+            desc.setText(listUs.get(pr-1).getOpis());
+            CircleImageView profile=(CircleImageView)us.findViewById(R.id.profile_image);
+            profile.setImageResource(images[listUs.get(pr-1).getSlika()]);
+            Button btn = (Button) us.findViewById(R.id.btn);
+
+                for(Odnos o:listOd) {
+                    Log.d("ispis",o.getIdKojiPrati()+" == "+id+" "+o.getIdPracen()+" == "+pr);
+                    if((o.getIdKojiPrati()==Integer.parseInt(id)) && (o.getIdPracen()==pr)){
+                        btn.setId(pr);
                         btn.setText("PRATIM");
                         btn.setBackgroundColor(Color.WHITE);
                         btn.setTextColor(Color.parseColor("#FF5722"));
                         btn.setContentDescription("1");
                     }
+                    else{
+                        btn.setId(pr);
+                        btn.setText("PRATI");
+                        btn.setTextColor(Color.WHITE);
+                        btn.setBackgroundColor(Color.parseColor("#FF5722"));
+                        btn.setContentDescription("0");
+                    }
                 }
 
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.d("INDEX: ", btn.getContentDescription() + "");
-                        int con = Integer.parseInt(btn.getContentDescription().toString());
-                        if (con == 0) {
-                            btn.setText("PRATIM");
-                            btn.setBackgroundColor(Color.WHITE);
-                            btn.setTextColor(Color.parseColor("#FF5722"));
-                            btn.setContentDescription("1");
-                            String idOsoba = btn.getId()  + "";
-                            String locurl = url + "zav/unosOdnos.php";
-                            String type = "odn";
-                            BackgroundWorker backgroundWorker = new BackgroundWorker(getContext(), 5);
-                            backgroundWorker.execute(locurl, type, id, idOsoba);
-                        } else {
-                            btn.setText("PRATI");
-                            btn.setTextColor(Color.WHITE);
-                            btn.setBackgroundColor(Color.parseColor("#FF5722"));
-                            btn.setContentDescription("0");
-                            String idOsoba = btn.getId() + "";
-                            String locurl = url + "zav/ukloniOdnos.php";
-                            String type = "odn";
-                            BackgroundWorker backgroundWorker = new BackgroundWorker(getContext(), 5);
-                            backgroundWorker.execute(locurl, type, id, idOsoba);
-                        }
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("INDEX: ", btn.getContentDescription() + "");
+                    int con = Integer.parseInt(btn.getContentDescription().toString());
+                    if (con == 0) {
+                        zaprati(btn);
+                        pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) + 1);
+                        String idOsoba = btn.getId() + "";
+                        String locurl = url + "zav/unosOdnos.php";
+                        String type = "odn";
 
+                        br2++;
+                        BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 5);
+                        backgroundWorker.execute(locurl, type, id, idOsoba, pratitelji.get(btn.getId() - 1) + "", br2 + "");
+                    } else {
+                        btn.setText("PRATI");
+                        btn.setTextColor(Color.WHITE);
+                        btn.setBackgroundColor(Color.parseColor("#FF5722"));
+                        btn.setContentDescription("" + 0);
+                        pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) - 1);
+                        String idOsoba = btn.getId() + "";
+                        String locurl = url + "zav/ukloniOdnos.php";
+                        String type = "odn";
+                        br2--;
+                        BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 5);
+                        backgroundWorker.execute(locurl, type, id, idOsoba, pratitelji.get(btn.getId() - 1) + "", br2 + "");
                     }
-                });
-                l.addView(p);
+
+                }
+            });
+            LinearLayout p = (LinearLayout) us.findViewById(R.id.parent);
+            l.addView(p);
         }
 
         return fragprat;
+    }
+    public void zaprati(Button btn){
+        btn.setText("PRATIM");
+        btn.setBackgroundColor(Color.WHITE);
+        btn.setTextColor(Color.parseColor("#FF5722"));
+        btn.setContentDescription(""+1);
     }
 }

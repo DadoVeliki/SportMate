@@ -43,6 +43,7 @@ public class ManualActivity extends AppCompatActivity {
     public String idU="";
     public ArrayList<Oprema>listaOpreme;
     public ArrayList<String>pop;
+    public String tipAkt="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +155,7 @@ public class ManualActivity extends AppCompatActivity {
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                            tipAkt=items[pos];
                             tip=items[pos];
                             if(tip.equals("Biciklizam")){
                                 tip="Bicikl";
@@ -253,7 +255,7 @@ public class ManualActivity extends AppCompatActivity {
         BackgroundWorker backgroundWorker = new BackgroundWorker(ManualActivity.this,3);
         String vrsta="man";
         String oprema=selOp;
-        backgroundWorker.execute(locurl,type,nas,vri,dist,nmv,dat,id,ime,vrsta,"0",oprema);
+        backgroundWorker.execute(locurl,type,nas,vri,dist,nmv,dat,id,ime,vrsta,"0",oprema,tipAkt);
         finish();
     }
 }

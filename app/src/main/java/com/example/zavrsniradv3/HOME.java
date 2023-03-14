@@ -41,6 +41,7 @@ public class HOME extends AppCompatActivity {
     public ArrayList<Oprema>listaOpreme;
     public ArrayList<Rute>listRut;
     public String naziv="";
+    public String opis="";
     public String idUsera="";
     public float oveGodine;
     public int brojObjava=0;
@@ -93,6 +94,7 @@ public class HOME extends AppCompatActivity {
                     intent.putExtra("PASS",pa);
                     intent.putExtra("id",idUsera+"");
                     intent.putExtra("ime",naziv);
+                    intent.putExtra("opis",opis);
                     intent.putExtra("listOp",listaOpreme);
                     intent.putExtra("listRut",listRut);
                     intent.putExtra("images",images);
@@ -104,6 +106,7 @@ public class HOME extends AppCompatActivity {
                     bundle.putParcelableArrayList("lista",listaAktivnosti);
                     bundle.putParcelableArrayList("listaOb",listaObjava);
                     bundle.putString("poruka",naziv);
+                    bundle.putString("opis",opis);
                     bundle.putFloat("ovegodine",oveGodine);
                     bundle.putInt("bro",brojObjava);
                     bundle.putInt("bra",brojAktivnosti);
@@ -160,6 +163,7 @@ public class HOME extends AppCompatActivity {
                             brojPratitelja=k.getBrojPratitelji();
                             brojPratim=k.getBrojPratim();
                             naziv=k.getIme()+" "+k.getPrezime();
+                            opis=k.getOpis();
                             idUsera=""+k.getId();
                             Log.d("idUsera: ",idUsera);
                             break;
@@ -202,7 +206,8 @@ public class HOME extends AppCompatActivity {
                                 object.getInt("brojLajkova"),
                                 object.getString("vrsta"),
                                 Float.parseFloat(object.getString("avgBrzina")),
-                                object.getString("oprema")));
+                                object.getString("oprema"),
+                                object.getString("tipAkt")));
                     }
                     //sendList();
                     /*for(Aktivnost a:listaAktivnosti){
@@ -385,6 +390,7 @@ public class HOME extends AppCompatActivity {
         bundle1.putInt("bra",brojAktivnosti);
         bundle1.putString("id",idUsera+"");
         bundle1.putString("ime",naziv);
+        bundle1.putString("opis",opis);
         bundle1.putString("URL",url);
         bundle1.putString("email",e);
         bundle1.putInt("brojPratim",brojPratim);

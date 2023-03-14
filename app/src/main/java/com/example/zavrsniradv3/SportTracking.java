@@ -341,13 +341,13 @@ public class SportTracking extends AppCompatActivity {
                             double pro=avg*3.6f;
                             double ud=udaljenost/1000f;
                             BackgroundWorker backgroundWorker = new BackgroundWorker(SportTracking.this,3);
-                            oprema="";
+                            //oprema="";
                             DecimalFormat form = new DecimalFormat("0.00");
                             //String av=form.format(pro);
                             //String dist=form.format(ud);
                             BigDecimal o1= new BigDecimal(pro).setScale(2, RoundingMode.HALF_EVEN);
                             BigDecimal o2= new BigDecimal(ud).setScale(2, RoundingMode.HALF_EVEN);
-                            backgroundWorker.execute(locurl,type,nas,krajnje,o2+"",nmv,dat,idU,ime,vrsta,o1+"",oprema);
+                            backgroundWorker.execute(locurl,type,nas,krajnje,o2+"",nmv,dat,idU,ime,vrsta,o1+"",oprema,tip);
 
                           //  Log.d("akt: ",locurl+" "+type+" "+nas+" "+krajnje+" "+dist+" "+nmv+" "+dat+" "+idU+" "+ime+" "+vrsta+" "+av+" "+oprema);
                             for(Rute r:listRut){

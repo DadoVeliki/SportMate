@@ -126,7 +126,8 @@ public class PopisAktivnosti extends AppCompatActivity {
                                 object.getInt("brojLajkova"),
                                 object.getString("vrsta"),
                                 Float.parseFloat(object.getString("avgBrzina")),
-                                object.getString("oprema")));
+                                object.getString("oprema"),
+                                object.getString("tipAkt")));
                     }
                     View akt;
                     Log.d("nigga","broj el: "+listAkt.size());
@@ -217,6 +218,16 @@ public class PopisAktivnosti extends AppCompatActivity {
                         TextView vri=(TextView)akt.findViewById(R.id.time);
                         TextView avg=(TextView)akt.findViewById(R.id.avg);
                         TextView like=(TextView)akt.findViewById(R.id.like);
+                            ImageView tipAkt=(ImageView)akt.findViewById(R.id.tip);
+                            if(a.getTipAkt().equals("Biciklizam")){
+                                tipAkt.setImageResource(R.drawable.bajk2);
+                            }
+                            else if(a.getTipAkt().equals("Trčanje")){
+                                tipAkt.setImageResource(R.drawable.patike);
+                            }
+                            else if(a.getTipAkt().equals("Šetnja")){
+                                tipAkt.setImageResource(R.drawable.shoe);
+                            }
                         CircleImageView profile=(CircleImageView)akt.findViewById(R.id.profile_image);
                         profile.setImageResource(images[listUs.get(a.getIdUsera()-1).getSlika()]);
 

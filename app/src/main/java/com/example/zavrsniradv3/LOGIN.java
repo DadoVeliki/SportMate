@@ -176,14 +176,10 @@ public class LOGIN extends AppCompatActivity {
        //loginLozinka.setText("123");
         String email=loginEmail.getText().toString();
         String password=loginLozinka.getText().toString();
-        //String url = "http://10.0.2.2:80/validateData.php";
-        //String url = "http://192.168.0.187:80/validateData.php";
-        // String url="https://d853-95-168-121-0.eu.ngrok.io/validateData.php";
+
         String locUrl=url+"zav/validateData.php";
         String type = "login";
         BackgroundWorker backgroundWorker = new BackgroundWorker(LOGIN.this,2);
-        // backgroundWorker.execute(locUrl,type,"znj","6969",url);
-        //backgroundWorker.execute(locUrl,type,"a","b",url);
         backgroundWorker.execute(locUrl,type,email,password,url);
         loginEmail.setText("");
         loginLozinka.setText("");

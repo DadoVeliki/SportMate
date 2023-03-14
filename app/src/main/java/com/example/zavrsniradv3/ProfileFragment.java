@@ -123,8 +123,10 @@ public class ProfileFragment extends Fragment {
         LinearLayout objave=(LinearLayout) prof.findViewById(R.id.treca);
         LinearLayout oprema=(LinearLayout) prof.findViewById(R.id.cetvrta);
         TextView nameProf=(TextView)prof.findViewById(R.id.tv1);
+        TextView opis=(TextView)prof.findViewById(R.id.tv2);
 
         nameProf.setText(this.getArguments().getString("poruka"));
+        opis.setText(this.getArguments().getString("opis"));
 
         TextView st=(TextView) prof.findViewById(R.id.opis2);
         TextView ob=(TextView) prof.findViewById(R.id.opis3);
@@ -187,13 +189,13 @@ public class ProfileFragment extends Fragment {
                     for (Korisnik k:listUs) {
                         if(k.getEmail().equals(e)){
                             brojPratitelja=k.getBrojPratitelji();
-                            brojPratim=k.getBrojPratim();
+                            br2=k.getBrojPratim();
                             avatar.setImageResource(images[k.getSlika()]);
                         }
                     }
 
                     onimene.setText(""+brojPratitelja);
-                    janjih.setText(""+brojPratim);
+                    janjih.setText(""+br2);
 
                 }
                 catch (Exception e) {
@@ -230,7 +232,8 @@ public class ProfileFragment extends Fragment {
                                 object.getInt("brojLajkova"),
                                 object.getString("vrsta"),
                                 Float.parseFloat(object.getString("avgBrzina")),
-                                object.getString("oprema")));
+                                object.getString("oprema"),
+                                object.getString("tipAkt")));
                     }
                     //sendList();
                     for(Aktivnost a:listAkt){
@@ -470,6 +473,8 @@ public class ProfileFragment extends Fragment {
                 intent.putParcelableArrayListExtra("lista",listUs);
                 intent.putParcelableArrayListExtra("listaOdnosa",listOd);
                 intent.putExtra("images",images);
+                intent.putExtra("br2",br2);
+                intent.putExtra("prvo",0);
                 startActivity(intent);
             }
         });
@@ -483,6 +488,9 @@ public class ProfileFragment extends Fragment {
                 intent.putParcelableArrayListExtra("lista",listUs);
                 intent.putParcelableArrayListExtra("listaOdnosa",listOd);
                 intent.putExtra("images",images);
+                intent.putExtra("br2",br2);
+                intent.putExtra("prvo",1);
+                Log.d("br2prof",""+br2);
                 startActivity(intent);
             }
         });
@@ -497,7 +505,7 @@ public class ProfileFragment extends Fragment {
                 intent.putParcelableArrayListExtra("listaOdnosa",listOd);
                 intent.putExtra("URL",url);
                 intent.putExtra("id",id);
-                intent.putExtra("br2",br2);
+                intent.putExtra("br2",brojPratim);
                 intent.putExtra("images",images);
                 startActivity(intent);
             }

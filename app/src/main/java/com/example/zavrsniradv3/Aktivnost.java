@@ -23,8 +23,9 @@ public class Aktivnost implements Parcelable {
     private String vrsta;
     private float avgBrzina;
     private String oprema;
+    private String tipAkt;
 
-    public Aktivnost(int id,int idUsera,String imePrezime, String datum, String naslov, float udaljenost, int nmv, String vrijeme, int brojLajkova,String vrsta,float avgBrzina,String oprema) {
+    public Aktivnost(int id,int idUsera,String imePrezime, String datum, String naslov, float udaljenost, int nmv, String vrijeme, int brojLajkova,String vrsta,float avgBrzina,String oprema,String tipAkt) {
         this.id=id;
         this.idUsera=idUsera;
         this.imePrezime = imePrezime;
@@ -37,6 +38,7 @@ public class Aktivnost implements Parcelable {
         this.vrsta=vrsta;
         this.avgBrzina=avgBrzina;
         this.oprema=oprema;
+        this.tipAkt=tipAkt;
     }
 
     protected Aktivnost(Parcel in) {
@@ -52,6 +54,7 @@ public class Aktivnost implements Parcelable {
         vrsta=in.readString();
         avgBrzina=in.readFloat();
         oprema=in.readString();
+        tipAkt=in.readString();
     }
 
     public static final Creator<Aktivnost> CREATOR = new Creator<Aktivnost>() {
@@ -114,6 +117,10 @@ public class Aktivnost implements Parcelable {
         return oprema;
     }
 
+    public String getTipAkt() {
+        return tipAkt;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -133,5 +140,6 @@ public class Aktivnost implements Parcelable {
         parcel.writeString(vrsta);
         parcel.writeFloat(avgBrzina);
         parcel.writeString(oprema);
+        parcel.writeString(tipAkt);
     }
 }

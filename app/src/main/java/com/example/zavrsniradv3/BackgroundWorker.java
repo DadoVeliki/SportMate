@@ -48,7 +48,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     String brlajk,vrsta;
     String idAkt,idOb;
     String startLat,startLong,endLat,endLong;
-    String odabrana,opis;
+    String odabrana,opis,tipAkt;
     public String nazivProf="";
     BackgroundWorker(Context ctx,int log){
         context = ctx;
@@ -87,6 +87,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             vrsta=params[9];
             avg=params[10];
             oprema=params[11];
+            tipAkt=params[12];
         }
         else if(login==4){
             login_url = params[0];
@@ -178,7 +179,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                         + URLEncoder.encode("ime", "UTF-8") + "=" + URLEncoder.encode(ime, "UTF-8")+"&"
                 + URLEncoder.encode("vrsta", "UTF-8") + "=" + URLEncoder.encode(vrsta, "UTF-8")+"&"
                         + URLEncoder.encode("avg", "UTF-8") + "=" + URLEncoder.encode(avg, "UTF-8")+"&"
-                + URLEncoder.encode("oprema", "UTF-8") + "=" + URLEncoder.encode(oprema, "UTF-8");
+                + URLEncoder.encode("oprema", "UTF-8") + "=" + URLEncoder.encode(oprema, "UTF-8")+"&"
+                + URLEncoder.encode("tipAkt", "UTF-8") + "=" + URLEncoder.encode(tipAkt, "UTF-8");
 
             }
             else if(type.equals("obj")){

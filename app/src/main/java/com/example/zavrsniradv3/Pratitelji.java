@@ -25,6 +25,7 @@ public class Pratitelji extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     int[]images;
+    int br2,prvo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,8 @@ public class Pratitelji extends AppCompatActivity {
             }
         });
         Intent i=getIntent();
+        prvo=i.getIntExtra("prvo",0);
+        br2=i.getIntExtra("br2",0);
         id=i.getStringExtra("id");
         url=i.getStringExtra("URL");
         listUs=i.getParcelableArrayListExtra("lista");
@@ -54,10 +57,10 @@ public class Pratitelji extends AppCompatActivity {
         bundle.putParcelableArrayList("lista",listUs);
         bundle.putParcelableArrayList("listaOdnosa",listOd);
         bundle.putIntArray("images",images);
+        bundle.putInt("br2",br2);
         PratiteljiFragment p=new PratiteljiFragment();
         p.setArguments(bundle);
 
-        vpAdapter.addFragment(p,"PRATITELJI");
 
         Bundle bundle1=new Bundle();
         bundle1.putString("id",id);
@@ -65,36 +68,20 @@ public class Pratitelji extends AppCompatActivity {
         bundle1.putParcelableArrayList("lista",listUs);
         bundle1.putParcelableArrayList("listaOdnosa",listOd);
         bundle1.putIntArray("images",images);
+        bundle1.putInt("br2",br2);
         PratimFragment p1=new PratimFragment();
         p1.setArguments(bundle1);
 
-        vpAdapter.addFragment(p1,"PRATIM");
+        if(prvo==0){
+            vpAdapter.addFragment(p,"PRATITELJI");
+            vpAdapter.addFragment(p1,"PRATIM");
+        }
+        else{
+            vpAdapter.addFragment(p1,"PRATIM");
+            vpAdapter.addFragment(p,"PRATITELJI");
+
+        }
+
         viewPager.setAdapter(vpAdapter);
     }
-    /*private void replaceFragment(Fragment fragment){
-        FragmentManager fM=getSupportFragmentManager();
-        FragmentTransaction fT=fM.beginTransaction();
-        fT.replace(R.id.frame2,fragment);
-        fT.commit();
-    }
-    public void pratitelji(View view){
-        Bundle bundle=new Bundle();
-        bundle.putString("id",id);
-        bundle.putString("URL",url);
-        bundle.putParcelableArrayList("lista",listUs);
-        bundle.putParcelableArrayList("listaOdnosa",listOd);
-        PratiteljiFragment p=new PratiteljiFragment();
-        p.setArguments(bundle);
-        replaceFragment(p);
-    }
-    public void pratim(View view){
-        Bundle bundle=new Bundle();
-        bundle.putString("id",id);
-        bundle.putString("URL",url);
-        bundle.putParcelableArrayList("lista",listUs);
-        bundle.putParcelableArrayList("listaOdnosa",listOd);
-        PratimFragment p=new PratimFragment();
-        p.setArguments(bundle);
-        replaceFragment(p);
-    }*/
 }

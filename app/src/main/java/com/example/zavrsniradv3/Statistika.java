@@ -66,7 +66,8 @@ public class Statistika extends AppCompatActivity {
                                 object.getInt("brojLajkova"),
                                 object.getString("vrsta"),
                                 Float.parseFloat(object.getString("avgBrzina")),
-                                object.getString("oprema")));
+                                object.getString("oprema"),
+                                object.getString("tipAkt")));
                     }
                     int ukUdSvi=0;
                     float najduzaAkt=0;

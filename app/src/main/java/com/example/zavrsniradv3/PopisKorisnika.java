@@ -48,7 +48,7 @@ public class PopisKorisnika extends AppCompatActivity {
         String id=i.getStringExtra("id");
         //br1=i.getIntExtra("br1",0);
         br2=i.getIntExtra("br2",0);
-
+        Log.d("br2",""+br2);
         LinearLayout l=(LinearLayout)findViewById(R.id.ll2);
         listUs=i.getParcelableArrayListExtra("lista");
         //listOd=i.getParcelableArrayListExtra("listaOdnosa");
@@ -87,9 +87,11 @@ public class PopisKorisnika extends AppCompatActivity {
                     for(Korisnik k:listUs){
                         pratitelji.add(k.getBrojPratitelji());
                     }
-                    for(Korisnik k:listUs){
 
-                       // if(k.getId()!=Integer.parseInt(id)) {
+                    for(Korisnik k:listUs){
+                        //Log.d("korisniki",k.getId()+" == "+id);
+                        if(k.getId()!=Integer.parseInt(id)) {
+                            Log.d("korisniki",k.getId()+"");
                             Log.d("kID: ",k.getId()+" idU: "+id);
                             View us = getLayoutInflater().inflate(R.layout.prikaz_usera, null);
                             TextView name = (TextView) us.findViewById(R.id.ime);
@@ -98,17 +100,21 @@ public class PopisKorisnika extends AppCompatActivity {
                             name.setText(k.getIme() + " " + k.getPrezime());
                             desc.setText(k.getOpis());
                             profile.setImageResource(images[k.getSlika()]);
-                            LinearLayout p = (LinearLayout) us.findViewById(R.id.parent);
+
                             int br = brojac++;
                             Button btn = (Button) us.findViewById(R.id.btn);
-                            btn.setId(br);
+                            btn.setId(k.getId());
+                            Log.d("btn id ",btn.getId()+" "+k.getIme());
                             btn.setContentDescription("" + 0);
                             for (int a = 0; a < praceni.size(); a++) {
                                 if (btn.getId() == praceni.get(a)) {
                                     zaprati(btn);
                                 }
                             }
-
+                            Log.d("index22",listUs.get(0)+"");
+                            Log.d("index22",listUs.get(1)+"");
+                            int index=listUs.indexOf(btn.getId());
+                            Log.d("index22",""+index);
                             btn.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -117,6 +123,7 @@ public class PopisKorisnika extends AppCompatActivity {
                                     if (con == 0) {
                                         zaprati(btn);
                                         //int brojPrat=listUs.get(btn.getId()-1).getBrojPratitelji();
+
                                         pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) + 1);
                                         String idOsoba = btn.getId() + "";
                                         String locurl = url + "zav/unosOdnos.php";
@@ -149,10 +156,13 @@ public class PopisKorisnika extends AppCompatActivity {
                             Log.d("osoba: ",k.getIme()+" "+k.getPrezime()+" duzina liste: "+listUs.size());
                             Log.d("idd","duzina: "+id.length());
                            // if(k.getId()!=Integer.parseInt(id)){
-                                l.addView(p);
+
+                            LinearLayout p = (LinearLayout) us.findViewById(R.id.parent);
+                            Log.d("korisniki","broj: "+k.getId());
+                            l.addView(p);
                          //   }
 
-                       // }
+                        }
                     }
                     Log.d("pratitelji size: ",pratitelji.size()+"");
                     for(int i=0;i<pratitelji.size();i++){

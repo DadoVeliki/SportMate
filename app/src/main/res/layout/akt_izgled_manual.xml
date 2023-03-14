@@ -38,13 +38,22 @@
                     android:textSize="15sp"
                     android:text="David Trstenjak"
                     />
-                <TextView
-                    android:id="@+id/date"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:textColor="#3E3E3E"
-                    android:text="1.siječnja u 12:00"
-                    />
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:id="@+id/tip"
+                        android:layout_width="25dp"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textColor="#3E3E3E"
+                        android:layout_marginLeft="5dp"
+                        android:text="1.siječnja u 12:00"
+                        />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
