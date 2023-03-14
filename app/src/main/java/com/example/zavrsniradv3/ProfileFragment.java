@@ -17,11 +17,13 @@ import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.android.material.textfield.TextInputEditText;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -510,6 +512,38 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        ImageView img2=(ImageView) prof.findViewById(R.id.edit);
+        img2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogStyle2);
+                View dizajn = getLayoutInflater().inflate(R.layout.edit_user, null);
+                builder.setView(dizajn);
+                builder.show();
+                TextInputEditText ime=(TextInputEditText) dizajn.findViewById(R.id.ime);
+                TextInputEditText prezime=(TextInputEditText) dizajn.findViewById(R.id.prezime);
+                TextInputEditText bio=(TextInputEditText) dizajn.findViewById(R.id.bio);
+                for(Korisnik k:listUs){
+                    if(k.getId()==Integer.parseInt(id)){
+                        ime.setText(k.getIme());
+                        prezime.setText(k.getPrezime());
+                        bio.setText(k.getOpis());
+                    }
+                }
+                String locurl=url+"zav/urediKorisnika.php";
+                String type = "uredi";
+
+                Button btn=(Button) dizajn.findViewById(R.id.button2);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(),11);
+                        backgroundWorker.execute(locurl,type,id,ime.getText().toString(),prezime.getText().toString(),bio.getText().toString());
+                    }
+                });
+            }
+        });
 
         return prof;
     }
@@ -552,5 +586,4 @@ public class ProfileFragment extends Fragment {
         }
         return "";
     }
-
 }

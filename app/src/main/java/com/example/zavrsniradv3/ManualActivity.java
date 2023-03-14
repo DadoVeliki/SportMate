@@ -234,6 +234,7 @@ public class ManualActivity extends AppCompatActivity {
         new DatePickerDialog(ManualActivity.this,dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
     public void kreirajAktivnost(View view){
+
         Intent intent=getIntent();
         String id=intent.getStringExtra("id");
         String ime=intent.getStringExtra("ime");
@@ -255,7 +256,16 @@ public class ManualActivity extends AppCompatActivity {
         BackgroundWorker backgroundWorker = new BackgroundWorker(ManualActivity.this,3);
         String vrsta="man";
         String oprema=selOp;
-        backgroundWorker.execute(locurl,type,nas,vri,dist,nmv,dat,id,ime,vrsta,"0",oprema,tipAkt);
-        finish();
+        TextView prazno=(TextView) findViewById(R.id.prazno);
+        if(nas.equals("") || vri.equals("") || dist.equals("") || nmv.equals("") || dat.equals("") || oprema.equals("") || tipAkt.equals("")){
+            prazno.setText("Potrebno ispuniti sva polja!");
+        }
+        else{
+            prazno.setText("");
+            backgroundWorker.execute(locurl,type,nas,vri,dist,nmv,dat,id,ime,vrsta,"0",oprema,tipAkt);
+            finish();
+        }
+
+
     }
 }

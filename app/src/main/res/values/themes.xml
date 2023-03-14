@@ -21,7 +21,7 @@
         <item name="android:textColorPrimary">#ff0000</item>
     </style>
     <style name="AlertDialogStyle2" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:background">@color/teal_200</item>
+        <item name="android:background">@color/white</item>
         <item name="android:colorAccent">#ff0000</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:textColorPrimary">#ff0000</item>

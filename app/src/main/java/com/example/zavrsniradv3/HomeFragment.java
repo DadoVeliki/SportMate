@@ -130,12 +130,21 @@ public class HomeFragment extends Fragment {
         //listRut=new ArrayList<Rute>();
         listLike=new ArrayList<>();
         View akt;
+        ArrayList<Korisnik>kojePratim=new ArrayList<>();
         for(Korisnik k:listUs){
-            Log.d("user ",k.getId()+" "+k.getIme()+" "+k.getSlika());
+            for(Odnos o:listOd){
+                if((o.getIdKojiPrati()==Integer.parseInt(id)) && (o.getIdPracen()==k.getId())){
+                    kojePratim.add(k);
+                }
+            }
         }
-        Log.d("user ","na indexu "+listUs.get(1).getSlika());
+        //Log.d("user ","na indexu "+listUs.get(1).getSlika());
       //  Thread thread;
         for(Aktivnost a:listAkt){
+            for(Korisnik k:kojePratim){
+                if((k.getId()==a.getIdUsera()) || (a.getIdUsera()==Integer.parseInt(id))){
+
+
             if(a.getVrsta().equals("man")){
                 akt=getLayoutInflater().inflate(R.layout.akt_izgled_manual,null);
             }
@@ -151,22 +160,20 @@ public class HomeFragment extends Fragment {
                         map.setTileSource(TileSourceFactory.MAPNIK);
                         map.setMultiTouchControls(true);
                         //map.setBuiltInZoomControls(false);
-                        for(Rute r:listRut){
+                        /*for(Rute r:listRut){
                             if (r.getIdAkt() == a.getId()) {
                                 poclat=r.getStartLat();
                                 poclong=r.getStartLong();
                                 break;
                             }
-                        }
+                        }*/
                         for(Rute r:listRut) {
                             if (r.getIdAkt() == a.getId()) {
 
-                new Thread(new Runnable()
+                /*new Thread(new Runnable()
                 {
                     public void run()
                     {
-                                // Log.d("usera: ",userAgent);
-
                                 RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
 
                                 ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
@@ -196,11 +203,30 @@ public class HomeFragment extends Fragment {
 
                                         Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
                                         map.getOverlays().add(roadOverlay);
+                                        map.invalidate();
                                     }
                                 });
                                   }
                                  }
-                                 ).start();
+                                 ).start();*/
+                                try{
+                                    RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
+
+                                    ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
+                                    GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
+                                    waypoints.add(startPoint);
+                                    GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
+                                    waypoints.add(endPoint);
+                                    road = roadManager.getRoad(waypoints);
+
+                                    Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
+                                    map.getOverlays().add(roadOverlay);
+                                    map.invalidate();
+                                }
+                                catch (Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
                             }
                         }
 
@@ -208,11 +234,13 @@ public class HomeFragment extends Fragment {
 
                     }
                 });
+
                 thread.start();
-                GeoPoint start=new GeoPoint(poclat,poclong);
+                //GeoPoint start=new GeoPoint(poclat,poclong);
+                GeoPoint start=new GeoPoint(46.4208585,16.53123);
                 Log.d("---","poclat: "+poclat+" poclong"+poclong);
                 IMapController mapController=map.getController();
-                mapController.setZoom(15.0);
+                mapController.setZoom(11.0);
                 mapController.setCenter(start);
             }
             TextView ime=(TextView)akt.findViewById(R.id.name);
@@ -224,6 +252,7 @@ public class HomeFragment extends Fragment {
             TextView avg=(TextView)akt.findViewById(R.id.avg);
             TextView like=(TextView)akt.findViewById(R.id.like);
             ImageView tipAkt=(ImageView)akt.findViewById(R.id.tip);
+            TextView oprema=(TextView)akt.findViewById(R.id.oprema);
             if(a.getTipAkt().equals("Biciklizam")){
                 tipAkt.setImageResource(R.drawable.bajk2);
             }
@@ -233,6 +262,8 @@ public class HomeFragment extends Fragment {
             else if(a.getTipAkt().equals("Šetnja")){
                 tipAkt.setImageResource(R.drawable.shoe);
             }
+
+
             CircleImageView profile=(CircleImageView)akt.findViewById(R.id.profile_image);
             profile.setImageResource(images[listUs.get(a.getIdUsera()-1).getSlika()]);
 
@@ -254,6 +285,7 @@ public class HomeFragment extends Fragment {
             vri.setText(a.getVrijeme());
             avg.setText(a.getAvgBrzina()+" km/h");
             like.setText(a.getBrojLajkova()+" oznaka sviđa mi se");
+            oprema.setText(a.getOprema());
             BottomNavigationView bnv=(BottomNavigationView)akt.findViewById(R.id.bottomAkt);
             bnv.setOnItemSelectedListener(item ->{
                 switch (item.getItemId()){
@@ -323,10 +355,15 @@ public class HomeFragment extends Fragment {
             });
             LinearLayout p=(LinearLayout)akt.findViewById(R.id.parent);
             l.addView(p);
+            break;
+                }
+            }
         }
 
 
         for(ObjavaC o:listOb){
+            for(Korisnik k:kojePratim){
+                if((k.getId()==o.getIdUsera()) || (o.getIdUsera()==Integer.parseInt(id))){
             View ob=getLayoutInflater().inflate(R.layout.preview_objava,null);
             TextView ime=(TextView)ob.findViewById(R.id.name);
             TextView datum=(TextView)ob.findViewById(R.id.date);
@@ -424,6 +461,9 @@ public class HomeFragment extends Fragment {
 
             LinearLayout p=(LinearLayout)ob.findViewById(R.id.parent);
             l.addView(p);
+            break;
+                }
+            }
         }
 
         String id=this.getArguments().getString("id");

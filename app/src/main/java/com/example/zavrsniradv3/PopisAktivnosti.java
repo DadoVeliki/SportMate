@@ -74,38 +74,7 @@ public class PopisAktivnosti extends AppCompatActivity {
         url=intent.getStringExtra("URL");
         listRut=intent.getParcelableArrayListExtra("listRut");
         listUs=intent.getParcelableArrayListExtra("listUs");
-        //ArrayList<Aktivnost>listAkt=intent.getParcelableArrayListExtra("listAkt");
-        //View home=getLayoutInflater().inflate(R.layout.fragment_home,null);
         LinearLayout l=(LinearLayout) findViewById(R.id.ll1);
-        /*for(Aktivnost a:listAkt){
-            if(a.getIdUsera()==Integer.parseInt(id)){
-                View akt=getLayoutInflater().inflate(R.layout.aktivnost,null);
-                TextView ime=(TextView)akt.findViewById(R.id.name);
-                TextView datum=(TextView)akt.findViewById(R.id.date);
-                TextView naslov=(TextView)akt.findViewById(R.id.title);
-                TextView udalj=(TextView)akt.findViewById(R.id.dist);
-                TextView nmv=(TextView)akt.findViewById(R.id.elev);
-                TextView vri=(TextView)akt.findViewById(R.id.time);
-                TextView like=(TextView)akt.findViewById(R.id.like);
-
-                MapView map=(MapView)akt.findViewById(R.id.mapAkt);
-                map.setTileSource(TileSourceFactory.MAPNIK);
-                GeoPoint start=new GeoPoint(46.5179479,16.3948141);
-                IMapController mapController=map.getController();
-                mapController.setZoom(18.0);
-                mapController.setCenter(start);
-
-                ime.setText(a.getImePrezime());
-                datum.setText(a.getDatum());
-                naslov.setText(a.getNaslov());
-                udalj.setText(""+a.getUdaljenost());
-                nmv.setText(""+a.getNmv());
-                vri.setText(a.getVrijeme());
-                like.setText(a.getBrojLajkova()+" oznaka sviđa mi se");
-                LinearLayout p=(LinearLayout)akt.findViewById(R.id.parent);
-                l.addView(p);
-            }
-        }*/
         //dohvaćanje svih aktivnosti
         StringRequest request2 = new StringRequest(url+"zav/dohvatiSveAktivnosti.php", new Response.Listener<String>() {
             @Override
@@ -130,7 +99,6 @@ public class PopisAktivnosti extends AppCompatActivity {
                                 object.getString("tipAkt")));
                     }
                     View akt;
-                    Log.d("nigga","broj el: "+listAkt.size());
                     for(Aktivnost a:listAkt){
                         if(a.getIdUsera()==Integer.parseInt(id)){
                         Log.d("akt",""+a.getId());
@@ -159,43 +127,57 @@ public class PopisAktivnosti extends AppCompatActivity {
                                     for(Rute r:listRut) {
                                         if (r.getIdAkt() == a.getId()) {
 
-                                            /*new Thread(new Runnable()
-                                            {
-                                                public void run()
-                                                {*/
-                                                    // Log.d("usera: ",userAgent);
+                                           /*new Thread(new Runnable()
+                {
+                    public void run()
+                    {
+                                RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
 
-                                                    RoadManager roadManager = new OSRMRoadManager(getApplicationContext(),userAgent);
+                                ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
+                                GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
+                                waypoints.add(startPoint);
+                                GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
+                                waypoints.add(endPoint);
+                                try
+                                {
+                                    road = roadManager.getRoad(waypoints);
+                                }
+                                catch (Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
+                                if(getActivity()==null){
+                                    return;
+                                }
+                                getActivity().runOnUiThread(new Runnable()
+                                {
+                                    public void run()
+                                    {
+                                        if (road.mStatus != Road.STATUS_OK)
+                                        {
 
-                                                    ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
-                                                    GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
-                                                    waypoints.add(startPoint);
-                                                    GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
-                                                    waypoints.add(endPoint);
-                                                    try
-                                                    {
-                                                        road = roadManager.getRoad(waypoints);
-                                                    }
-                                                    catch (Exception e)
-                                                    {
-                                                        e.printStackTrace();
-                                                    }
-                                                 /* runOnUiThread(new Runnable()
-                                                    {
-                                                        public void run()
-                                                        {*/
-                                                            if (road.mStatus != Road.STATUS_OK)
-                                                            {
+                                        }
 
-                                                            }
+                                        Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
+                                        map.getOverlays().add(roadOverlay);
+                                        map.invalidate();
+                                    }
+                                });
+                                  }
+                                 }
+                                 ).start();*/
+                                            RoadManager roadManager = new OSRMRoadManager(PopisAktivnosti.this,userAgent);
 
-                                                            Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
-                                                            map.getOverlays().add(roadOverlay);
-                                                       // }
-                                                  //  });
-                                           //     }
-                                         //   }
-                                            //).start();
+                                            ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
+                                            GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
+                                            waypoints.add(startPoint);
+                                            GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
+                                            waypoints.add(endPoint);
+                                            road = roadManager.getRoad(waypoints);
+
+                                            Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
+                                            map.getOverlays().add(roadOverlay);
+                                            map.invalidate();
                                         }
                                     }
 
@@ -204,10 +186,9 @@ public class PopisAktivnosti extends AppCompatActivity {
                                 }
                             });
                             thread.start();
-                            GeoPoint start=new GeoPoint(poclat,poclong);
-                            Log.d("---","poclat: "+poclat+" poclong"+poclong);
+                            GeoPoint start=new GeoPoint(46.4208585,16.53123);
                             IMapController mapController=map.getController();
-                            mapController.setZoom(15.0);
+                            mapController.setZoom(11.0);
                             mapController.setCenter(start);
                         }
                         TextView ime=(TextView)akt.findViewById(R.id.name);
@@ -218,6 +199,7 @@ public class PopisAktivnosti extends AppCompatActivity {
                         TextView vri=(TextView)akt.findViewById(R.id.time);
                         TextView avg=(TextView)akt.findViewById(R.id.avg);
                         TextView like=(TextView)akt.findViewById(R.id.like);
+                        TextView oprema=(TextView)akt.findViewById(R.id.oprema);
                             ImageView tipAkt=(ImageView)akt.findViewById(R.id.tip);
                             if(a.getTipAkt().equals("Biciklizam")){
                                 tipAkt.setImageResource(R.drawable.bajk2);
@@ -249,6 +231,7 @@ public class PopisAktivnosti extends AppCompatActivity {
                         vri.setText(a.getVrijeme());
                         avg.setText(a.getAvgBrzina()+" km/h");
                         like.setText(a.getBrojLajkova()+" oznaka sviđa mi se");
+                        oprema.setText(a.getOprema());
                         BottomNavigationView bnv=(BottomNavigationView)akt.findViewById(R.id.bottomAkt);
                         bnv.setOnItemSelectedListener(item ->{
                             switch (item.getItemId()){

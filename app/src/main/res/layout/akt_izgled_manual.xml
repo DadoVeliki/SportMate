@@ -9,7 +9,7 @@
         android:id="@+id/akt1"
         android:background="@drawable/border_shadow"
         android:layout_width="match_parent"
-        android:layout_height="225dp"
+        android:layout_height="260dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
@@ -169,9 +169,29 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="110dp"
             android:orientation="vertical"
             >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="35dp">
+                <ImageView
+                    android:paddingLeft="20dp"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/sport"
+                    />
+                <TextView
+                    android:id="@+id/oprema"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:paddingTop="7dp"
+                    android:paddingLeft="20dp"
+                    android:textColor="#3E3E3E"
+                    android:text="---"
+                    />
+            </LinearLayout>
             <TextView
                 android:id="@+id/like"
                 android:layout_width="match_parent"
@@ -179,7 +199,7 @@
                 android:paddingTop="7dp"
                 android:paddingLeft="20dp"
                 android:textColor="#3E3E3E"
-                android:text="10 oznaka sviđa mi se"
+                android:text="0 oznaka sviđa mi se"
                 />
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomAkt"

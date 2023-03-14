@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DodajObjavu">
+
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
@@ -14,27 +16,29 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/topAppBar1"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
-                app:layout_scrollFlags="scroll|enterAlways"
-                >
+                app:layout_scrollFlags="scroll|enterAlways">
+
                 <ImageView
                     android:id="@+id/backAkt"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:clickable="true"
                     android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_baseline_arrow_back_24"/>
+                    android:clickable="true"
+                    android:src="@drawable/ic_baseline_arrow_back_24" />
+
                 <TextView
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dodaj Objavu"
-                    android:textSize="20sp"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -93,12 +97,20 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/prazno"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:gravity="center"
+        android:textColor="#ff0000"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
+
     <com.google.android.material.button.MaterialButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="500dp"
-        android:text="OBJAVI"
+        android:layout_marginTop="450dp"
         android:onClick="kreirajObjavu"
+        android:text="OBJAVI"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

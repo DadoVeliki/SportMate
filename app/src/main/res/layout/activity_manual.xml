@@ -164,6 +164,14 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="10dp" />
 
+            <TextView
+                android:id="@+id/prazno"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="#ff0000"
+                app:layout_constraintTop_toBottomOf="@+id/spinOprema" />
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

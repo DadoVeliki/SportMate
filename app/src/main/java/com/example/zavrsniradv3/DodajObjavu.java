@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -52,7 +53,15 @@ public class DodajObjavu extends AppCompatActivity {
         String locurl=url+"zav/unosObjave.php";
         String type = "obj";
         BackgroundWorker backgroundWorker = new BackgroundWorker(DodajObjavu.this,4);
-        backgroundWorker.execute(locurl,type,dat,nas,op,li,id,ime);
-        finish();
+        TextView prazno=(TextView) findViewById(R.id.prazno);
+        if(nas.equals("")){
+            prazno.setText("Potrebno napisati naslov!");
+        }
+        else{
+            prazno.setText("");
+            backgroundWorker.execute(locurl,type,dat,nas,op,li,id,ime);
+            finish();
+        }
+
     }
 }

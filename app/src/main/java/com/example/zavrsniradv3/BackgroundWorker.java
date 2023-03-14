@@ -48,7 +48,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     String brlajk,vrsta;
     String idAkt,idOb;
     String startLat,startLong,endLat,endLong;
-    String odabrana,opis,tipAkt;
+    String odabrana,opis,tipAkt,lozinka;
     public String nazivProf="";
     BackgroundWorker(Context ctx,int log){
         context = ctx;
@@ -146,6 +146,14 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             id=params[4];
             tekstO=params[5];
         }
+        else if(login==11){
+            login_url = params[0];
+            type = params[1];
+            id=params[2];
+            name=params[3];
+            surname=params[4];
+            opis=params[5];
+        }
         try {
 
             URL url = new URL(login_url);
@@ -225,6 +233,12 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                         + URLEncoder.encode("idAkt", "UTF-8") + "=" + URLEncoder.encode(idAkt, "UTF-8")+ "&"
                         + URLEncoder.encode("idUsera", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8")+ "&"
                         + URLEncoder.encode("tekst", "UTF-8") + "=" + URLEncoder.encode(tekstO, "UTF-8");
+            }
+            else if(type.equals("uredi")){
+                post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&"
+                        + URLEncoder.encode("ime", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8")+ "&"
+                        + URLEncoder.encode("prezime", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8")+ "&"
+                        + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(opis, "UTF-8");
             }
             bufferedWriter.write(post_data);
             bufferedWriter.flush();
