@@ -6,14 +6,8 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class ObjavaC implements Parcelable {
-    private int id;
-    private int idUsera;
-    private String imePrezime;
-    private String datum;
-    private String naslov;
-    private String tekst;
-    private String link;
-    private int brojLajkova;
+    private int id,idUsera,brojLajkova;
+    private String imePrezime,datum,naslov,tekst,link;
 
     public ObjavaC(int id, int idUsera, String imePrezime, String datum, String naslov, String tekst, String link, int brojLajkova) {
         this.id = id;

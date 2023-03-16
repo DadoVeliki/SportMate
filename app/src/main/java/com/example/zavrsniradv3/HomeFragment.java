@@ -54,36 +54,17 @@ import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -101,17 +82,11 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    ArrayList<Lista>userList;
     Boolean isFABOpen=false;
     FloatingActionButton fab1,fab2;
-    String userAgent = System.getProperty("http.agent");
-    //public ArrayList<Rute>listRut;
+    String userAgent = System.getProperty("http.agent"),url="",id="";
     Road road;
-    double poclat,poclong;
-    String url="";
-    String id="";
     public ArrayList<LikeRelation>listLike;
-    //int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16};
     int[]images;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,7 +102,6 @@ public class HomeFragment extends Fragment {
         ArrayList<Rute>listRut=((HOME)getActivity()).getRut();
         View home=inflater.inflate(R.layout.fragment_home, container, false);
         LinearLayout l=(LinearLayout) home.findViewById(R.id.ll1);
-        //listRut=new ArrayList<Rute>();
         listLike=new ArrayList<>();
         View akt;
         ArrayList<Korisnik>kojePratim=new ArrayList<>();
@@ -138,8 +112,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         }
-        //Log.d("user ","na indexu "+listUs.get(1).getSlika());
-      //  Thread thread;
         for(Aktivnost a:listAkt){
             for(Korisnik k:kojePratim){
                 if((k.getId()==a.getIdUsera()) || (a.getIdUsera()==Integer.parseInt(id))){
@@ -170,7 +142,7 @@ public class HomeFragment extends Fragment {
                         for(Rute r:listRut) {
                             if (r.getIdAkt() == a.getId()) {
 
-                /*new Thread(new Runnable()
+                new Thread(new Runnable()
                 {
                     public void run()
                     {
@@ -208,7 +180,7 @@ public class HomeFragment extends Fragment {
                                 });
                                   }
                                  }
-                                 ).start();*/
+                                 ).start();
                                 try{
                                     RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
 
@@ -236,9 +208,7 @@ public class HomeFragment extends Fragment {
                 });
 
                 thread.start();
-                //GeoPoint start=new GeoPoint(poclat,poclong);
                 GeoPoint start=new GeoPoint(46.4208585,16.53123);
-                Log.d("---","poclat: "+poclat+" poclong"+poclong);
                 IMapController mapController=map.getController();
                 mapController.setZoom(11.0);
                 mapController.setCenter(start);
@@ -269,7 +239,7 @@ public class HomeFragment extends Fragment {
 
 
             LocalDateTime d=LocalDateTime.parse(a.getDatum(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            Log.d("datum",""+d);
+
             final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy.", Locale.ENGLISH);
             final DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd", Locale.ENGLISH);
             final DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("MM", Locale.ENGLISH);
@@ -322,10 +292,6 @@ public class HomeFragment extends Fragment {
 
                                     }
                                     catch (Exception e) {
-                                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity().getApplicationContext()).create();
-                                        alertDialog.setTitle("Greška");
-                                        alertDialog.setMessage(""+e.getMessage());
-                                        //alertDialog.show();
                                     }
                                 }
                             }, new Response.ErrorListener() {
@@ -345,7 +311,6 @@ public class HomeFragment extends Fragment {
                         intent.putExtra("idU",id+"");
                         intent.putExtra("idOb","0");
                         intent.putExtra("idAkt",a.getId()+"");
-                        Log.d("koji akt: ",a.getId()+"");
                         intent.putExtra("URL",url);
                         intent.putExtra("lista",listUs);
                         startActivity(intent);
@@ -373,7 +338,7 @@ public class HomeFragment extends Fragment {
             TextView like=(TextView)ob.findViewById(R.id.like);
             CircleImageView profile=(CircleImageView)ob.findViewById(R.id.profile_image);
             LocalDateTime d=LocalDateTime.parse(o.getDatum(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            Log.d("datum",""+d);
+
             final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy.", Locale.ENGLISH);
             final DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd", Locale.ENGLISH);
             final DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("MM", Locale.ENGLISH);
@@ -388,13 +353,11 @@ public class HomeFragment extends Fragment {
             pov.setClickable(true);
             pov.setMovementMethod(LinkMovementMethod.getInstance());
             pov.setText(Html.fromHtml(a,Html.FROM_HTML_MODE_COMPACT));
-            //pov.setText(""+o.getLink());
             like.setText(o.getBrojLajkova()+" oznaka sviđa mi se");
             BottomNavigationView bnv=(BottomNavigationView)ob.findViewById(R.id.bottomAkt);
             bnv.setOnItemSelectedListener(item ->{
                 switch (item.getItemId()){
                     case R.id.lajk:
-                        //String id=HomeFragment.this.getArguments().getString("id");
                         if(o.getIdUsera()!=Integer.parseInt(id)){
                             StringRequest request2 = new StringRequest(url+"zav/dohvatiLajk.php", new Response.Listener<String>() {
                                 @Override
@@ -427,10 +390,6 @@ public class HomeFragment extends Fragment {
 
                                     }
                                     catch (Exception e) {
-                                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity().getApplicationContext()).create();
-                                        alertDialog.setTitle("Greška");
-                                        alertDialog.setMessage(""+e.getMessage());
-                                        //alertDialog.show();
                                     }
                                 }
                             }, new Response.ErrorListener() {
@@ -467,9 +426,7 @@ public class HomeFragment extends Fragment {
         }
 
         String id=this.getArguments().getString("id");
-        Log.d("id68",id);
         String ime=this.getArguments().getString("ime");
-        Log.d("idHome: ",id);
         FloatingActionButton fab=(FloatingActionButton) home.findViewById(R.id.floatingActionButton);
         fab2=(FloatingActionButton) home.findViewById(R.id.floatingActionButton2);//objava
         fab1=(FloatingActionButton) home.findViewById(R.id.floatingActionButton3);//aktivnost
@@ -488,9 +445,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getContext(),ManualActivity.class);
-
                 intent.putExtra("id",id+"");
-                Log.d("id69",id);
                 intent.putExtra("ime",ime);
                 intent.putExtra("URL",url);
                 intent.putExtra("listOp",listOp);

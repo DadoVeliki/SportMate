@@ -45,11 +45,9 @@ import java.util.Locale;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PopisAktivnosti extends AppCompatActivity {
-    public String url="";
-    public String id="";
+    public String url="",id="",userAgent = System.getProperty("http.agent");
     public ArrayList<Aktivnost>listAkt;
     public ArrayList<Rute>listRut;
-    String userAgent = System.getProperty("http.agent");
     double poclat,poclong;
     Road road;
     public ArrayList<Korisnik>listUs;
@@ -60,13 +58,7 @@ public class PopisAktivnosti extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popis_aktivnosti);
         listAkt=new ArrayList<Aktivnost>();
-        ImageView img=(ImageView) findViewById(R.id.backAkt);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
         listLike=new ArrayList<>();
         Intent intent=getIntent();
         images=intent.getIntArrayExtra("images");
@@ -75,6 +67,16 @@ public class PopisAktivnosti extends AppCompatActivity {
         listRut=intent.getParcelableArrayListExtra("listRut");
         listUs=intent.getParcelableArrayListExtra("listUs");
         LinearLayout l=(LinearLayout) findViewById(R.id.ll1);
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run(){
+                ImageView img=(ImageView) findViewById(R.id.backAkt);
+                img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        finish();
+                    }
+                });
         //dohvaćanje svih aktivnosti
         StringRequest request2 = new StringRequest(url+"zav/dohvatiSveAktivnosti.php", new Response.Listener<String>() {
             @Override
@@ -101,7 +103,6 @@ public class PopisAktivnosti extends AppCompatActivity {
                     View akt;
                     for(Aktivnost a:listAkt){
                         if(a.getIdUsera()==Integer.parseInt(id)){
-                        Log.d("akt",""+a.getId());
                         if(a.getVrsta().equals("man")){
                             akt=getLayoutInflater().inflate(R.layout.akt_izgled_manual,null);
                         }
@@ -215,7 +216,7 @@ public class PopisAktivnosti extends AppCompatActivity {
 
 
                         LocalDateTime d=LocalDateTime.parse(a.getDatum(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                        Log.d("datum",""+d);
+
                         final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy.", Locale.ENGLISH);
                         final DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd", Locale.ENGLISH);
                         final DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("MM", Locale.ENGLISH);
@@ -268,10 +269,6 @@ public class PopisAktivnosti extends AppCompatActivity {
 
                                                 }
                                                 catch (Exception e) {
-                                                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                                                    alertDialog.setTitle("Greška");
-                                                    alertDialog.setMessage(""+e.getMessage());
-                                                    //alertDialog.show();
                                                 }
                                             }
                                         }, new Response.ErrorListener() {
@@ -291,7 +288,6 @@ public class PopisAktivnosti extends AppCompatActivity {
                                     intent.putExtra("idU",id+"");
                                     intent.putExtra("idOb","0");
                                     intent.putExtra("idAkt",a.getId()+"");
-                                    Log.d("koji akt: ",a.getId()+"");
                                     intent.putExtra("URL",url);
                                     intent.putExtra("lista",listUs);
                                     startActivity(intent);
@@ -305,10 +301,6 @@ public class PopisAktivnosti extends AppCompatActivity {
                     //}
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -316,7 +308,10 @@ public class PopisAktivnosti extends AppCompatActivity {
             public void onErrorResponse(VolleyError error2) {
             }
         });
-        Volley.newRequestQueue(this).add(request2);
+        Volley.newRequestQueue(PopisAktivnosti.this).add(request2);
+            }
+        });
+        thread.start();
     }
     public String kojiMjesec(DateTimeFormatter f,LocalDateTime d){
         if(f.format(d).equals("01")){

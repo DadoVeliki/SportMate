@@ -86,7 +86,7 @@ public class Objave extends AppCompatActivity {
                             CircleImageView profile=(CircleImageView)ob.findViewById(R.id.profile_image);
                             profile.setImageResource(images[listUs.get(o.getIdUsera()-1).getSlika()]);
                             LocalDateTime d=LocalDateTime.parse(o.getDatum(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                            Log.d("datum",""+d);
+
                             final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy.", Locale.ENGLISH);
                             final DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd", Locale.ENGLISH);
                             final DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("MM", Locale.ENGLISH);
@@ -101,7 +101,6 @@ public class Objave extends AppCompatActivity {
                             pov.setClickable(true);
                             pov.setMovementMethod(LinkMovementMethod.getInstance());
                             pov.setText(Html.fromHtml(a,Html.FROM_HTML_MODE_COMPACT));
-                            //pov.setText(""+o.getLink());
                             like.setText(o.getBrojLajkova()+" oznaka sviđa mi se");
                             LinearLayout p=(LinearLayout)ob.findViewById(R.id.parent);
                             l.addView(p);
@@ -109,10 +108,6 @@ public class Objave extends AppCompatActivity {
                     }
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {

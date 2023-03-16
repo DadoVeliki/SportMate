@@ -70,20 +70,6 @@ public class LOGIN extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle);
         View izgled=getLayoutInflater().inflate(R.layout.dialog_registracija,null);
 
-        /*Spinner s=(Spinner)izgled.findViewById(R.id.spinner);
-        CustomAdapter adapter=new CustomAdapter(this,names,images);
-        s.setAdapter(adapter);
-        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(),images[i],Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });*/
         GridView g=(GridView)izgled.findViewById(R.id.grid);
         g.setAdapter(new ImageAdapter(this,images));
         g.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -144,10 +130,6 @@ public class LOGIN extends AppCompatActivity {
                                 }
                             }
                             catch (Exception e) {
-                                AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                                alertDialog.setTitle("Greška");
-                                alertDialog.setMessage(""+e.getMessage());
-                                //alertDialog.show();
                             }
                         }
                     }, new Response.ErrorListener() {

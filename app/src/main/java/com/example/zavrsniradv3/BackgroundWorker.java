@@ -35,28 +35,16 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     Context context;
     int login;
     String javniURL="",email,password;
-
     AlertDialog alertDialog;
-    String login_url,type,name,surname;
-    String naslov,vrijeme,udaljenost,elev,datum,id,ime;
-    String datO,naslovO,tekstO,linkO,idO,imeO;
-    String idPrati,idPracen;
-    String nick,mark,mod,tip;
+    String login_url,type,name,surname,naslov,vrijeme,udaljenost,elev,datum,id,ime,datO,naslovO,tekstO,linkO,idO,imeO,idPrati,idPracen,nick,mark,mod,tip,avg,oprema,idc,brprat,brpratim,brlajk,vrsta,idAkt,idOb,startLat,startLong,endLat,endLong,odabrana,opis,tipAkt;
 
-    String avg,oprema,idc;
-    String brprat,brpratim;
-    String brlajk,vrsta;
-    String idAkt,idOb;
-    String startLat,startLong,endLat,endLong;
-    String odabrana,opis,tipAkt,lozinka;
-    public String nazivProf="";
     BackgroundWorker(Context ctx,int log){
         context = ctx;
         login = log;
     }
     @Override
     protected String doInBackground(String... params) {
-        if(login==1){
+        if(login==1){//registracija
             login_url = params[0];
             type = params[1];
             name = params[2];
@@ -67,14 +55,14 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             odabrana=params[7];
             opis=params[8];
         }
-        else if(login==2){
+        else if(login==2){//login
             login_url = params[0];
             type = params[1];
             email = params[2];
             password = params[3];
             javniURL=params[4];
         }
-        else if(login==3){
+        else if(login==3){//aktivnosti
             login_url = params[0];
             type = params[1];
             naslov=params[2];
@@ -89,7 +77,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             oprema=params[11];
             tipAkt=params[12];
         }
-        else if(login==4){
+        else if(login==4){//objave
             login_url = params[0];
             type = params[1];
             datO=params[2];
@@ -99,7 +87,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             idO=params[6];
             imeO=params[7];
         }
-        else if(login==5){
+        else if(login==5){//odnosi
             login_url = params[0];
             type = params[1];
             idPrati=params[2];
@@ -116,7 +104,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             tip=params[5];
             idc=params[6];
         }
-        else if(login==7){
+        else if(login==7){//ukloni opremu
             login_url = params[0];
             type = params[1];
             id=params[2];
@@ -129,7 +117,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             vrsta=params[4];
             id=params[5];
         }
-        else if(login==9){
+        else if(login==9){//koordinate
             login_url = params[0];
             type = params[1];
             idAkt=params[2];
@@ -138,7 +126,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             endLat=params[5];
             endLong=params[6];
         }
-        else if(login==10){
+        else if(login==10){//komentari
             login_url = params[0];
             type = params[1];
             idOb=params[2];
@@ -146,7 +134,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             id=params[4];
             tekstO=params[5];
         }
-        else if(login==11){
+        else if(login==11){//uredi korisnika
             login_url = params[0];
             type = params[1];
             id=params[2];
@@ -171,7 +159,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                         + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8")+ "&"
                         + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8")+"&"
                         + URLEncoder.encode("slika", "UTF-8") + "=" + URLEncoder.encode(odabrana, "UTF-8")+"&"
-                + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(opis, "UTF-8");
+                        + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(opis, "UTF-8");
             }
             else if(type.equals("login")){
                 post_data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&"
@@ -185,10 +173,10 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
                         + URLEncoder.encode("elev", "UTF-8") + "=" + URLEncoder.encode(elev, "UTF-8")+ "&"
                         + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8")+ "&"
                         + URLEncoder.encode("ime", "UTF-8") + "=" + URLEncoder.encode(ime, "UTF-8")+"&"
-                + URLEncoder.encode("vrsta", "UTF-8") + "=" + URLEncoder.encode(vrsta, "UTF-8")+"&"
+                        + URLEncoder.encode("vrsta", "UTF-8") + "=" + URLEncoder.encode(vrsta, "UTF-8")+"&"
                         + URLEncoder.encode("avg", "UTF-8") + "=" + URLEncoder.encode(avg, "UTF-8")+"&"
-                + URLEncoder.encode("oprema", "UTF-8") + "=" + URLEncoder.encode(oprema, "UTF-8")+"&"
-                + URLEncoder.encode("tipAkt", "UTF-8") + "=" + URLEncoder.encode(tipAkt, "UTF-8");
+                        + URLEncoder.encode("oprema", "UTF-8") + "=" + URLEncoder.encode(oprema, "UTF-8")+"&"
+                        + URLEncoder.encode("tipAkt", "UTF-8") + "=" + URLEncoder.encode(tipAkt, "UTF-8");
 
             }
             else if(type.equals("obj")){
@@ -203,15 +191,15 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             else if(type.equals("odn")) {
                 post_data = URLEncoder.encode("idPrati", "UTF-8") + "=" + URLEncoder.encode(idPrati, "UTF-8") + "&"
                         + URLEncoder.encode("idPracen", "UTF-8") + "=" + URLEncoder.encode(idPracen, "UTF-8")+"&"
-                + URLEncoder.encode("br", "UTF-8") + "=" + URLEncoder.encode(brprat, "UTF-8")+"&"
-                + URLEncoder.encode("brp", "UTF-8") + "=" + URLEncoder.encode(brpratim, "UTF-8");
+                        + URLEncoder.encode("br", "UTF-8") + "=" + URLEncoder.encode(brprat, "UTF-8")+"&"
+                        + URLEncoder.encode("brp", "UTF-8") + "=" + URLEncoder.encode(brpratim, "UTF-8");
             }
             else if(type.equals("opr")) {
                 post_data = URLEncoder.encode("nick", "UTF-8") + "=" + URLEncoder.encode(nick, "UTF-8") + "&"
                         + URLEncoder.encode("mark", "UTF-8") + "=" + URLEncoder.encode(mark, "UTF-8") + "&"
-                + URLEncoder.encode("mod", "UTF-8") + "=" + URLEncoder.encode(mod, "UTF-8") + "&"
-                + URLEncoder.encode("tip", "UTF-8") + "=" + URLEncoder.encode(tip, "UTF-8")+"&"
-                + URLEncoder.encode("idc", "UTF-8") + "=" + URLEncoder.encode(idc, "UTF-8");
+                        + URLEncoder.encode("mod", "UTF-8") + "=" + URLEncoder.encode(mod, "UTF-8") + "&"
+                        + URLEncoder.encode("tip", "UTF-8") + "=" + URLEncoder.encode(tip, "UTF-8")+"&"
+                        + URLEncoder.encode("idc", "UTF-8") + "=" + URLEncoder.encode(idc, "UTF-8");
             }
             else if(type.equals("uklOp")) {
                 post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
@@ -261,7 +249,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -272,9 +259,6 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     }
     @Override
     protected void onPostExecute(String result) {
-        //alertDialog.setMessage("aha");
-        //alertDialog.show();
-
         Intent intent=new Intent(context.getApplicationContext(),HOME.class);
         if(result.contains("Login Successful..Welcome ")){
             intent.putExtra("EMAIL",email);

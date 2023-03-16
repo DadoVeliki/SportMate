@@ -6,9 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Odnos implements Parcelable {
-    private int id;
-    private int idKojiPrati;
-    private int idPracen;
+    private int id,idKojiPrati,idPracen;
 
     public Odnos(int id, int idKojiPrati, int idPracen) {
         this.id = id;

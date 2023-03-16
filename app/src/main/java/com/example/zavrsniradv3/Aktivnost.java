@@ -11,19 +11,9 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Aktivnost implements Parcelable {
-    private int id;
-    private int idUsera;
-    private String imePrezime;
-    private String datum;
-    private String naslov;
-    private float udaljenost;
-    private int nmv;
-    private String vrijeme;
-    private int brojLajkova;
-    private String vrsta;
-    private float avgBrzina;
-    private String oprema;
-    private String tipAkt;
+    private int id,idUsera,nmv,brojLajkova;
+    private String imePrezime,datum,naslov,vrijeme,vrsta,oprema,tipAkt;
+    private float udaljenost,avgBrzina;
 
     public Aktivnost(int id,int idUsera,String imePrezime, String datum, String naslov, float udaljenost, int nmv, String vrijeme, int brojLajkova,String vrsta,float avgBrzina,String oprema,String tipAkt) {
         this.id=id;

@@ -27,8 +27,7 @@ import org.osmdroid.views.MapView;
 import java.util.ArrayList;
 
 public class Komentari extends AppCompatActivity {
-    public String url="";
-    public String idU="",idAkt="0",idOb="0";
+    public String url="",idU="",idAkt="0",idOb="0";
     public ArrayList<Comment>listKom;
     public ArrayList<Korisnik>lista;
     @Override
@@ -47,7 +46,6 @@ public class Komentari extends AppCompatActivity {
         url=i.getStringExtra("URL");
         idU=i.getStringExtra("idU");
         idAkt=i.getStringExtra("idAkt");
-        Log.d("idAktHF2",idAkt);
         idOb=i.getStringExtra("idOb");
         lista=i.getParcelableArrayListExtra("lista");
 
@@ -83,7 +81,6 @@ public class Komentari extends AppCompatActivity {
                         Log.d("hello",idAkt+"=="+c.getIdAkt());
                         if((c.getIdAkt()==Integer.parseInt(idAkt)) ){
                             for(Korisnik k:lista){
-                                //Log.d("hello",k.getI);
                                 if(k.getId()==c.getIdUsera()){
                                     View com=getLayoutInflater().inflate(R.layout.dizajn_kom,null);
                                     TextView ime=(TextView)com.findViewById(R.id.name);
@@ -99,10 +96,6 @@ public class Komentari extends AppCompatActivity {
                     }
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {

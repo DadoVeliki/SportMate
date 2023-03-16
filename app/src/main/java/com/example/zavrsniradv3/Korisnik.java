@@ -6,15 +6,8 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Korisnik implements Parcelable {
-    int id;
-    String ime;
-    String prezime;
-    String email;
-    String lozinka;
-    int brojPratitelji;
-    int brojPratim;
-    int slika;
-    String opis;
+    int id,brojPratitelji,brojPratim,slika;
+    String ime,prezime,email,lozinka,opis;
 
     public Korisnik(int id, String ime, String prezime, String email, String lozinka,int brojPratitelji,int brojPratim,int slika,String opis) {
         this.id = id;

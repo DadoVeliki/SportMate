@@ -127,7 +127,7 @@ public class ProfileFragment extends Fragment {
         TextView nameProf=(TextView)prof.findViewById(R.id.tv1);
         TextView opis=(TextView)prof.findViewById(R.id.tv2);
 
-        nameProf.setText(this.getArguments().getString("poruka"));
+        nameProf.setText(this.getArguments().getString("ime"));
         opis.setText(this.getArguments().getString("opis"));
 
         TextView st=(TextView) prof.findViewById(R.id.opis2);

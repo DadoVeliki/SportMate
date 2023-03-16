@@ -47,7 +47,6 @@ public class PratiteljiFragment extends Fragment {
                 }
             }
             catch(NumberFormatException n){
-                Log.e("nije broj: ",id+"");
             }
         }
         for(Odnos o:listOd){
@@ -57,7 +56,6 @@ public class PratiteljiFragment extends Fragment {
                 }
             }
             catch(NumberFormatException n){
-                Log.e("nije broj: ",id+"");
             }
         }
         for(Korisnik k:listUs){
@@ -75,7 +73,6 @@ public class PratiteljiFragment extends Fragment {
             Button btn = (Button) us.findViewById(R.id.btn);
 
                 for(Odnos o:listOd) {
-                    Log.d("ispis",o.getIdKojiPrati()+" == "+id+" "+o.getIdPracen()+" == "+pr);
                     if((o.getIdKojiPrati()==Integer.parseInt(id)) && (o.getIdPracen()==pr)){
                         btn.setId(pr);
                         btn.setText("PRATIM");

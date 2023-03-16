@@ -45,18 +45,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class ActivityRecord extends AppCompatActivity{
-    public String url="";
-    private static final int REQUEST_LOCATION = 1;
-    LocationManager locationManager;
-    String latitude, longitude;
+    String e,pa,id,ime,url="",tip="";
     private MapView map;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     MyLocationNewOverlay myLocationOverlay;
-    String e,pa,id,ime;
-    Road road;
-    String userAgent = System.getProperty("http.agent");
     public ArrayList<Oprema>listOp;
-    String tip="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -45,7 +45,6 @@ public class PratimFragment extends Fragment {
                 }
             }
             catch(NumberFormatException n){
-                Log.e("nije broj: ",id+"");
             }
         }
         for(Korisnik k:listUs){
@@ -72,7 +71,6 @@ public class PratimFragment extends Fragment {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("INDEX: ", btn.getContentDescription() + "");
                     int con = Integer.parseInt(btn.getContentDescription().toString());
                     if (con == 0) {
                         zaprati(btn);

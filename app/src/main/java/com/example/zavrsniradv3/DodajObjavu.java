@@ -37,19 +37,14 @@ public class DodajObjavu extends AppCompatActivity {
         TextInputEditText naslov=(TextInputEditText) findViewById(R.id.naslov);
         TextInputEditText opis=(TextInputEditText) findViewById(R.id.tekst);
         TextInputEditText link=(TextInputEditText) findViewById(R.id.link);
-        //TextInputEditText elev=(TextInputEditText) findViewById(R.id.elev);
-        //TextInputEditText datum=findViewById(R.id.datum);
 
         String nas=naslov.getText().toString();
         String op=opis.getText().toString();
         String li=link.getText().toString();
-        //String nmv=elev.getText().toString();
-        //String dat=datum.getText().toString();
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
         String dat= formatter.format(date).toString();
-        // String url = "http://192.168.0.187:80/unosAktivnosti.php";
         String locurl=url+"zav/unosObjave.php";
         String type = "obj";
         BackgroundWorker backgroundWorker = new BackgroundWorker(DodajObjavu.this,4);

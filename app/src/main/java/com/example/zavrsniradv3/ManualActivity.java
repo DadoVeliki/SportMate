@@ -37,13 +37,9 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class ManualActivity extends AppCompatActivity {
-    public String url="";
-    public String tip="";
-    public String selOp="";
-    public String idU="";
+    public String url="",tip="",selOp="",idU="",tipAkt="";
     public ArrayList<Oprema>listaOpreme;
     public ArrayList<String>pop;
-    public String tipAkt="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,11 +162,8 @@ public class ManualActivity extends AppCompatActivity {
                             pop.clear();
                             pop.add("Oprema:");
                             for(Oprema o:listaOpreme){
-                                Log.d("idcije: ",idU);
                                 idU=i.getStringExtra("id");
-                                Log.d("idjevi",o.getIdCije()+" "+idU);
                                 if(o.getIdCije()==Integer.parseInt(idU)){
-                                    Log.d("idjevi",o.getTip()+" == "+tip);
                                     if(o.getTip().equals(tip)){
                                         pop.add(o.getNadimak());
                                         adapter2.notifyDataSetChanged();
@@ -183,22 +176,8 @@ public class ManualActivity extends AppCompatActivity {
                         }
 
                     });
-
-
-                    /*pop.add("Oprema:");
-                    for(Oprema o:listaOpreme){
-                        if(o.getIdCije()==Integer.parseInt(idU)){
-                                pop.add(o.getNadimak());
-
-                        }
-                    }*/
-
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -236,8 +215,7 @@ public class ManualActivity extends AppCompatActivity {
     public void kreirajAktivnost(View view){
 
         Intent intent=getIntent();
-        String id=intent.getStringExtra("id");
-        String ime=intent.getStringExtra("ime");
+        String id=intent.getStringExtra("id"),ime=intent.getStringExtra("ime");
         url=intent.getStringExtra("URL");
         TextInputEditText naslov=(TextInputEditText) findViewById(R.id.naslov);
         TextView vrijeme=(TextView) findViewById(R.id.vrijeme);
@@ -245,17 +223,10 @@ public class ManualActivity extends AppCompatActivity {
         TextInputEditText elev=(TextInputEditText) findViewById(R.id.elev);
         TextView datum=(TextView) findViewById(R.id.datum);
 
-        String nas=naslov.getText().toString();
-        String vri=vrijeme.getText().toString();
-        String dist=udaljenost.getText().toString();
-        String nmv=elev.getText().toString();
-        String dat=datum.getText().toString();
-       // String url = "http://192.168.0.187:80/unosAktivnosti.php";
-        String locurl=url+"zav/unosAktivnosti.php";
-        String type = "act";
+        String nas=naslov.getText().toString(),vri=vrijeme.getText().toString(),dist=udaljenost.getText().toString(),nmv=elev.getText().toString(),dat=datum.getText().toString();
+        String locurl=url+"zav/unosAktivnosti.php",type = "act",vrsta="man",oprema=selOp;
+
         BackgroundWorker backgroundWorker = new BackgroundWorker(ManualActivity.this,3);
-        String vrsta="man";
-        String oprema=selOp;
         TextView prazno=(TextView) findViewById(R.id.prazno);
         if(nas.equals("") || vri.equals("") || dist.equals("") || nmv.equals("") || dat.equals("") || oprema.equals("") || tipAkt.equals("")){
             prazno.setText("Potrebno ispuniti sva polja!");

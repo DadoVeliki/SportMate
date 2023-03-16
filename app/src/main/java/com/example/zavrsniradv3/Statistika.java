@@ -25,11 +25,7 @@ import java.util.ArrayList;
 public class Statistika extends AppCompatActivity {
     public ArrayList<Aktivnost>listAkt;
     public ArrayList<Aktivnost> listMojiAkt;
-    public String url="";
-    public String id="";
-    float prosjekAktJa=0;
-    float prosjekUdaljJa=0;
-    float prosjekEleveJa=0;
+    public String url="",id="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,10 +129,6 @@ public class Statistika extends AppCompatActivity {
                     najElev.setText(najveciElev+" m");
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {

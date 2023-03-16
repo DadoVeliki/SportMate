@@ -46,41 +46,20 @@ import javax.xml.datatype.Duration;
 
 public class SportTracking extends AppCompatActivity {
 
-    public String url="";
+    public String url="",latitude, longitude,krajnje="",tip="",oprema="";
     private static final int REQUEST_LOCATION = 1;
-    Button btnGetLocation;
-    TextView showLocation;
     LocationManager locationManager;
-    String latitude, longitude;
-    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    MyLocationNewOverlay myLocationOverlay;
-    double udaljenost=0;
-    double elevation=0;
-    double pocLat=0;
-    double pocLong=0;
-    double pocElev=0;
-    String e,pa;
-
+    double udaljenost=0,elevation=0,pocLat=0,pocLong=0,pocElev=0,minuteUk=0,avg;
+    int idAkt,brojcek;
     Timer timer;
     TimerTask timerTask;
     Double vrijeme = 0.0;
-    boolean timerStarted = false;
-
-    Boolean pokrenuto=false;
+    boolean timerStarted = false,proslo=false,pokrenuto=false;
     Runnable run;
     final Handler h = new Handler();
-    boolean proslo=false;
-    double minuteUk=0;
-    String krajnje="";
-    int idAkt;
     public ArrayList<Rute>listRut;
-    double avg;
     public ArrayList<Oprema>listaOpreme;
     public ArrayList<String>pop;
-    String tip="";
-    //String selOp="";
-    String oprema="";
-    int brojcek=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,10 +85,6 @@ public class SportTracking extends AppCompatActivity {
                     }
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -162,7 +137,6 @@ public class SportTracking extends AppCompatActivity {
                     double c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
                     double d=r*c;
                     udaljenost+=d;
-                    //udaljenost/=1000f;
                     TextView udalj=(TextView) findViewById(R.id.udaljenost);
                     TextView elev=(TextView) findViewById(R.id.uzvisina);
                     TextView prosj=(TextView) findViewById(R.id.prosjek);
@@ -170,15 +144,11 @@ public class SportTracking extends AppCompatActivity {
                         double rezultat=alt-pocElev;
                         elevation+=rezultat;
                     }
-                    Log.d("udaljenost prije: ",udaljenost+"");
-                    Log.d("udaljenost poslije: ",udaljenost+"");
                     udalj.setText(String.format("%.2f", udaljenost/1000f));
                     elev.setText(String.format("%.0f",elevation));
 
                     avg=(udaljenost)/(minuteUk*60);
-                    //Log.d("avg;",String.format("%.2f", udaljenost)+"km"+String.format("%.5f", avg)+"km/h");
                     prosj.setText(String.format("%.2f", avg*3.6f));
-                    //t2.setText("Udaljenost: "+udaljenost+" Elevacija: "+elevation+" m");
                     if(brojcek==5){
                         listRut.add(new Rute(idAkt,pocLat,pocLong,lat,longi));
                         brojcek=0;
@@ -245,7 +215,6 @@ public class SportTracking extends AppCompatActivity {
 
         }*/
         TextView vrem=(TextView)findViewById(R.id.vrijeme);
-        Log.d("vrijemeee: ",vrem.getText().toString());
         pokrenuto=!pokrenuto;
         if(pokrenuto==false){
             MaterialButton btn=(MaterialButton)findViewById(R.id.finish);
@@ -270,15 +239,11 @@ public class SportTracking extends AppCompatActivity {
         String locurl=url+"zav/unosAktivnosti.php";
         String type = "act";
 
-        //String nas="voznja";
-        //String dist=String.format("%.2f", udaljenost/1000f);
         String nmv=elevation+"";
-
         String idU=i.getStringExtra("id");
         String ime=i.getStringExtra("ime");
         String dat=i.getStringExtra("dat");
         String vrsta="dyn";
-        //String oprema="";
         StringRequest request5 = new StringRequest(url+"zav/dohvatiOpremu.php", new Response.Listener<String>() {
             @Override
             public void onResponse(String response5) {
@@ -297,10 +262,6 @@ public class SportTracking extends AppCompatActivity {
                     pop.clear();
                     pop.add("Oprema:");
                     for(Oprema o:listaOpreme){
-                        Log.d("idcije: ",idU);
-                        Log.d("idcije o ",o.getIdCije()+"");
-                        Log.d("tip",tip);
-                        //idU=i.getStringExtra("id");
                         if(o.getIdCije()==Integer.parseInt(idU)){
                             if((o.getTip().equals("Tenisice") && tip.equals("Trčanje")) || (o.getTip().equals("Bicikl") && tip.equals("Biciklizam"))){
                                 pop.add(o.getNadimak());
@@ -337,26 +298,18 @@ public class SportTracking extends AppCompatActivity {
                         public void onClick(View view) {
                             TextView naslov=(TextView)dizajn.findViewById(R.id.naslov);
                             String nas=naslov.getText().toString();
-                            //String av=String.format("%.2f", avg*3.6f);
                             double pro=avg*3.6f;
                             double ud=udaljenost/1000f;
                             BackgroundWorker backgroundWorker = new BackgroundWorker(SportTracking.this,3);
-                            //oprema="";
                             DecimalFormat form = new DecimalFormat("0.00");
-                            //String av=form.format(pro);
-                            //String dist=form.format(ud);
                             BigDecimal o1= new BigDecimal(pro).setScale(2, RoundingMode.HALF_EVEN);
                             BigDecimal o2= new BigDecimal(ud).setScale(2, RoundingMode.HALF_EVEN);
                             backgroundWorker.execute(locurl,type,nas,krajnje,o2+"",nmv,dat,idU,ime,vrsta,o1+"",oprema,tip);
 
-                          //  Log.d("akt: ",locurl+" "+type+" "+nas+" "+krajnje+" "+dist+" "+nmv+" "+dat+" "+idU+" "+ime+" "+vrsta+" "+av+" "+oprema);
                             for(Rute r:listRut){
                                 Log.d("rute: ",r.getIdAkt()+"");
                                 String locUrl2=url+"zav/unosKoord.php";
                                 String type2 = "rut";
-                                //String idAkt="";
-                                //String start="";
-                                //String end="";
                                 BackgroundWorker backgroundWorker2 = new BackgroundWorker(SportTracking.this,9);
                                 backgroundWorker2.execute(locUrl2,type2,idAkt+"",r.getStartLat()+"",r.getStartLong()+"",r.getEndLat()+"",r.getEndLong()+"");
                             }
@@ -365,10 +318,6 @@ public class SportTracking extends AppCompatActivity {
                     });
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -413,8 +362,6 @@ public class SportTracking extends AppCompatActivity {
                         TextView vrem=(TextView)findViewById(R.id.vrijeme);
                         vrem.setText(getTimerText());
                         krajnje=getTimerText();
-                        Log.d("krajnje: ",krajnje);
-                        Log.d("timer",vrijeme+"");
                     }
                 });
             }
@@ -439,7 +386,6 @@ public class SportTracking extends AppCompatActivity {
         //int noOfMinutes = minutes<=0 ? 0 : minutes* 60 * 1000;
         double noOfSeconds = seconds<=0 ? 0 : seconds / 60;
         minuteUk=noOfHours+minutes+noOfSeconds;
-        Log.d("minuteUk",minuteUk+"");
         int h=Integer.parseInt(Math.round(hours)+"");
         int m=Integer.parseInt(Math.round(minutes)+"");
         int s=Integer.parseInt(Math.round(seconds)+"");

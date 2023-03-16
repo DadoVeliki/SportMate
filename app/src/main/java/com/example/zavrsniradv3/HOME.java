@@ -40,13 +40,9 @@ public class HOME extends AppCompatActivity {
     public ArrayList<Odnos>listaOdnosa;
     public ArrayList<Oprema>listaOpreme;
     public ArrayList<Rute>listRut;
-    public String naziv="";
-    public String opis="";
-    public String idUsera="";
+    public String naziv="",opis="",idUsera="",url="",e,pa;
     public float oveGodine;
-    public int brojObjava=0;
-    public int brojAktivnosti=0;
-    public String zadnji="";
+    public int brojObjava=0,brojAktivnosti=0,brojPratitelja=0,brojPratim=0;
     public ArrayList<Aktivnost> getAkt() {
         return listaAktivnosti;
     }
@@ -55,11 +51,7 @@ public class HOME extends AppCompatActivity {
     public ArrayList<Odnos>getOd(){return listaOdnosa;}
     public ArrayList<Oprema>getOp(){return listaOpreme;}
     public ArrayList<Rute>getRut(){return listRut;}
-    public String url="";
-    public String e;
-    public int brojPratitelja=0;
-    public int brojPratim=0;
-     int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16,};
+    int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16,};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,21 +61,18 @@ public class HOME extends AppCompatActivity {
         Intent i=getIntent();
         url=i.getStringExtra("URL");
         e=i.getStringExtra("EMAIL");
-        Log.d("email3",e);
-
-        String pa=i.getStringExtra("PASSWORD");
+        pa=i.getStringExtra("PASSWORD");
         lista=new ArrayList<Korisnik>();
         listaAktivnosti=new ArrayList<Aktivnost>();
         listaObjava=new ArrayList<ObjavaC>();
         listaOdnosa=new ArrayList<Odnos>();
         listaOpreme=new ArrayList<>();
         listRut=new ArrayList<Rute>();
-        //replaceFragment(new HomeFragment());
         BottomNavigationView bnv=(BottomNavigationView) findViewById(R.id.bottomNavigationView);
         bnv.setOnItemSelectedListener(item ->{
             switch (item.getItemId()){
                 case R.id.home:
-                    sendList();
+                    sendList(new HomeFragment());
                     //replaceFragment(new HomeFragment());
                     break;
                 case R.id.record:
@@ -101,6 +90,9 @@ public class HOME extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.profile:
+                    /*Thread thread = new Thread(new Runnable(){
+                        @Override
+                        public void run(){
                     Bundle bundle=new Bundle();
                     bundle.putParcelableArrayList("listaKor",lista);
                     bundle.putParcelableArrayList("lista",listaAktivnosti);
@@ -120,6 +112,10 @@ public class HOME extends AppCompatActivity {
                     ProfileFragment p=new ProfileFragment();
                     p.setArguments(bundle);
                     replaceFragment(p);
+                        }
+                    });
+                    thread.start();*/
+                    sendList(new ProfileFragment());
                     break;
             }
             return true;
@@ -171,10 +167,6 @@ public class HOME extends AppCompatActivity {
         }
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -183,9 +175,8 @@ public class HOME extends AppCompatActivity {
             }
         });
         Volley.newRequestQueue(HOME.this).add(request);
-            }
-        });
-        thread.start();
+
+
         //dohvaćanje svih aktivnosti
         StringRequest request2 = new StringRequest(url+"zav/dohvatiSveAktivnosti.php", new Response.Listener<String>() {
             @Override
@@ -209,20 +200,8 @@ public class HOME extends AppCompatActivity {
                                 object.getString("oprema"),
                                 object.getString("tipAkt")));
                     }
-                    //sendList();
-                    /*for(Aktivnost a:listaAktivnosti){
-                        if(a.getIdUsera()==Integer.parseInt(idUsera)){
-                            oveGodine+=a.getUdaljenost();
-                            brojAktivnosti++;
-                        }
-
-                    }*/
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -230,8 +209,81 @@ public class HOME extends AppCompatActivity {
             public void onErrorResponse(VolleyError error2) {
             }
         });
-        Volley.newRequestQueue(this).add(request2);
+        Volley.newRequestQueue(HOME.this).add(request2);
+         //   }
+       // });
+              /*  StringRequest request = new StringRequest(url+"zav/getAll.php", new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            //Log.d("response",response);
+                            JSONArray array = new JSONArray(response);
+                            JSONObject arr=new JSONObject(response);
+                            Log.d("useri",arr+"");
+                            Log.d("useri","aaa");
+                            for (int loop = 0; loop < array.length(); loop++) {
+                                JSONObject object = array.getJSONObject(loop);
+                                lista.add(new Korisnik(object.getInt("id"),
+                                        object.getString("ime"),
+                                        object.getString("prezime"),
+                                        object.getString("email"),
+                                        object.getString("lozinka"),
+                                        object.getInt("brojPratitelji"),
+                                        object.getInt("brojPratim"),
+                                        object.getInt("slika"),
+                                        object.getString("opis")));
+                            }
+                            Intent in=getIntent();
+                            String e=in.getStringExtra("EMAIL");
+                            //Log.d("email: ",e);
+                            for (Korisnik k:lista) {
+                                Log.d("useri",k.getId()+ " "+k.getIme()+" "+k.getPrezime());
+                                if(k.getEmail().equals(e)){
+                                    brojPratitelja=k.getBrojPratitelji();
+                                    brojPratim=k.getBrojPratim();
+                                    naziv=k.getIme()+" "+k.getPrezime();
+                                    opis=k.getOpis();
+                                    idUsera=""+k.getId();
+                                    //Log.d("idUsera: ",idUsera);
+                                    break;
+                                }
+                            }
 
+                            for (int loop = 0; loop < array.length(); loop++) {
+                                JSONObject object = array.getJSONObject(loop);
+                                listaAktivnosti.add(new Aktivnost(
+                                        object.getInt("id"),
+                                        object.getInt("idUsera"),
+                                        object.getString("ime"),
+                                        object.getString("datum"),
+                                        object.getString("naslov"),
+                                        Float.parseFloat(object.getString("udaljenost")),
+                                        object.getInt("nadmorskaVisina"),
+                                        object.getString("vrijeme"),
+                                        object.getInt("brojLajkova"),
+                                        object.getString("vrsta"),
+                                        Float.parseFloat(object.getString("avgBrzina")),
+                                        object.getString("oprema"),
+                                        object.getString("tipAkt")));
+                            }
+
+                        }
+                        catch (Exception e) {
+                            AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
+                            alertDialog.setTitle("Greška");
+                            alertDialog.setMessage(""+e.getMessage());
+                            //alertDialog.show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+                Volley.newRequestQueue(HOME.this).add(request);*/
+          //  }
+        //});
+        //thread.start();
         //dohvaćanje svih objava
         StringRequest request3 = new StringRequest(url+"zav/dohvatiSveObjave.php", new Response.Listener<String>() {
             @Override
@@ -258,10 +310,6 @@ public class HOME extends AppCompatActivity {
                     }*/
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -269,7 +317,7 @@ public class HOME extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         });
-        Volley.newRequestQueue(this).add(request3);
+        Volley.newRequestQueue(HOME.this).add(request3);
 
         //dohvaćanje svih odnosa
         StringRequest request4 = new StringRequest(url+"zav/dohvatiSveOdnose.php", new Response.Listener<String>() {
@@ -287,10 +335,6 @@ public class HOME extends AppCompatActivity {
                    // sendList();
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -298,7 +342,7 @@ public class HOME extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         });
-        Volley.newRequestQueue(this).add(request4);
+        Volley.newRequestQueue(HOME.this).add(request4);
 
 //dohvaćanje sve opreme
         StringRequest request5 = new StringRequest(url+"zav/dohvatiOpremu.php", new Response.Listener<String>() {
@@ -316,14 +360,10 @@ public class HOME extends AppCompatActivity {
                                 object.getString("tip"),
                                 object.getInt("idCije")));
                     }
-                    sendList();
+
 
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -331,7 +371,7 @@ public class HOME extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         });
-        Volley.newRequestQueue(this).add(request5);
+        Volley.newRequestQueue(HOME.this).add(request5);
 
         //dohvati rute
         StringRequest request6 = new StringRequest(url+"zav/dohvatiKoord.php", new Response.Listener<String>() {
@@ -347,18 +387,9 @@ public class HOME extends AppCompatActivity {
                                 object.getDouble("endLat"),
                                 object.getDouble("endLong")));
                     }
-                    for(Rute r:listRut){
-                                Log.d("aha",r.getIdAkt()+"");
-                            }
-
-
-
+                    sendList(new HomeFragment());
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(HOME.this).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -366,9 +397,11 @@ public class HOME extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
             }
         });
-        Volley.newRequestQueue(this).add(request6);
-
-
+        Volley.newRequestQueue(HOME.this).add(request6);
+            }
+        });
+        thread.start();
+        //sendList();
 
     }
     private void replaceFragment(Fragment fragment){
@@ -377,7 +410,10 @@ public class HOME extends AppCompatActivity {
         fT.replace(R.id.frame1,fragment);
         fT.commit();
     }
-    public void sendList(){
+    public void sendList(Fragment f){
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run(){
         Bundle bundle1=new Bundle();
         bundle1.putParcelableArrayList("listaKor",lista);
         bundle1.putParcelableArrayList("lista",listaAktivnosti);
@@ -393,10 +429,14 @@ public class HOME extends AppCompatActivity {
         bundle1.putString("opis",opis);
         bundle1.putString("URL",url);
         bundle1.putString("email",e);
+        bundle1.putInt("brojPratitelja",brojPratitelja);
         bundle1.putInt("brojPratim",brojPratim);
         bundle1.putIntArray("images",images);
-        HomeFragment h=new HomeFragment();
-        h.setArguments(bundle1);
-        replaceFragment(h);
+        //HomeFragment h=new HomeFragment();
+        f.setArguments(bundle1);
+        replaceFragment(f);
+            }
+        });
+        thread.start();
     }
 }

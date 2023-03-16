@@ -11,12 +11,17 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="-50dp"
         android:layout_marginBottom="7dp"
         android:gravity="center"
-        android:text=""
-        android:textColor="@color/white"
-        android:textSize="30sp"
+        android:shadowColor="#000000"
+        android:shadowDx="12"
+        android:shadowDy="12"
+        android:shadowRadius="50"
+        android:text="SportMate"
+        android:textColor="#FF5722"
+        android:textSize="50sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,13 +42,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/eEmail"
-            android:alpha="0.5"
-            android:textColor="@color/black"
-            android:textColorHint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:alpha="0.5"
             android:hint="Vaš Email"
-            android:maxLength="50" />
+            android:maxLength="50"
+            android:textColor="@color/black"
+            android:textColorHint="@color/white" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -81,6 +86,8 @@
         android:background="@drawable/roundbtn"
         android:onClick="login"
         android:text="PrijavI SE"
+        android:textStyle="bold"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

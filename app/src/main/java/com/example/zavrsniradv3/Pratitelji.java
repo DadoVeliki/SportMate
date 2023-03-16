@@ -17,11 +17,9 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 
 public class Pratitelji extends AppCompatActivity {
-    public String url="";
-    public String id="";
+    public String url="",id="";
     public ArrayList<Korisnik>listUs;
     public ArrayList<Odnos>listOd;
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     int[]images;
@@ -61,7 +59,6 @@ public class Pratitelji extends AppCompatActivity {
         PratiteljiFragment p=new PratiteljiFragment();
         p.setArguments(bundle);
 
-
         Bundle bundle1=new Bundle();
         bundle1.putString("id",id);
         bundle1.putString("URL",url);
@@ -81,7 +78,6 @@ public class Pratitelji extends AppCompatActivity {
             vpAdapter.addFragment(p,"PRATITELJI");
 
         }
-
         viewPager.setAdapter(vpAdapter);
     }
 }

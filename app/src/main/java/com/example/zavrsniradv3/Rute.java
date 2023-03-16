@@ -7,10 +7,7 @@ import androidx.annotation.NonNull;
 
 public class Rute implements Parcelable {
     public int idAkt;
-    public double startLat;
-    public double startLong;
-    public double endLat;
-    public double endLong;
+    public double startLat,startLong,endLat,endLong;
 
     public Rute(int idAkt,double startLat, double startLong, double endLat, double endLong) {
         this.idAkt=idAkt;

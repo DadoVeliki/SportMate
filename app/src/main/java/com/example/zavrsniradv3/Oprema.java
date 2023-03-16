@@ -6,12 +6,8 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Oprema implements Parcelable {
-    private int id;
-    private String nadimak;
-    private String marka;
-    private String model;
-    private String tip;
-    private int idCije;
+    private int id,idCije;
+    private String nadimak,marka,model,tip;
 
     public Oprema(int id, String nadimak, String marka, String model, String tip,int idCije) {
         this.id = id;

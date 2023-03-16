@@ -31,8 +31,7 @@ import org.osmdroid.views.MapView;
 import java.util.ArrayList;
 
 public class PopisOpreme extends AppCompatActivity {
-    public String url="";
-    String tip="",id;
+    public String url="",tip="",id;
     public ArrayList<Oprema>listaOpreme;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,6 @@ public class PopisOpreme extends AppCompatActivity {
         url=intent.getStringExtra("URL");
         id=intent.getStringExtra("id");
         listaOpreme=new ArrayList<>();
-        //ArrayList<Oprema>listaOpreme=intent.getParcelableArrayListExtra("listOp");
         String id=intent.getStringExtra("id");
         LinearLayout l=(LinearLayout) findViewById(R.id.linearBikes);
 
@@ -103,10 +101,6 @@ public class PopisOpreme extends AppCompatActivity {
 
                 }
                 catch (Exception e) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                    alertDialog.setTitle("Greška");
-                    alertDialog.setMessage(""+e.getMessage());
-                    //alertDialog.show();
                 }
             }
         }, new Response.ErrorListener() {
