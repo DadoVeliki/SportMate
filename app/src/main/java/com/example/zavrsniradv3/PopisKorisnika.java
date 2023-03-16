@@ -119,7 +119,7 @@ public class PopisKorisnika extends AppCompatActivity {
                                     } else {
                                         btn.setText("PRATI");
                                         btn.setTextColor(Color.WHITE);
-                                        btn.setBackgroundColor(Color.parseColor("#FF5722"));
+                                        btn.setBackgroundColor(Color.parseColor("#0081C9"));
                                         btn.setContentDescription("" + 0);
                                         pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) - 1);
                                         String idOsoba = btn.getId() + "";
@@ -218,7 +218,7 @@ public class PopisKorisnika extends AppCompatActivity {
     public void zaprati(Button btn){
         btn.setText("PRATIM");
         btn.setBackgroundColor(Color.WHITE);
-        btn.setTextColor(Color.parseColor("#FF5722"));
+        btn.setTextColor(Color.parseColor("#0081C9"));
         btn.setContentDescription(""+1);
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/white"
-    android:layout_height="520dp">
+    android:layout_height="650dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_200"
+                android:background="#86E5FF"
                 android:id="@+id/ime"
                 android:maxLength="15"
                 android:hint="Ime (max. 15 znakova)" />
@@ -49,7 +49,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_200"
+                android:background="#86E5FF"
                 android:id="@+id/prezime"
                 android:maxLength="15"
                 android:hint="Prezime (max. 15 znakova)" />
@@ -91,7 +91,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_200"
+                android:background="#86E5FF"
                 android:maxLength="20"
                 android:id="@+id/bio"
                 android:hint="Info o tebi (max. 20 znakova)" />
@@ -104,7 +104,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_200"
+                android:background="#86E5FF"
                 android:id="@+id/email"
                 android:hint="Email" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -116,7 +116,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_200"
+                android:background="#86E5FF"
                 android:id="@+id/lozinka"
                 android:inputType="textPassword"
                 android:hint="Lozinka" />

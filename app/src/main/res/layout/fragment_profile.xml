@@ -109,7 +109,7 @@
                     android:layout_height="35dp"
                     android:gravity="center"
                     android:text="Aktivnosti"
-                    android:textColor="#FF5722"
+                    android:textColor="#0081C9"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -135,7 +135,7 @@
                     android:layout_height="35dp"
                     android:gravity="center"
                     android:text="Pratitelji"
-                    android:textColor="#FF5722"
+                    android:textColor="#0081C9"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -160,7 +160,7 @@
                     android:layout_height="35dp"
                     android:gravity="center"
                     android:text="Pratim"
-                    android:textColor="#FF5722"
+                    android:textColor="#0081C9"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>

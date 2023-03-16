@@ -57,14 +57,14 @@
                     android:id="@+id/naslov"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/teal_200"
+                    android:background="#86E5FF"
                     android:hint="Naslov aktivnosti" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Spinner
                 android:id="@+id/spinnerTip"
-                android:background="@color/teal_200"
+                android:background="#86E5FF"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
@@ -75,11 +75,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout1" />
 
+            <Spinner
+                android:id="@+id/spinOprema"
+                android:background="#86E5FF"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="230dp"
+                android:paddingLeft="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="10dp" />
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:layout_marginTop="220dp"
+                android:layout_marginTop="290dp"
                 android:padding="10dp"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -91,7 +102,7 @@
                     android:paddingLeft="15dp"
                     android:textSize="18sp"
                     android:paddingTop="12dp"
-                    android:background="@color/teal_200"
+                    android:background="#86E5FF"
                     android:hint="Datum i vrijeme" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -100,7 +111,7 @@
                 android:id="@+id/textInputLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:layout_marginTop="290dp"
+                android:layout_marginTop="360dp"
                 android:padding="10dp"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -112,7 +123,8 @@
                     android:paddingLeft="15dp"
                     android:textSize="18sp"
                     android:paddingTop="12dp"
-                    android:background="@color/teal_200"
+                    android:textColor="@color/black"
+                    android:background="#86E5FF"
                     android:hint="Trajanje" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -121,7 +133,7 @@
                 android:id="@+id/textInputLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:layout_marginTop="360dp"
+                android:layout_marginTop="430dp"
                 android:padding="10dp"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -129,8 +141,8 @@
                     android:id="@+id/udalj"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/teal_200"
-
+                    android:background="#86E5FF"
+                    android:inputType="numberDecimal"
                     android:hint="Udaljenost" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -139,7 +151,7 @@
                 android:id="@+id/textInputLayout6"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
-                android:layout_marginTop="430dp"
+                android:layout_marginTop="500dp"
                 android:padding="10dp"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -147,36 +159,26 @@
                     android:id="@+id/elev"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/teal_200"
+                    android:background="#86E5FF"
+                    android:inputType="number"
                     android:hint="Povećanje nadmorske visine" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/spinOprema"
-                android:background="@color/teal_200"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="510dp"
-                android:paddingLeft="10dp"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="10dp" />
 
             <TextView
                 android:id="@+id/prazno"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textColor="#ff0000"
-                app:layout_constraintTop_toBottomOf="@+id/spinOprema" />
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout6" />
+
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="600dp"
                 android:text="SPREMI"
+                android:backgroundTint="#FF5722"
                 android:onClick="kreirajAktivnost"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

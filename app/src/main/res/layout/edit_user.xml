@@ -28,7 +28,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_200"
+                android:background="#86E5FF"
                 android:id="@+id/ime"
                 android:maxLength="15"
                 android:hint="Ime (max. 15 znakova)" />
@@ -41,7 +41,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_200"
+                android:background="#86E5FF"
                 android:id="@+id/prezime"
                 android:maxLength="15"
                 android:hint="Prezime (max. 15 znakova)" />
@@ -54,7 +54,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/teal_200"
+                android:background="#86E5FF"
                 android:id="@+id/bio"
                 android:maxLength="15"
                 android:hint="Info o tebi (max. 20 znakova)" />

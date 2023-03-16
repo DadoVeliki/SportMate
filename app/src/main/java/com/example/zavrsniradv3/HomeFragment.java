@@ -313,6 +313,7 @@ public class HomeFragment extends Fragment {
                         intent.putExtra("idAkt",a.getId()+"");
                         intent.putExtra("URL",url);
                         intent.putExtra("lista",listUs);
+                        intent.putExtra("images",images);
                         startActivity(intent);
                         break;
                 }
@@ -412,6 +413,7 @@ public class HomeFragment extends Fragment {
                         intent.putExtra("idAkt","0");
                         intent.putExtra("URL",url);
                         intent.putExtra("lista",listUs);
+                        intent.putExtra("images",images);
                         startActivity(intent);
                         break;
                 }

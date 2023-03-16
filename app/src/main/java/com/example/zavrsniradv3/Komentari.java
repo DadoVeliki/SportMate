@@ -26,10 +26,13 @@ import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Komentari extends AppCompatActivity {
     public String url="",idU="",idAkt="0",idOb="0";
     public ArrayList<Comment>listKom;
     public ArrayList<Korisnik>lista;
+    int[]images;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +51,7 @@ public class Komentari extends AppCompatActivity {
         idAkt=i.getStringExtra("idAkt");
         idOb=i.getStringExtra("idOb");
         lista=i.getParcelableArrayListExtra("lista");
-
+        images=i.getIntArrayExtra("images");
         ImageView obKom=(ImageView)findViewById(R.id.obKom);
         obKom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,9 +88,11 @@ public class Komentari extends AppCompatActivity {
                                     View com=getLayoutInflater().inflate(R.layout.dizajn_kom,null);
                                     TextView ime=(TextView)com.findViewById(R.id.name);
                                     TextView tekst=(TextView)com.findViewById(R.id.tekst);
+                                    CircleImageView profimg=(CircleImageView)com.findViewById(R.id.profile_image);
 
                                     ime.setText(k.getIme()+" "+k.getPrezime());
                                     tekst.setText(c.getTekst());
+                                    profimg.setImageResource(images[lista.get(c.getIdUsera()-1).getSlika()]);
                                     LinearLayout p=(LinearLayout)com.findViewById(R.id.parent);
                                     l.addView(p);
                                 }

@@ -263,9 +263,9 @@ public class ProfileFragment extends Fragment {
                         entries.add(new Entry(i,listMojiAkt.get(9-i).getUdaljenost()));
                     }
                     LineDataSet dataSet = new LineDataSet(entries, ""); // add entries to dataset
-                    dataSet.setColor(Color.parseColor("#FF5722"));
-                    dataSet.setValueTextColor(Color.parseColor("#FF5722"));
-                    dataSet.setCircleColor(Color.parseColor("#FF5722"));
+                    dataSet.setColor(Color.parseColor("#5BC0F8"));
+                    dataSet.setValueTextColor(Color.parseColor("#0081C9"));
+                    dataSet.setCircleColor(Color.parseColor("#5BC0F8"));
                     dataSet.setLineWidth(5.0f);
                     dataSet.setCircleRadius(5.0f);
                     dataSet.setValueTextSize(15.0f);
@@ -433,6 +433,7 @@ public class ProfileFragment extends Fragment {
                 intent.putExtra("id",id);
                 intent.putExtra("URL",url);
                 intent.putExtra("images",images);
+                intent.putParcelableArrayListExtra("listaOdnosa",listOd);
                 startActivity(intent);
             }
         });

@@ -55,7 +55,7 @@
             android:id="@+id/naslov"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal_200"
+            android:background="#86E5FF"
             android:hint="Naslov objave" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -75,7 +75,7 @@
             android:maxLength="250"
             android:gravity="top"
             android:layout_height="match_parent"
-            android:background="@color/teal_200"
+            android:background="#86E5FF"
             android:hint="Kaj te muči Njofra?" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -92,7 +92,7 @@
             android:id="@+id/link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/teal_200"
+            android:background="#86E5FF"
             android:hint="Poveznica npr: youtube.com" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -110,6 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="450dp"
         android:onClick="kreirajObjavu"
+        android:backgroundTint="#FF5722"
         android:text="OBJAVI"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

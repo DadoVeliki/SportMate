@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.ZavrsniRad" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">#FF5722</item>
-        <item name="colorPrimaryVariant">#D24A1F</item>
+        <item name="colorPrimary">#0081C9</item>
+        <item name="colorPrimaryVariant">#005585</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
