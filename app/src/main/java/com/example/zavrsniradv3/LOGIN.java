@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
@@ -84,7 +85,7 @@ public class LOGIN extends AppCompatActivity {
 
         builder.setView(izgled);
         builder.show();
-        Button btnReg=(Button)izgled.findViewById(R.id.button2);
+        MaterialButton btnReg=(MaterialButton)izgled.findViewById(R.id.button2);
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

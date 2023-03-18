@@ -14,9 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
-
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
@@ -121,10 +118,11 @@
                 android:inputType="textPassword"
                 android:hint="Lozinka" />
         </com.google.android.material.textfield.TextInputLayout>
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button2"
             android:layout_gravity="center"
             android:layout_width="300dp"
+            app:cornerRadius="10dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#FF5722"
             android:text="REGISTRIRAJ SE" />
