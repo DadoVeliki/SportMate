@@ -1,27 +1,20 @@
 package com.example.zavrsniradv3;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
-
 import com.google.android.material.tabs.TabLayout;
-
 import java.util.ArrayList;
 
 public class Pratitelji extends AppCompatActivity {
     public String url="",id="";
     public ArrayList<Korisnik>listUs;
     public ArrayList<Odnos>listOd;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    public TabLayout tabLayout;
+    public ViewPager viewPager;
     int[]images;
     int br2,prvo;
     @Override
@@ -29,12 +22,7 @@ public class Pratitelji extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pratitelji);
         ImageView img=(ImageView) findViewById(R.id.backAkt);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        img.setOnClickListener(view -> finish());
         Intent i=getIntent();
         prvo=i.getIntExtra("prvo",0);
         br2=i.getIntExtra("br2",0);

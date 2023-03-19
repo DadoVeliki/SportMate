@@ -1,22 +1,10 @@
 package com.example.zavrsniradv3;
 
-import android.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -29,16 +17,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
 
 public class BackgroundWorker extends AsyncTask<String,Void,String> {
+    @SuppressLint("StaticFieldLeak")
     Context context;
     int login;
     String javniURL="",email,password;
-    AlertDialog alertDialog;
     String login_url,type,name,surname,naslov,vrijeme,udaljenost,elev,datum,id,ime,datO,naslovO,tekstO,linkO,idO,imeO,idPrati,idPracen,nick,mark,mod,tip,avg,oprema,idc,brprat,brpratim,brlajk,vrsta,idAkt,idOb,startLat,startLong,endLat,endLong,odabrana,opis,tipAkt;
 
-    BackgroundWorker(Context ctx,int log){
+    public BackgroundWorker(Context ctx,int log){
         context = ctx;
         login = log;
     }
@@ -150,92 +138,94 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             httpURLConnection.setDoOutput(true);
             httpURLConnection.setDoInput(true);
             OutputStream outputStream = httpURLConnection.getOutputStream();
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
 
             String post_data = "";
-            if(type.equals("register")) {
-                post_data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&"
-                        + URLEncoder.encode("surname", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8")+ "&"
-                        + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8")+ "&"
-                        + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8")+"&"
-                        + URLEncoder.encode("slika", "UTF-8") + "=" + URLEncoder.encode(odabrana, "UTF-8")+"&"
-                        + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(opis, "UTF-8");
-            }
-            else if(type.equals("login")){
-                post_data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&"
-                        + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
-            }
-            else if(type.equals("act")){
-                post_data = URLEncoder.encode("title", "UTF-8") + "=" + URLEncoder.encode(naslov, "UTF-8") + "&"
-                        + URLEncoder.encode("time", "UTF-8") + "=" + URLEncoder.encode(vrijeme, "UTF-8")+ "&"
-                        + URLEncoder.encode("dist", "UTF-8") + "=" + URLEncoder.encode(udaljenost, "UTF-8")+ "&"
-                        + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(datum, "UTF-8")+ "&"
-                        + URLEncoder.encode("elev", "UTF-8") + "=" + URLEncoder.encode(elev, "UTF-8")+ "&"
-                        + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8")+ "&"
-                        + URLEncoder.encode("ime", "UTF-8") + "=" + URLEncoder.encode(ime, "UTF-8")+"&"
-                        + URLEncoder.encode("vrsta", "UTF-8") + "=" + URLEncoder.encode(vrsta, "UTF-8")+"&"
-                        + URLEncoder.encode("avg", "UTF-8") + "=" + URLEncoder.encode(avg, "UTF-8")+"&"
-                        + URLEncoder.encode("oprema", "UTF-8") + "=" + URLEncoder.encode(oprema, "UTF-8")+"&"
-                        + URLEncoder.encode("tipAkt", "UTF-8") + "=" + URLEncoder.encode(tipAkt, "UTF-8");
+            switch (type) {
+                case "register":
+                    post_data = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&"
+                            + URLEncoder.encode("surname", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8") + "&"
+                            + URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&"
+                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8") + "&"
+                            + URLEncoder.encode("slika", "UTF-8") + "=" + URLEncoder.encode(odabrana, "UTF-8") + "&"
+                            + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(opis, "UTF-8");
+                    break;
+                case "login":
+                    post_data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&"
+                            + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
+                    break;
+                case "act":
+                    post_data = URLEncoder.encode("title", "UTF-8") + "=" + URLEncoder.encode(naslov, "UTF-8") + "&"
+                            + URLEncoder.encode("time", "UTF-8") + "=" + URLEncoder.encode(vrijeme, "UTF-8") + "&"
+                            + URLEncoder.encode("dist", "UTF-8") + "=" + URLEncoder.encode(udaljenost, "UTF-8") + "&"
+                            + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(datum, "UTF-8") + "&"
+                            + URLEncoder.encode("elev", "UTF-8") + "=" + URLEncoder.encode(elev, "UTF-8") + "&"
+                            + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&"
+                            + URLEncoder.encode("ime", "UTF-8") + "=" + URLEncoder.encode(ime, "UTF-8") + "&"
+                            + URLEncoder.encode("vrsta", "UTF-8") + "=" + URLEncoder.encode(vrsta, "UTF-8") + "&"
+                            + URLEncoder.encode("avg", "UTF-8") + "=" + URLEncoder.encode(avg, "UTF-8") + "&"
+                            + URLEncoder.encode("oprema", "UTF-8") + "=" + URLEncoder.encode(oprema, "UTF-8") + "&"
+                            + URLEncoder.encode("tipAkt", "UTF-8") + "=" + URLEncoder.encode(tipAkt, "UTF-8");
 
-            }
-            else if(type.equals("obj")){
-                post_data = URLEncoder.encode("dat", "UTF-8") + "=" + URLEncoder.encode(datO, "UTF-8") + "&"
-                        + URLEncoder.encode("title", "UTF-8") + "=" + URLEncoder.encode(naslovO, "UTF-8")+ "&"
-                        + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(tekstO, "UTF-8")+ "&"
-                        + URLEncoder.encode("link", "UTF-8") + "=" + URLEncoder.encode(linkO, "UTF-8")+ "&"
-                        + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(idO, "UTF-8")+ "&"
-                        + URLEncoder.encode("ime", "UTF-8") + "=" + URLEncoder.encode(imeO, "UTF-8");
+                    break;
+                case "obj":
+                    post_data = URLEncoder.encode("dat", "UTF-8") + "=" + URLEncoder.encode(datO, "UTF-8") + "&"
+                            + URLEncoder.encode("title", "UTF-8") + "=" + URLEncoder.encode(naslovO, "UTF-8") + "&"
+                            + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(tekstO, "UTF-8") + "&"
+                            + URLEncoder.encode("link", "UTF-8") + "=" + URLEncoder.encode(linkO, "UTF-8") + "&"
+                            + URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(idO, "UTF-8") + "&"
+                            + URLEncoder.encode("ime", "UTF-8") + "=" + URLEncoder.encode(imeO, "UTF-8");
 
-            }
-            else if(type.equals("odn")) {
-                post_data = URLEncoder.encode("idPrati", "UTF-8") + "=" + URLEncoder.encode(idPrati, "UTF-8") + "&"
-                        + URLEncoder.encode("idPracen", "UTF-8") + "=" + URLEncoder.encode(idPracen, "UTF-8")+"&"
-                        + URLEncoder.encode("br", "UTF-8") + "=" + URLEncoder.encode(brprat, "UTF-8")+"&"
-                        + URLEncoder.encode("brp", "UTF-8") + "=" + URLEncoder.encode(brpratim, "UTF-8");
-            }
-            else if(type.equals("opr")) {
-                post_data = URLEncoder.encode("nick", "UTF-8") + "=" + URLEncoder.encode(nick, "UTF-8") + "&"
-                        + URLEncoder.encode("mark", "UTF-8") + "=" + URLEncoder.encode(mark, "UTF-8") + "&"
-                        + URLEncoder.encode("mod", "UTF-8") + "=" + URLEncoder.encode(mod, "UTF-8") + "&"
-                        + URLEncoder.encode("tip", "UTF-8") + "=" + URLEncoder.encode(tip, "UTF-8")+"&"
-                        + URLEncoder.encode("idc", "UTF-8") + "=" + URLEncoder.encode(idc, "UTF-8");
-            }
-            else if(type.equals("uklOp")) {
-                post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
-            }
-            else if(type.equals("lajk")) {
-                post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(idAkt, "UTF-8") + "&"
-                        + URLEncoder.encode("brl", "UTF-8") + "=" + URLEncoder.encode(brlajk, "UTF-8")+"&"
-                        + URLEncoder.encode("idUsera", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8")+"&"
-                        + URLEncoder.encode("vr", "UTF-8") + "=" + URLEncoder.encode(vrsta, "UTF-8");
-            }else if(type.equals("rut")){
-                post_data = URLEncoder.encode("idAkt", "UTF-8") + "=" + URLEncoder.encode(idAkt, "UTF-8") + "&"
-                        + URLEncoder.encode("startLat", "UTF-8") + "=" + URLEncoder.encode(startLat, "UTF-8")+ "&"
-                        + URLEncoder.encode("startLong", "UTF-8") + "=" + URLEncoder.encode(startLong, "UTF-8")+ "&"
-                        + URLEncoder.encode("endLat", "UTF-8") + "=" + URLEncoder.encode(endLat, "UTF-8")+ "&"
-                        + URLEncoder.encode("endLong", "UTF-8") + "=" + URLEncoder.encode(endLong, "UTF-8");
-            }
-            else if(type.equals("kom")){
-                post_data = URLEncoder.encode("idOb", "UTF-8") + "=" + URLEncoder.encode(idOb, "UTF-8") + "&"
-                        + URLEncoder.encode("idAkt", "UTF-8") + "=" + URLEncoder.encode(idAkt, "UTF-8")+ "&"
-                        + URLEncoder.encode("idUsera", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8")+ "&"
-                        + URLEncoder.encode("tekst", "UTF-8") + "=" + URLEncoder.encode(tekstO, "UTF-8");
-            }
-            else if(type.equals("uredi")){
-                post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&"
-                        + URLEncoder.encode("ime", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8")+ "&"
-                        + URLEncoder.encode("prezime", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8")+ "&"
-                        + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(opis, "UTF-8");
+                    break;
+                case "odn":
+                    post_data = URLEncoder.encode("idPrati", "UTF-8") + "=" + URLEncoder.encode(idPrati, "UTF-8") + "&"
+                            + URLEncoder.encode("idPracen", "UTF-8") + "=" + URLEncoder.encode(idPracen, "UTF-8") + "&"
+                            + URLEncoder.encode("br", "UTF-8") + "=" + URLEncoder.encode(brprat, "UTF-8") + "&"
+                            + URLEncoder.encode("brp", "UTF-8") + "=" + URLEncoder.encode(brpratim, "UTF-8");
+                    break;
+                case "opr":
+                    post_data = URLEncoder.encode("nick", "UTF-8") + "=" + URLEncoder.encode(nick, "UTF-8") + "&"
+                            + URLEncoder.encode("mark", "UTF-8") + "=" + URLEncoder.encode(mark, "UTF-8") + "&"
+                            + URLEncoder.encode("mod", "UTF-8") + "=" + URLEncoder.encode(mod, "UTF-8") + "&"
+                            + URLEncoder.encode("tip", "UTF-8") + "=" + URLEncoder.encode(tip, "UTF-8") + "&"
+                            + URLEncoder.encode("idc", "UTF-8") + "=" + URLEncoder.encode(idc, "UTF-8");
+                    break;
+                case "uklOp":
+                    post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
+                    break;
+                case "lajk":
+                    post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(idAkt, "UTF-8") + "&"
+                            + URLEncoder.encode("brl", "UTF-8") + "=" + URLEncoder.encode(brlajk, "UTF-8") + "&"
+                            + URLEncoder.encode("idUsera", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&"
+                            + URLEncoder.encode("vr", "UTF-8") + "=" + URLEncoder.encode(vrsta, "UTF-8");
+                    break;
+                case "rut":
+                    post_data = URLEncoder.encode("idAkt", "UTF-8") + "=" + URLEncoder.encode(idAkt, "UTF-8") + "&"
+                            + URLEncoder.encode("startLat", "UTF-8") + "=" + URLEncoder.encode(startLat, "UTF-8") + "&"
+                            + URLEncoder.encode("startLong", "UTF-8") + "=" + URLEncoder.encode(startLong, "UTF-8") + "&"
+                            + URLEncoder.encode("endLat", "UTF-8") + "=" + URLEncoder.encode(endLat, "UTF-8") + "&"
+                            + URLEncoder.encode("endLong", "UTF-8") + "=" + URLEncoder.encode(endLong, "UTF-8");
+                    break;
+                case "kom":
+                    post_data = URLEncoder.encode("idOb", "UTF-8") + "=" + URLEncoder.encode(idOb, "UTF-8") + "&"
+                            + URLEncoder.encode("idAkt", "UTF-8") + "=" + URLEncoder.encode(idAkt, "UTF-8") + "&"
+                            + URLEncoder.encode("idUsera", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&"
+                            + URLEncoder.encode("tekst", "UTF-8") + "=" + URLEncoder.encode(tekstO, "UTF-8");
+                    break;
+                case "uredi":
+                    post_data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&"
+                            + URLEncoder.encode("ime", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8") + "&"
+                            + URLEncoder.encode("prezime", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8") + "&"
+                            + URLEncoder.encode("opis", "UTF-8") + "=" + URLEncoder.encode(opis, "UTF-8");
+                    break;
             }
             bufferedWriter.write(post_data);
             bufferedWriter.flush();
             bufferedWriter.close();
             outputStream.close();
             InputStream inputStream = httpURLConnection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
-            String result = "";
-            String line = "";
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.ISO_8859_1));
+            String result = "",line;
             while ((line = bufferedReader.readLine()) != null) {
                 result += line;
             }
@@ -244,19 +234,12 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             httpURLConnection.disconnect();
             return result;
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    @Override
-    protected void onPreExecute() {
-        alertDialog = new AlertDialog.Builder(context).create();
-        alertDialog.setTitle("Login Status");
-    }
     @Override
     protected void onPostExecute(String result) {
         Intent intent=new Intent(context.getApplicationContext(),HOME.class);
@@ -266,6 +249,7 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
             intent.putExtra("PASS",password);
             intent.putExtra("URL",javniURL);
             context.startActivity(intent);
+            ((LOGIN)context).overridePendingTransition(R.anim.anim1,R.anim.anim2);
         }
     }
     @Override

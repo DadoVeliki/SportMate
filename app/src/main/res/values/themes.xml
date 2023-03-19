@@ -2,10 +2,11 @@
     <!-- Base application theme. -->
     <!--0081C9-->
     <!--FF5722-->
+    <!--005585-->
     <style name="Theme.ZavrsniRad" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#0081C9</item>
-        <item name="colorPrimaryVariant">#005585</item>
+        <item name="colorPrimaryVariant">#31B2FB</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

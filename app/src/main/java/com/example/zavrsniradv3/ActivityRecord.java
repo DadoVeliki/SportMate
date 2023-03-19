@@ -1,52 +1,37 @@
 package com.example.zavrsniradv3;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.routing.OSRMRoadManager;
-import org.osmdroid.bonuspack.routing.Road;
-import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ActivityRecord extends AppCompatActivity{
     String e,pa,id,ime,url="",tip="";
-    private MapView map;
+    public MapView map;
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
     MyLocationNewOverlay myLocationOverlay;
     public ArrayList<Oprema>listOp;
@@ -68,16 +53,6 @@ public class ActivityRecord extends AppCompatActivity{
         map = (MapView) findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
-        /*if (ActivityCompat.checkSelfPermission(
-                ActivityRecord.this,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                ActivityRecord.this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-        } else {
-            Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(locationGPS!=null){
-                Log.d("MainActivity",locationGPS.getLatitude()+" "+locationGPS.getLongitude());
-            }
-        }*/
 
         GeoPoint start=new GeoPoint(46.4208585,16.53123);
         IMapController mapController=map.getController();
@@ -105,14 +80,13 @@ public class ActivityRecord extends AppCompatActivity{
             Log.d("MainActivity", "Current location not available");
         }
 
-
         String[] items = new String[3];
         items[0]="Trčanje";
         items[1]="Šetnja";
         items[2]="Biciklizam";
 
         Spinner spinner = (Spinner) findViewById(R.id.odabir);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item1, items);
         adapter.setDropDownViewResource(R.layout.spinner_item1);
         spinner.setAdapter(adapter);
@@ -137,7 +111,7 @@ public class ActivityRecord extends AppCompatActivity{
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         ArrayList<String> permissionsToRequest = new ArrayList<>();
         for (int i = 0; i < grantResults.length; i++) {
@@ -156,7 +130,6 @@ public class ActivityRecord extends AppCompatActivity{
         for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(this, permission)
                     != PackageManager.PERMISSION_GRANTED) {
-                // Permission is not granted
                 permissionsToRequest.add(permission);
             }
         }
@@ -175,7 +148,7 @@ public class ActivityRecord extends AppCompatActivity{
         intent.putExtra("URL",url);
         intent.putExtra("listOp",listOp);
         intent.putExtra("tip",tip);
-        SimpleDateFormat s=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat s=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dat=s.format(Calendar.getInstance().getTime());
         intent.putExtra("dat",dat);
         startActivity(intent);

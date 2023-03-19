@@ -41,7 +41,8 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:text="PRATI"
-            app:strokeColor="#0081C9"
+            app:strokeColor="#FF5722"
+            android:backgroundTint="#FF5722"
             app:strokeWidth="1dp"
             android:id="@+id/btn"
             />

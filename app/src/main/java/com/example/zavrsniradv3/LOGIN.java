@@ -2,46 +2,18 @@ package com.example.zavrsniradv3;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.Toast;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LOGIN extends AppCompatActivity {
@@ -49,9 +21,8 @@ public class LOGIN extends AppCompatActivity {
     String email,lozinka;
     public String url="http://192.168.0.187:80/";
     //public String url="https://9852-95-168-107-19.eu.ngrok.io/";
-    Boolean dobar=false;
     public ArrayList<Korisnik>lista;
-    Boolean imali=false;
+    boolean imali=false;
     public int odabrana=0;
     int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16};
 
@@ -59,106 +30,90 @@ public class LOGIN extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        lista=new ArrayList<Korisnik>();
+        lista=new ArrayList<>();
         email=lozinka="";
         loginEmail=(TextInputEditText) findViewById(R.id.eEmail);
         loginLozinka=(TextInputEditText) findViewById(R.id.eLozinka);
 
 
     }
-    String[] names={"Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1","Slika 1",};
     public void register(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle);
         View izgled=getLayoutInflater().inflate(R.layout.dialog_registracija,null);
-
         GridView g=(GridView)izgled.findViewById(R.id.grid);
         g.setAdapter(new ImageAdapter(this,images));
-        g.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Toast.makeText(getApplicationContext(),images[i],Toast.LENGTH_SHORT).show();
-                CircleImageView odabrani=(CircleImageView) izgled.findViewById(R.id.odabrani);
-                odabrani.setImageResource(images[i]);
-                odabrana=i;
-            }
+        g.setOnItemClickListener((adapterView, view1, i, l) -> {
+            CircleImageView odabrani=(CircleImageView) izgled.findViewById(R.id.odabrani);
+            odabrani.setImageResource(images[i]);
+            odabrana=i;
         });
 
         builder.setView(izgled);
         builder.show();
         MaterialButton btnReg=(MaterialButton)izgled.findViewById(R.id.button2);
-        btnReg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextInputEditText ime=(TextInputEditText) izgled.findViewById(R.id.ime);
-                TextInputEditText prezime=(TextInputEditText) izgled.findViewById(R.id.prezime);
-                TextInputEditText email=(TextInputEditText) izgled.findViewById(R.id.email);
-                TextInputEditText lozinka=(TextInputEditText) izgled.findViewById(R.id.lozinka);
-                TextInputEditText info=(TextInputEditText)izgled.findViewById(R.id.bio);
-                String name=ime.getText().toString();
-                String surname=prezime.getText().toString();
-                String mail=email.getText().toString();
-                String password=lozinka.getText().toString();
-                String opis=info.getText().toString();
+        btnReg.setOnClickListener(view12 -> {
+            TextInputEditText ime=(TextInputEditText) izgled.findViewById(R.id.ime);
+            TextInputEditText prezime=(TextInputEditText) izgled.findViewById(R.id.prezime);
+            TextInputEditText email=(TextInputEditText) izgled.findViewById(R.id.email);
+            TextInputEditText lozinka=(TextInputEditText) izgled.findViewById(R.id.lozinka);
+            TextInputEditText info=(TextInputEditText)izgled.findViewById(R.id.bio);
+            String name= Objects.requireNonNull(ime.getText()).toString();
+            String surname= Objects.requireNonNull(prezime.getText()).toString();
+            String mail= Objects.requireNonNull(email.getText()).toString();
+            String password= Objects.requireNonNull(lozinka.getText()).toString();
+            String opis= Objects.requireNonNull(info.getText()).toString();
 
-                if(ispravnostEmaila(mail)==true){
-                    StringRequest request = new StringRequest(url+"zav/dohvatiSve.php", new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONArray array = new JSONArray(response);
-                                for (int loop = 0; loop < array.length(); loop++) {
-                                    JSONObject object = array.getJSONObject(loop);
-                                    lista.add(new Korisnik(object.getInt("id"),
-                                            object.getString("ime"),
-                                            object.getString("prezime"),
-                                            object.getString("email"),
-                                            object.getString("lozinka"),
-                                            object.getInt("brojPratitelji"),
-                                            object.getInt("brojPratim"),
-                                            object.getInt("slika"),
-                                            object.getString("opis")));
-                                }
-                                for (Korisnik k:lista) {
-                                    if(k.getEmail().equals(mail)){
-                                        imali=true;
-                                    }
-                                }
-                                if(imali==false){
-                                    String locUrl=url+"zav/insertData.php";
-                                    String type = "register";
-                                    BackgroundWorker backgroundWorker = new BackgroundWorker(LOGIN.this,1);
-                                    backgroundWorker.execute(locUrl,type,name,surname,mail,password,url,odabrana+"",opis);
-                                }
-                            }
-                            catch (Exception e) {
+            if(ispravnostEmaila(mail)){
+                StringRequest request = new StringRequest(url+"zav/dohvatiSve.php", response -> {
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        for (int loop = 0; loop < array.length(); loop++) {
+                            JSONObject object = array.getJSONObject(loop);
+                            lista.add(new Korisnik(object.getInt("id"),
+                                    object.getString("ime"),
+                                    object.getString("prezime"),
+                                    object.getString("email"),
+                                    object.getString("lozinka"),
+                                    object.getInt("brojPratitelji"),
+                                    object.getInt("brojPratim"),
+                                    object.getInt("slika"),
+                                    object.getString("opis")));
+                        }
+                        for (Korisnik k:lista) {
+                            if (k.getEmail().equals(mail)) {
+                                imali = true;
+                                break;
                             }
                         }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
+                        if(!imali){
+                            String locUrl=url+"zav/insertData.php";
+                            String type = "register";
+                            BackgroundWorker backgroundWorker = new BackgroundWorker(LOGIN.this,1);
+                            backgroundWorker.execute(locUrl,type,name,surname,mail,password,url,odabrana+"",opis);
                         }
-                    });
-                    Volley.newRequestQueue(LOGIN.this).add(request);
-
-
-                }
-
-
-                ime.setText("");
-                prezime.setText("");
-                email.setText("");
-                lozinka.setText("");
-                info.setText("");
+                    }
+                    catch (Exception e) {
+                    }
+                }, error -> {
+                });
+                Volley.newRequestQueue(LOGIN.this).add(request);
             }
+            ime.setText("");
+            prezime.setText("");
+            email.setText("");
+            lozinka.setText("");
+            info.setText("");
         });
     }
     public void login(View view){
-       loginEmail.setText("davidlego009@gmail.com");
+      //loginEmail.setText("luki@gmail.com");
+      //loginLozinka.setText("123");
+         loginEmail.setText("davidlego009@gmail.com");
         loginLozinka.setText("dUUo79GG");
        //loginEmail.setText("dora@gmail.com");
        //loginLozinka.setText("123");
-        String email=loginEmail.getText().toString();
-        String password=loginLozinka.getText().toString();
+        String email= Objects.requireNonNull(loginEmail.getText()).toString();
+        String password= Objects.requireNonNull(loginLozinka.getText()).toString();
 
         String locUrl=url+"zav/validateData.php";
         String type = "login";

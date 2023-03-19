@@ -4,20 +4,17 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ImageAdapter extends BaseAdapter {
-    private Context c;
-    private int[] images;
-
+    private final Context c;
+    private final int[] images;
     public ImageAdapter(Context c,int[]images) {
         this.c = c;
         this.images=images;
     }
-
     @Override
     public int getCount() {
         return images.length;

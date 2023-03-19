@@ -3,13 +3,11 @@ package com.example.zavrsniradv3;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -22,27 +20,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.xml.datatype.Duration;
 
 public class SportTracking extends AppCompatActivity {
 
@@ -68,49 +55,34 @@ public class SportTracking extends AppCompatActivity {
         url=i.getStringExtra("URL");
         tip=i.getStringExtra("tip");
         timer=new Timer();
-        if(proslo==false){
+        if(!proslo){
             uPokretu();
         }
         listRut=new ArrayList<>();
         listaOpreme=new ArrayList<>();
         pop=new ArrayList<>();
-        StringRequest request = new StringRequest(url+"zav/dohvatiBrAkt.php", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONArray array = new JSONArray(response);
-                    for (int loop = 0; loop < array.length(); loop++) {
-                        JSONObject object = array.getJSONObject(loop);
-                        idAkt=object.getInt("numOfAct")+1;
-                    }
-                }
-                catch (Exception e) {
+        StringRequest request = new StringRequest(url+"zav/dohvatiBrAkt.php", response -> {
+            try {
+                JSONArray array = new JSONArray(response);
+                for (int loop = 0; loop < array.length(); loop++) {
+                    JSONObject object = array.getJSONObject(loop);
+                    idAkt=object.getInt("numOfAct")+1;
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+            catch (Exception e) {
             }
+        }, error -> {
         });
         Volley.newRequestQueue(SportTracking.this).add(request);
     }
 
     private void OnGPS() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", new  DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setMessage("Enable GPS").setCancelable(false).setPositiveButton("Yes", (dialog, which) -> startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))).setNegativeButton("No", (dialog, which) -> dialog.cancel());
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+    @SuppressLint("DefaultLocale")
     private void getLocation(Boolean prvi) {
         if (ActivityCompat.checkSelfPermission(
                 SportTracking.this,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -124,7 +96,7 @@ public class SportTracking extends AppCompatActivity {
                 double alt=Math.round(locationGPS.getAltitude());
                 latitude = String.valueOf(lat);
                 longitude = String.valueOf(longi);
-                if(prvi==false){
+                if(!prvi){
                     double r=6371e3;
                     double fi1=lat*Math.PI/180;
                     double fi2=pocLat*Math.PI/180;
@@ -159,14 +131,12 @@ public class SportTracking extends AppCompatActivity {
                 pocLat=lat;
                 pocLong=longi;
                 pocElev=alt;
-            } else {
-                //Toast.makeText(this, "Unable to find location.", Toast.LENGTH_SHORT).show();
             }
         }
     }
     public void uPokretu(){
         startTimer();
-        if(pokrenuto==false){
+        if(!pokrenuto){
             pokrenuto=true;
             Button btn=(Button)findViewById(R.id.stop);
             btn.setText("ZAUSTAVI");
@@ -185,9 +155,8 @@ public class SportTracking extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        if(pokrenuto==true){
+                        if(pokrenuto){
                             getLocation(false);
-
                             time += 1000;
                             h.postDelayed(this, 1000);
                         }
@@ -198,37 +167,18 @@ public class SportTracking extends AppCompatActivity {
         }
         else{
             pokrenuto=false;
-            Button btn=(Button)findViewById(R.id.start);
-            //btn.setText("START");
-           // h.removeCallbacksAndMessages(run);
         }
-
     }
     public void stop(View view){
-        /*if(proslo==false){
-            startStopTapped();
-            proslo=true;
-        }
-        else{
-            startStopTapped();
-            uPokretu();
-
-        }*/
-        TextView vrem=(TextView)findViewById(R.id.vrijeme);
         pokrenuto=!pokrenuto;
-        if(pokrenuto==false){
-            MaterialButton btn=(MaterialButton)findViewById(R.id.finish);
+        MaterialButton btn=(MaterialButton)findViewById(R.id.finish);
+        if(!pokrenuto){
             btn.setVisibility(View.VISIBLE);
         }
         else{
-            MaterialButton btn=(MaterialButton)findViewById(R.id.finish);
             btn.setVisibility(View.GONE);
         }
         startStopTapped();
-
-      //  pokrenuto=false;
-
-
     }
     public void kraj(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(SportTracking.this, R.style.AlertDialogStyle);
@@ -244,93 +194,75 @@ public class SportTracking extends AppCompatActivity {
         String ime=i.getStringExtra("ime");
         String dat=i.getStringExtra("dat");
         String vrsta="dyn";
-        StringRequest request5 = new StringRequest(url+"zav/dohvatiOpremu.php", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response5) {
-                try {
-                    JSONArray array = new JSONArray(response5);
-                    for (int loop = 0; loop < array.length(); loop++) {
-                        JSONObject object = array.getJSONObject(loop);
-                        listaOpreme.add(new Oprema(
-                                object.getInt("id"),
-                                object.getString("nadimak"),
-                                object.getString("marka"),
-                                object.getString("model"),
-                                object.getString("tip"),
-                                object.getInt("idCije")));
-                    }
-                    pop.clear();
-                    pop.add("Oprema:");
-                    for(Oprema o:listaOpreme){
-                        if(o.getIdCije()==Integer.parseInt(idU)){
-                            if((o.getTip().equals("Tenisice") && tip.equals("Trčanje")) || (o.getTip().equals("Bicikl") && tip.equals("Biciklizam"))){
-                                pop.add(o.getNadimak());
-                                //adapter2.notifyDataSetChanged();
-                            }
+        StringRequest request5 = new StringRequest(url+"zav/dohvatiOpremu.php", response5 -> {
+            try {
+                JSONArray array = new JSONArray(response5);
+                for (int loop = 0; loop < array.length(); loop++) {
+                    JSONObject object = array.getJSONObject(loop);
+                    listaOpreme.add(new Oprema(
+                            object.getInt("id"),
+                            object.getString("nadimak"),
+                            object.getString("marka"),
+                            object.getString("model"),
+                            object.getString("tip"),
+                            object.getInt("idCije")));
+                }
+                pop.clear();
+                pop.add("Oprema:");
+                for(Oprema o:listaOpreme){
+                    if(o.getIdCije()==Integer.parseInt(idU)){
+                        if((o.getTip().equals("Tenisice") && tip.equals("Trčanje")) || (o.getTip().equals("Bicikl") && tip.equals("Biciklizam"))){
+                            pop.add(o.getNadimak());
+                            //adapter2.notifyDataSetChanged();
                         }
                     }
-                    Spinner spinner2 = (Spinner) dizajn.findViewById(R.id.spinOprema);
-                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(SportTracking.this,
-                            android.R.layout.simple_spinner_item, pop){
-                        @Override
-                        public boolean isEnabled(int position){
-                            return position != 0;
-                        }
-                    };
-                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinner2.setAdapter(adapter2);
-
-                    spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                            oprema=pop.get(pos);
-
-                        }
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-
-                    });
-
-
-                    Button btn=(Button) dizajn.findViewById(R.id.button2);
-                    btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            TextView naslov=(TextView)dizajn.findViewById(R.id.naslov);
-                            String nas=naslov.getText().toString();
-                            double pro=avg*3.6f;
-                            double ud=udaljenost/1000f;
-                            BackgroundWorker backgroundWorker = new BackgroundWorker(SportTracking.this,3);
-                            DecimalFormat form = new DecimalFormat("0.00");
-                            BigDecimal o1= new BigDecimal(pro).setScale(2, RoundingMode.HALF_EVEN);
-                            BigDecimal o2= new BigDecimal(ud).setScale(2, RoundingMode.HALF_EVEN);
-                            backgroundWorker.execute(locurl,type,nas,krajnje,o2+"",nmv,dat,idU,ime,vrsta,o1+"",oprema,tip);
-
-                            for(Rute r:listRut){
-                                Log.d("rute: ",r.getIdAkt()+"");
-                                String locUrl2=url+"zav/unosKoord.php";
-                                String type2 = "rut";
-                                BackgroundWorker backgroundWorker2 = new BackgroundWorker(SportTracking.this,9);
-                                backgroundWorker2.execute(locUrl2,type2,idAkt+"",r.getStartLat()+"",r.getStartLong()+"",r.getEndLat()+"",r.getEndLong()+"");
-                            }
-                            finish();
-                        }
-                    });
                 }
-                catch (Exception e) {
-                }
+                Spinner spinner2 = (Spinner) dizajn.findViewById(R.id.spinOprema);
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(SportTracking.this,
+                        android.R.layout.simple_spinner_item, pop){
+                    @Override
+                    public boolean isEnabled(int position){
+                        return position != 0;
+                    }
+                };
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner2.setAdapter(adapter2);
+                spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view1, int pos, long id) {
+                        oprema=pop.get(pos);
+                    }
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+                Button btn=(Button) dizajn.findViewById(R.id.button2);
+                btn.setOnClickListener(view1 -> {
+                    TextView naslov=(TextView)dizajn.findViewById(R.id.naslov);
+                    String nas=naslov.getText().toString();
+                    double pro=avg*3.6f;
+                    double ud=udaljenost/1000f;
+                    BackgroundWorker backgroundWorker = new BackgroundWorker(SportTracking.this,3);
+                    BigDecimal o1= new BigDecimal(pro).setScale(2, RoundingMode.HALF_EVEN);
+                    BigDecimal o2= new BigDecimal(ud).setScale(2, RoundingMode.HALF_EVEN);
+                    backgroundWorker.execute(locurl,type,nas,krajnje,o2+"",nmv,dat,idU,ime,vrsta,o1+"",oprema,tip);
+                    for(Rute r:listRut){
+                        Log.d("rute: ",r.getIdAkt()+"");
+                        String locUrl2=url+"zav/unosKoord.php";
+                        String type2 = "rut";
+                        BackgroundWorker backgroundWorker2 = new BackgroundWorker(SportTracking.this,9);
+                        backgroundWorker2.execute(locUrl2,type2,idAkt+"",r.getStartLat()+"",r.getStartLong()+"",r.getEndLat()+"",r.getEndLong()+"");
+                    }
+                    finish();
+                });
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+            catch (Exception e) {
             }
+        }, error -> {
         });
         Volley.newRequestQueue(this).add(request5);
-
     }
     public void startStopTapped()
     {
-        if(timerStarted == false)
+        if(!timerStarted)
         {
             timerStarted = true;
             startTimer();
@@ -353,16 +285,11 @@ public class SportTracking extends AppCompatActivity {
             @Override
             public void run()
             {
-                runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        vrijeme++;
-                        TextView vrem=(TextView)findViewById(R.id.vrijeme);
-                        vrem.setText(getTimerText());
-                        krajnje=getTimerText();
-                    }
+                runOnUiThread(() -> {
+                    vrijeme++;
+                    TextView vrem=(TextView)findViewById(R.id.vrijeme);
+                    vrem.setText(getTimerText());
+                    krajnje=getTimerText();
                 });
             }
         };
@@ -372,14 +299,13 @@ public class SportTracking extends AppCompatActivity {
     private String getTimerText()
     {
         int rounded = (int) Math.round(vrijeme);
-
         double seconds = ((rounded % 86400) % 3600) % 60;
         double minutes = ((rounded % 86400) % 3600) / 60;
         double hours = ((rounded % 86400) / 3600);
-
         return formatTime(seconds, minutes, hours);
     }
 
+    @SuppressLint("DefaultLocale")
     private String formatTime(double seconds, double minutes, double hours)
     {
         double noOfHours=hours<=0 ? 0 : hours*60;

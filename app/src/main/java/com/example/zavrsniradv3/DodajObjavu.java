@@ -2,6 +2,7 @@ package com.example.zavrsniradv3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class DodajObjavu extends AppCompatActivity {
     public String url="";
@@ -23,12 +25,7 @@ public class DodajObjavu extends AppCompatActivity {
         url=intent.getStringExtra("URL");
 
         ImageView img=(ImageView) findViewById(R.id.backAkt);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        img.setOnClickListener(view -> finish());
     }
     public void kreirajObjavu(View view){
         Intent intent=getIntent();
@@ -38,13 +35,13 @@ public class DodajObjavu extends AppCompatActivity {
         TextInputEditText opis=(TextInputEditText) findViewById(R.id.tekst);
         TextInputEditText link=(TextInputEditText) findViewById(R.id.link);
 
-        String nas=naslov.getText().toString();
-        String op=opis.getText().toString();
-        String li=link.getText().toString();
+        String nas= Objects.requireNonNull(naslov.getText()).toString();
+        String op= Objects.requireNonNull(opis.getText()).toString();
+        String li= Objects.requireNonNull(link.getText()).toString();
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        String dat= formatter.format(date).toString();
+        String dat= formatter.format(date);
         String locurl=url+"zav/unosObjave.php";
         String type = "obj";
         BackgroundWorker backgroundWorker = new BackgroundWorker(DodajObjavu.this,4);

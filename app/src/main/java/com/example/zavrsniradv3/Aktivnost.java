@@ -2,18 +2,12 @@ package com.example.zavrsniradv3;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 
-import java.io.Serializable;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 public class Aktivnost implements Parcelable {
-    private int id,idUsera,nmv,brojLajkova;
-    private String imePrezime,datum,naslov,vrijeme,vrsta,oprema,tipAkt;
-    private float udaljenost,avgBrzina;
+    public int id,idUsera,nmv,brojLajkova;
+    public String imePrezime,datum,naslov,vrijeme,vrsta,oprema,tipAkt;
+    public float udaljenost,avgBrzina;
 
     public Aktivnost(int id,int idUsera,String imePrezime, String datum, String naslov, float udaljenost, int nmv, String vrijeme, int brojLajkova,String vrsta,float avgBrzina,String oprema,String tipAkt) {
         this.id=id;

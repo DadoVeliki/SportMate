@@ -1,43 +1,42 @@
 package com.example.zavrsniradv3;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PratimFragment extends Fragment {
     int[]images;
     public ArrayList<Integer>pratitelji;
     int br2;
+    @SuppressLint({"SetTextI18n", "ResourceType"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
+        MojeMetode m=new MojeMetode();
         View fragPratim=inflater.inflate(R.layout.fragment_pratim, container, false);
+        assert this.getArguments() != null;
         String id=this.getArguments().getString("id");
         String url=this.getArguments().getString("URL");
-        ArrayList<Integer>pratim=new ArrayList<Integer>();
+        ArrayList<Integer>pratim=new ArrayList<>();
         ArrayList<Odnos> listOd=this.getArguments().getParcelableArrayList("listaOdnosa");
         ArrayList<Korisnik>listUs=this.getArguments().getParcelableArrayList("lista");
         LinearLayout l=(LinearLayout) fragPratim.findViewById(R.id.ll4);
         images=this.getArguments().getIntArray("images");
         br2=this.getArguments().getInt("br2");
-        pratitelji=new ArrayList<Integer>();
+        pratitelji=new ArrayList<>();
         for(Odnos o:listOd){
             try{
                 if(o.getIdKojiPrati()==Integer.parseInt(id)){
@@ -51,7 +50,7 @@ public class PratimFragment extends Fragment {
             pratitelji.add(k.getBrojPratitelji());
         }
         for(int pr:pratim){
-            View us = getLayoutInflater().inflate(R.layout.prikaz_usera, null);
+            @SuppressLint("InflateParams") View us = getLayoutInflater().inflate(R.layout.prikaz_usera, null);
 
             TextView name = (TextView) us.findViewById(R.id.ime);
             TextView desc = (TextView) us.findViewById(R.id.op);
@@ -65,52 +64,42 @@ public class PratimFragment extends Fragment {
             btn.setContentDescription("0");
             btn.setText("PRATIM");
             btn.setBackgroundColor(Color.WHITE);
-            btn.setTextColor(Color.parseColor("#0081C9"));
+            btn.setTextColor(Color.parseColor("#FF5722"));
             btn.setContentDescription("1");
+            btn.setOnClickListener(view -> {
+                int con = Integer.parseInt(btn.getContentDescription().toString());
+                if (con == 0) {
+                    m.zaprati(btn);
+                    pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) + 1);
+                    String idOsoba = btn.getId() + "";
+                    String locurl = url + "zav/unosOdnos.php";
+                    String type = "odn";
 
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int con = Integer.parseInt(btn.getContentDescription().toString());
-                    if (con == 0) {
-                        zaprati(btn);
-                        pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) + 1);
-                        String idOsoba = btn.getId() + "";
-                        String locurl = url + "zav/unosOdnos.php";
-                        String type = "odn";
+                    br2++;
+                    BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 5);
+                    backgroundWorker.execute(locurl, type, id, idOsoba, pratitelji.get(btn.getId() - 1) + "", br2 + "");
+                } else {
+                    btn.setText("PRATI");
+                    btn.setTextColor(Color.WHITE);
+                    btn.setBackgroundColor(Color.parseColor("#FF5722"));
+                    btn.setContentDescription("" + 0);
 
-                        br2++;
-                        BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 5);
-                        backgroundWorker.execute(locurl, type, id, idOsoba, pratitelji.get(btn.getId() - 1) + "", br2 + "");
-                    } else {
-                        btn.setText("PRATI");
-                        btn.setTextColor(Color.WHITE);
-                        btn.setBackgroundColor(Color.parseColor("#0081C9"));
-                        btn.setContentDescription("" + 0);
+                    pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) - 1);
 
-                        pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) - 1);
+                    String idOsoba = btn.getId() + "";
+                    String locurl = url + "zav/ukloniOdnos.php";
+                    String type = "odn";
 
-                        String idOsoba = btn.getId() + "";
-                        String locurl = url + "zav/ukloniOdnos.php";
-                        String type = "odn";
-
-                        br2--;
-                        BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 5);
-                        backgroundWorker.execute(locurl, type, id, idOsoba, pratitelji.get(btn.getId() - 1) + "", br2 + "");
-                    }
-
+                    br2--;
+                    BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 5);
+                    backgroundWorker.execute(locurl, type, id, idOsoba, pratitelji.get(btn.getId() - 1) + "", br2 + "");
                 }
+
             });
             LinearLayout p = (LinearLayout) us.findViewById(R.id.parent);
             l.addView(p);
         }
 
         return fragPratim;
-    }
-    public void zaprati(Button btn){
-        btn.setText("PRATIM");
-        btn.setBackgroundColor(Color.WHITE);
-        btn.setTextColor(Color.parseColor("#0081C9"));
-        btn.setContentDescription(""+1);
     }
 }

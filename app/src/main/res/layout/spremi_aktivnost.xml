@@ -56,8 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:backgroundTint="#FFC93C"
-            android:textColor="@color/black"
+            android:backgroundTint="#FF5722"
             android:text="SPREMI" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,7 @@
 package com.example.zavrsniradv3;
 
 public class LikeRelation {
-    private int id,idAkt,idOb,idUsera;
+    public int id,idAkt,idOb,idUsera;
 
     public LikeRelation(int id, int idAkt, int idOb, int idUsera) {
         this.id = id;
@@ -16,10 +16,6 @@ public class LikeRelation {
 
     public int getIdAkt() {
         return idAkt;
-    }
-
-    public int getIdOb() {
-        return idOb;
     }
 
     public int getIdUsera() {
