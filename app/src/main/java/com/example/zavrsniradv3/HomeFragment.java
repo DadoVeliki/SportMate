@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        MojeMetode m=new MojeMetode();
         assert this.getArguments() != null;
         url=this.getArguments().getString("URL");
         id=this.getArguments().getString("id");
@@ -122,33 +121,22 @@ public class HomeFragment extends Fragment {
                     }*/
                     for(Rute r:listRut) {
                         if (r.getIdAkt() == a.getId()) {
-
-            new Thread(() -> {
-                        RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
-
-                        ArrayList<GeoPoint> waypoints = new ArrayList<>();
-                        GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
-                        waypoints.add(startPoint);
-                        GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
-                        waypoints.add(endPoint);
-                        try
-                        {
-                            road = roadManager.getRoad(waypoints);
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                        if(getActivity()==null){
-                            return;
-                        }
-                        getActivity().runOnUiThread(() -> {
-                            Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
-                            map.getOverlays().add(roadOverlay);
-                            map.invalidate();
-                        });
-                          }
-            ).start();
+                            new Thread(() -> {
+                                RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
+                                ArrayList<GeoPoint> waypoints = new ArrayList<>();
+                                GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
+                                waypoints.add(startPoint);
+                                GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
+                                waypoints.add(endPoint);
+                                try { road = roadManager.getRoad(waypoints);  }
+                                catch (Exception e) { e.printStackTrace(); }
+                                if(getActivity()==null) return;
+                                getActivity().runOnUiThread(() -> {
+                                    Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
+                                    map.getOverlays().add(roadOverlay);
+                                    map.invalidate();
+                                });
+                        }).start();
                             try{
                                 RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
 
@@ -207,7 +195,7 @@ public class HomeFragment extends Fragment {
             final DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
 
             ime.setText(a.getImePrezime());
-            datum.setText("dana "+m.makniNule(dtf2.format(d))+". "+m.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
+            datum.setText("dana "+MojeMetode.makniNule(dtf2.format(d))+". "+MojeMetode.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
             naslov.setText(a.getNaslov().toUpperCase());
             udalj.setText(a.getUdaljenost()+" km");
             nmv.setText(a.getNmv()+" m");
@@ -299,7 +287,7 @@ public class HomeFragment extends Fragment {
             final DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
             profile.setImageResource(images[listUs.get(o.getIdUsera()-1).getSlika()]);
             ime.setText(o.getImePrezime());
-            datum.setText("dana "+m.makniNule(dtf2.format(d))+". "+m.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
+            datum.setText("dana "+MojeMetode.makniNule(dtf2.format(d))+". "+MojeMetode.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
             naslov.setText(o.getNaslov().toUpperCase());
             tekst.setText(""+o.getTekst());
             String a="<a href='https://"+o.getLink()+"'>"+o.getLink()+"</a>";

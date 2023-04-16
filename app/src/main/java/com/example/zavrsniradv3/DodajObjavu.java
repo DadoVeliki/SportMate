@@ -54,6 +54,5 @@ public class DodajObjavu extends AppCompatActivity {
             backgroundWorker.execute(locurl,type,dat,nas,op,li,id,ime);
             finish();
         }
-
     }
 }

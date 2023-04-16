@@ -25,7 +25,6 @@ public class PratimFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        MojeMetode m=new MojeMetode();
         View fragPratim=inflater.inflate(R.layout.fragment_pratim, container, false);
         assert this.getArguments() != null;
         String id=this.getArguments().getString("id");
@@ -69,7 +68,7 @@ public class PratimFragment extends Fragment {
             btn.setOnClickListener(view -> {
                 int con = Integer.parseInt(btn.getContentDescription().toString());
                 if (con == 0) {
-                    m.zaprati(btn);
+                    MojeMetode.zaprati(btn);
                     pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) + 1);
                     String idOsoba = btn.getId() + "";
                     String locurl = url + "zav/unosOdnos.php";

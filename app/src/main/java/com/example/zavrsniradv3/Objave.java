@@ -32,7 +32,6 @@ public class Objave extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_objave);
-        MojeMetode m=new MojeMetode();
         ImageView img=(ImageView) findViewById(R.id.backOb);
         img.setOnClickListener(view -> finish());
         Intent intent=getIntent();
@@ -86,7 +85,7 @@ public class Objave extends AppCompatActivity {
                             final DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
                             profile.setImageResource(images[listUs.get(o.getIdUsera()-1).getSlika()]);
                             ime.setText(o.getImePrezime());
-                            datum.setText("dana "+m.makniNule(dtf2.format(d))+". "+m.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
+                            datum.setText("dana "+MojeMetode.makniNule(dtf2.format(d))+". "+MojeMetode.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
                             naslov.setText(o.getNaslov().toUpperCase());
                             tekst.setText(""+o.getTekst());
                             String a="<a href='https://"+o.getLink()+"'>"+o.getLink()+"</a>";

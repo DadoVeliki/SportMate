@@ -43,7 +43,6 @@ public class PopisAktivnosti extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popis_aktivnosti);
-        MojeMetode m=new MojeMetode();
         listAkt=new ArrayList<>();
         listLike=new ArrayList<>();
         Intent intent=getIntent();
@@ -194,7 +193,7 @@ public class PopisAktivnosti extends AppCompatActivity {
                 final DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH);
 
                 ime.setText(a.getImePrezime());
-                datum.setText("dana "+m.makniNule(dtf2.format(d))+". "+m.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
+                datum.setText("dana "+MojeMetode.makniNule(dtf2.format(d))+". "+MojeMetode.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+". u "+dtf5.format(d));
                 naslov.setText(a.getNaslov().toUpperCase());
                 udalj.setText(a.getUdaljenost()+" km");
                 nmv.setText(a.getNmv()+" m");

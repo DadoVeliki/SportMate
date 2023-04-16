@@ -73,7 +73,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        MojeMetode m=new MojeMetode();
         listUs=new ArrayList<>();
         listAkt=new ArrayList<>();
         listOb=new ArrayList<>();
@@ -176,7 +175,7 @@ public class ProfileFragment extends Fragment {
                 final DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("MM", Locale.ENGLISH);
                 final DateTimeFormatter dtf4 = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH);
                 LocalDateTime d=LocalDateTime.parse(zadnja, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                ak.setText("Posljednja: "+dtf2.format(d)+". "+m.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+".");
+                ak.setText("Posljednja: "+dtf2.format(d)+". "+MojeMetode.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+".");
                 List<Entry>entries=new ArrayList<>();
                 for(int i=0;i<10;i++){
                     entries.add(new Entry(i,listMojiAkt.get(9-i).getUdaljenost()));

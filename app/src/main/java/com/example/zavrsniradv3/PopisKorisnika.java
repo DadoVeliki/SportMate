@@ -29,7 +29,6 @@ public class PopisKorisnika extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popis_korisnika);
-        MojeMetode m=new MojeMetode();
         pratitelji=new ArrayList<>();
         listOd=new ArrayList<>();
         Intent i=getIntent();
@@ -82,13 +81,13 @@ public class PopisKorisnika extends AppCompatActivity {
                         btn.setContentDescription("" + 0);
                         for (int a = 0; a < praceni.size(); a++) {
                             if (btn.getId() == praceni.get(a)) {
-                                m.zaprati(btn);
+                                MojeMetode.zaprati(btn);
                             }
                         }
                         btn.setOnClickListener(view -> {
                             int con = Integer.parseInt(btn.getContentDescription().toString());
                             if (con == 0) {
-                                m.zaprati(btn);
+                                MojeMetode.zaprati(btn);
                                 pratitelji.set(btn.getId() - 1, pratitelji.get(btn.getId() - 1) + 1);
                                 String idOsoba = btn.getId() + "";
                                 String locurl = url + "zav/unosOdnos.php";

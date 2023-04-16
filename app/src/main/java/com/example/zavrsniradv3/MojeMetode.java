@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 public class MojeMetode {
 
-    public String kojiMjesec(DateTimeFormatter f, LocalDateTime d){
+    public static String kojiMjesec(DateTimeFormatter f, LocalDateTime d){
         if(f.format(d).equals("01")){
             return "siječnja";
         }
@@ -47,7 +47,7 @@ public class MojeMetode {
         }
         return "";
     }
-    public String makniNule(String num)
+    public static String makniNule(String num)
     {
         for(int i=0;i<num.length();i++){
             if(num.charAt(i)!='0'){
@@ -56,7 +56,7 @@ public class MojeMetode {
         }
         return "0";
     }
-    public void zaprati(Button btn){
+    public static void zaprati(Button btn){
         btn.setText("PRATIM");
         btn.setBackgroundColor(Color.WHITE);
         btn.setTextColor(Color.parseColor("#FF5722"));
