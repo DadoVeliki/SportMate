@@ -69,7 +69,7 @@ public class SportTracking extends AppCompatActivity {
                     idAkt=object.getInt("numOfAct")+1;
                 }
             }
-            catch (Exception e) {
+            catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });
@@ -109,9 +109,9 @@ public class SportTracking extends AppCompatActivity {
                     double c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
                     double d=r*c;
                     udaljenost+=d;
-                    TextView udalj=(TextView) findViewById(R.id.udaljenost);
-                    TextView elev=(TextView) findViewById(R.id.uzvisina);
-                    TextView prosj=(TextView) findViewById(R.id.prosjek);
+                    TextView udalj= findViewById(R.id.udaljenost);
+                    TextView elev=findViewById(R.id.uzvisina);
+                    TextView prosj=findViewById(R.id.prosjek);
                     if(pocElev<alt){
                         double rezultat=alt-pocElev;
                         elevation+=rezultat;
@@ -138,7 +138,7 @@ public class SportTracking extends AppCompatActivity {
         startTimer();
         if(!pokrenuto){
             pokrenuto=true;
-            Button btn=(Button)findViewById(R.id.stop);
+            Button btn=findViewById(R.id.stop);
             btn.setText("ZAUSTAVI");
             udaljenost=0;
             elevation=0;
@@ -170,7 +170,7 @@ public class SportTracking extends AppCompatActivity {
     }
     public void stop(View view){
         pokrenuto=!pokrenuto;
-        MaterialButton btn=(MaterialButton)findViewById(R.id.finish);
+        MaterialButton btn=findViewById(R.id.finish);
         if(!pokrenuto){
             btn.setVisibility(View.VISIBLE);
         }
@@ -216,7 +216,7 @@ public class SportTracking extends AppCompatActivity {
                         }
                     }
                 }
-                Spinner spinner2 = (Spinner) dizajn.findViewById(R.id.spinOprema);
+                Spinner spinner2 = dizajn.findViewById(R.id.spinOprema);
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(SportTracking.this,
                         android.R.layout.simple_spinner_item, pop){
                     @Override
@@ -233,9 +233,9 @@ public class SportTracking extends AppCompatActivity {
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
                 });
-                Button btn=(Button) dizajn.findViewById(R.id.button2);
+                Button btn= dizajn.findViewById(R.id.button2);
                 btn.setOnClickListener(view1 -> {
-                    TextView naslov=(TextView)dizajn.findViewById(R.id.naslov);
+                    TextView naslov=dizajn.findViewById(R.id.naslov);
                     String nas=naslov.getText().toString();
                     double pro=avg*3.6f;
                     double ud=udaljenost/1000f;
@@ -253,7 +253,7 @@ public class SportTracking extends AppCompatActivity {
                     finish();
                 });
             }
-            catch (Exception e) {
+            catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });
@@ -266,14 +266,14 @@ public class SportTracking extends AppCompatActivity {
             timerStarted = true;
             startTimer();
             run.run();
-            Button btn=(Button)findViewById(R.id.stop);
+            Button btn=findViewById(R.id.stop);
             btn.setText("ZAUSTAVI");
         }
         else
         {
             timerStarted = false;
             timerTask.cancel();
-            Button btn=(Button)findViewById(R.id.stop);
+            Button btn=findViewById(R.id.stop);
             btn.setText("NASTAVI");
         }
     }
@@ -286,7 +286,7 @@ public class SportTracking extends AppCompatActivity {
             {
                 runOnUiThread(() -> {
                     vrijeme++;
-                    TextView vrem=(TextView)findViewById(R.id.vrijeme);
+                    TextView vrem=findViewById(R.id.vrijeme);
                     vrem.setText(getTimerText());
                     krajnje=getTimerText();
                 });

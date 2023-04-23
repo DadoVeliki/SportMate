@@ -76,7 +76,7 @@
             android:gravity="top"
             android:layout_height="match_parent"
             android:background="#86E5FF"
-            android:hint="Kaj te muči Njofra?" />
+            android:hint="Bitne stvari za podijeliti" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

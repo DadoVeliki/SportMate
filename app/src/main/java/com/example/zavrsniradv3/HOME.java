@@ -2,9 +2,6 @@ package com.example.zavrsniradv3;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,7 +40,6 @@ public class HOME extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         Intent i=getIntent();
         url=i.getStringExtra("URL");
         e=i.getStringExtra("EMAIL");
@@ -54,15 +50,13 @@ public class HOME extends AppCompatActivity {
         listaOdnosa=new ArrayList<>();
         listaOpreme=new ArrayList<>();
         listRut=new ArrayList<>();
-        BottomNavigationView bnv=(BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        BottomNavigationView bnv=findViewById(R.id.bottomNavigationView);
         bnv.setOnItemSelectedListener(item ->{
             switch (item.getItemId()){
                 case R.id.home:
-                    sendList(new HomeFragment());
-                    //replaceFragment(new HomeFragment());
+                    new Thread(()->{sendList(new HomeFragment());}).start();
                     break;
                 case R.id.record:
-                    //replaceFragment(new RecordFragment());
                     Intent intent=new Intent(this,ActivityRecord.class);
                     intent.putExtra("URL",url);
                     intent.putExtra("EMAIL",e);
@@ -76,39 +70,14 @@ public class HOME extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.profile:
-                    /*Thread thread = new Thread(new Runnable(){
-                        @Override
-                        public void run(){
-                    Bundle bundle=new Bundle();
-                    bundle.putParcelableArrayList("listaKor",lista);
-                    bundle.putParcelableArrayList("lista",listaAktivnosti);
-                    bundle.putParcelableArrayList("listaOb",listaObjava);
-                    bundle.putString("poruka",naziv);
-                    bundle.putString("opis",opis);
-                    bundle.putFloat("ovegodine",oveGodine);
-                    bundle.putInt("bro",brojObjava);
-                    bundle.putInt("bra",brojAktivnosti);
-                    bundle.putString("id",idUsera+"");
-                    bundle.putString("URL",url);
-                    bundle.putString("email",e);
-                    bundle.putInt("brojPratitelja",brojPratitelja);
-                    bundle.putInt("brojPratim",brojPratim);
-                    bundle.putIntArray("images",images);
-                    //bundle.putString("zadnjiD",zadnji);
-                    ProfileFragment p=new ProfileFragment();
-                    p.setArguments(bundle);
-                    replaceFragment(p);
-                        }
-                    });
-                    thread.start();*/
-                    sendList(new ProfileFragment());
+                    new Thread(()->{sendList(new ProfileFragment());}).start();
                     break;
             }
             return true;
         });
 
         @SuppressLint("InflateParams") View prof=getLayoutInflater().inflate(R.layout.fragment_profile,null);
-        LinearLayout aktivnosti=(LinearLayout) prof.findViewById(R.id.prva);
+        LinearLayout aktivnosti=prof.findViewById(R.id.prva);
         aktivnosti.setClickable(true);
         aktivnosti.setOnClickListener(view -> {
             Intent intent=new Intent(HOME.this,Statistika.class);
@@ -148,12 +117,11 @@ public class HOME extends AppCompatActivity {
                 }
 }
         }
-        catch (Exception e) {
+        catch (Exception e) {e.printStackTrace();
         }
     }, error -> {
     });
     Volley.newRequestQueue(HOME.this).add(request);
-
 
     //dohvaćanje svih aktivnosti
     StringRequest request2 = new StringRequest(url+"zav/dohvatiSveAktivnosti.php", response2 -> {
@@ -177,85 +145,13 @@ public class HOME extends AppCompatActivity {
                         object.getString("tipAkt")));
             }
         }
-        catch (Exception e) {
+        catch (Exception e) {e.printStackTrace();
         }
     }, error2 -> {
     });
     Volley.newRequestQueue(HOME.this).add(request2);
      //   }
    // });
-          /*  StringRequest request = new StringRequest(url+"zav/getAll.php", new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        //Log.d("response",response);
-                        JSONArray array = new JSONArray(response);
-                        JSONObject arr=new JSONObject(response);
-                        Log.d("useri",arr+"");
-                        Log.d("useri","aaa");
-                        for (int loop = 0; loop < array.length(); loop++) {
-                            JSONObject object = array.getJSONObject(loop);
-                            lista.add(new Korisnik(object.getInt("id"),
-                                    object.getString("ime"),
-                                    object.getString("prezime"),
-                                    object.getString("email"),
-                                    object.getString("lozinka"),
-                                    object.getInt("brojPratitelji"),
-                                    object.getInt("brojPratim"),
-                                    object.getInt("slika"),
-                                    object.getString("opis")));
-                        }
-                        Intent in=getIntent();
-                        String e=in.getStringExtra("EMAIL");
-                        //Log.d("email: ",e);
-                        for (Korisnik k:lista) {
-                            Log.d("useri",k.getId()+ " "+k.getIme()+" "+k.getPrezime());
-                            if(k.getEmail().equals(e)){
-                                brojPratitelja=k.getBrojPratitelji();
-                                brojPratim=k.getBrojPratim();
-                                naziv=k.getIme()+" "+k.getPrezime();
-                                opis=k.getOpis();
-                                idUsera=""+k.getId();
-                                //Log.d("idUsera: ",idUsera);
-                                break;
-                            }
-                        }
-
-                        for (int loop = 0; loop < array.length(); loop++) {
-                            JSONObject object = array.getJSONObject(loop);
-                            listaAktivnosti.add(new Aktivnost(
-                                    object.getInt("id"),
-                                    object.getInt("idUsera"),
-                                    object.getString("ime"),
-                                    object.getString("datum"),
-                                    object.getString("naslov"),
-                                    Float.parseFloat(object.getString("udaljenost")),
-                                    object.getInt("nadmorskaVisina"),
-                                    object.getString("vrijeme"),
-                                    object.getInt("brojLajkova"),
-                                    object.getString("vrsta"),
-                                    Float.parseFloat(object.getString("avgBrzina")),
-                                    object.getString("oprema"),
-                                    object.getString("tipAkt")));
-                        }
-
-                    }
-                    catch (Exception e) {
-                        AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-                        alertDialog.setTitle("Greška");
-                        alertDialog.setMessage(""+e.getMessage());
-                        //alertDialog.show();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                }
-            });
-            Volley.newRequestQueue(HOME.this).add(request);*/
-      //  }
-    //});
-    //thread.start();
     //dohvaćanje svih objava
     StringRequest request3 = new StringRequest(url+"zav/dohvatiSveObjave.php", response3 -> {
         try {
@@ -272,14 +168,8 @@ public class HOME extends AppCompatActivity {
                         object.getString("link"),
                         object.getInt("brojLajkova")));
             }
-          // sendList();
-            /*for(ObjavaC o:listaObjava){
-                if(o.getIdUsera()==Integer.parseInt(idUsera)){
-                    brojObjava++;
-                }
-            }*/
         }
-        catch (Exception e) {
+        catch (Exception e) {e.printStackTrace();
         }
     }, error -> {
     });
@@ -296,9 +186,8 @@ public class HOME extends AppCompatActivity {
                         object.getInt("idPrati"),
                         object.getInt("idPracen")));
             }
-           // sendList();
         }
-        catch (Exception e) {
+        catch (Exception e) {e.printStackTrace();
         }
     }, error -> {
     });
@@ -318,10 +207,8 @@ public class HOME extends AppCompatActivity {
                         object.getString("tip"),
                         object.getInt("idCije")));
             }
-
-
         }
-        catch (Exception e) {
+        catch (Exception e) {e.printStackTrace();
         }
     }, error -> {
     });
@@ -341,21 +228,17 @@ public class HOME extends AppCompatActivity {
             }
             sendList(new HomeFragment());
         }
-        catch (Exception e) {
+        catch (Exception e) {e.printStackTrace();
         }
     }, error -> {
     });
     Volley.newRequestQueue(HOME.this).add(request6);
         });
         thread.start();
-        //sendList();
 
     }
     private void replaceFragment(Fragment fragment){
-        FragmentManager fM=getSupportFragmentManager();
-        FragmentTransaction fT=fM.beginTransaction();
-        fT.replace(R.id.frame1,fragment);
-        fT.commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame1,fragment).commit();
     }
     public void sendList(Fragment f){
         Thread thread = new Thread(() -> {
@@ -377,7 +260,6 @@ public class HOME extends AppCompatActivity {
             bundle1.putInt("brojPratitelja",brojPratitelja);
             bundle1.putInt("brojPratim",brojPratim);
             bundle1.putIntArray("images",images);
-            //HomeFragment h=new HomeFragment();
             f.setArguments(bundle1);
             replaceFragment(f);
         });

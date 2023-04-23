@@ -32,31 +32,31 @@ public class LOGIN extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         lista=new ArrayList<>();
         email=lozinka="";
-        loginEmail=(TextInputEditText) findViewById(R.id.eEmail);
-        loginLozinka=(TextInputEditText) findViewById(R.id.eLozinka);
+        loginEmail=findViewById(R.id.eEmail);
+        loginLozinka=findViewById(R.id.eLozinka);
 
 
     }
     public void register(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.AlertDialogStyle);
         View izgled=getLayoutInflater().inflate(R.layout.dialog_registracija,null);
-        GridView g=(GridView)izgled.findViewById(R.id.grid);
+        GridView g=izgled.findViewById(R.id.grid);
         g.setAdapter(new ImageAdapter(this,images));
         g.setOnItemClickListener((adapterView, view1, i, l) -> {
-            CircleImageView odabrani=(CircleImageView) izgled.findViewById(R.id.odabrani);
+            CircleImageView odabrani=izgled.findViewById(R.id.odabrani);
             odabrani.setImageResource(images[i]);
             odabrana=i;
         });
 
         builder.setView(izgled);
         builder.show();
-        MaterialButton btnReg=(MaterialButton)izgled.findViewById(R.id.button2);
+        MaterialButton btnReg=izgled.findViewById(R.id.button2);
         btnReg.setOnClickListener(view12 -> {
-            TextInputEditText ime=(TextInputEditText) izgled.findViewById(R.id.ime);
-            TextInputEditText prezime=(TextInputEditText) izgled.findViewById(R.id.prezime);
-            TextInputEditText email=(TextInputEditText) izgled.findViewById(R.id.email);
-            TextInputEditText lozinka=(TextInputEditText) izgled.findViewById(R.id.lozinka);
-            TextInputEditText info=(TextInputEditText)izgled.findViewById(R.id.bio);
+            TextInputEditText ime=izgled.findViewById(R.id.ime);
+            TextInputEditText prezime=izgled.findViewById(R.id.prezime);
+            TextInputEditText email=izgled.findViewById(R.id.email);
+            TextInputEditText lozinka=izgled.findViewById(R.id.lozinka);
+            TextInputEditText info=izgled.findViewById(R.id.bio);
             String name= Objects.requireNonNull(ime.getText()).toString();
             String surname= Objects.requireNonNull(prezime.getText()).toString();
             String mail= Objects.requireNonNull(email.getText()).toString();
@@ -92,7 +92,7 @@ public class LOGIN extends AppCompatActivity {
                             backgroundWorker.execute(locUrl,type,name,surname,mail,password,url,odabrana+"",opis);
                         }
                     }
-                    catch (Exception e) {
+                    catch (Exception e) {e.printStackTrace();
                     }
                 }, error -> {
                 });

@@ -50,7 +50,7 @@ public class ActivityRecord extends AppCompatActivity{
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
         setContentView(R.layout.activity_record);
-        map = (MapView) findViewById(R.id.map);
+        map = findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setMultiTouchControls(true);
 
@@ -72,7 +72,6 @@ public class ActivityRecord extends AppCompatActivity{
         myLocationOverlay.enableMyLocation();
         map.getOverlays().add(myLocationOverlay);
         map.invalidate();
-        // Get the current location
         GeoPoint currentLocation = myLocationOverlay.getMyLocation();
         if (currentLocation != null) {
             Log.d("MainActivity", "Current location: " + currentLocation.getLatitude() + ", " + currentLocation.getLongitude());
@@ -85,31 +84,26 @@ public class ActivityRecord extends AppCompatActivity{
         items[1]="Šetnja";
         items[2]="Biciklizam";
 
-        Spinner spinner = (Spinner) findViewById(R.id.odabir);
+        Spinner spinner = findViewById(R.id.odabir);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item1, items);
         adapter.setDropDownViewResource(R.layout.spinner_item1);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                TextView t=(TextView) findViewById(R.id.toolbar_title);
+                TextView t=findViewById(R.id.toolbar_title);
                 t.setText(items[pos]);
                 tip=items[pos];
             }
-
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
-
     }
     @Override
     public void onResume(){
         super.onResume();
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

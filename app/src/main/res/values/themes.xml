@@ -29,4 +29,10 @@
         <item name="android:textColor">#000000</item>
         <item name="android:textColorPrimary">#ff0000</item>
     </style>
+    <style name="AlertDialogStyle3" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">#31B2FB</item>
+        <item name="android:colorAccent">#ff0000</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorPrimary">#ff0000</item>
+    </style>
 </resources>

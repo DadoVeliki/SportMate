@@ -14,8 +14,7 @@ public class StartUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_up);
 
-        ConstraintLayout con=(ConstraintLayout) findViewById(R.id.con);
-        con.setOnClickListener(view -> {
+        findViewById(R.id.con).setOnClickListener(view -> {
             startActivity(new Intent(StartUp.this,LOGIN.class));
             overridePendingTransition(R.anim.anim1,R.anim.anim2);
         });

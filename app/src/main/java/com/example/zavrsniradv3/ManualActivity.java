@@ -35,20 +35,20 @@ public class ManualActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual);
         pop=new ArrayList<>();
-        ImageView img=(ImageView) findViewById(R.id.backAkt);
+        ImageView img=findViewById(R.id.backAkt);
         img.setOnClickListener(view -> finish());
         Intent i=getIntent();
         url=i.getStringExtra("URL");
         idU=i.getStringExtra("id");
         listaOpreme=i.getParcelableArrayListExtra("listOp");
-        TextView datum=(TextView) findViewById(R.id.datum);
+        TextView datum=findViewById(R.id.datum);
         datum.setInputType(InputType.TYPE_NULL);
         datum.setOnClickListener(view -> dateTimePicker(datum));
-        TextView vrijeme=(TextView)findViewById(R.id.vrijeme);
+        TextView vrijeme=findViewById(R.id.vrijeme);
         vrijeme.setOnClickListener(view -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(ManualActivity.this,R.style.AlertDialogStyle2);
+            AlertDialog.Builder builder = new AlertDialog.Builder(ManualActivity.this,R.style.AlertDialogStyle3);
             View izgled=getLayoutInflater().inflate(R.layout.timepicker,null);
-            TimePicker timePicker=(TimePicker)izgled.findViewById(R.id.timePicker1);
+            TimePicker timePicker=izgled.findViewById(R.id.timePicker1);
             timePicker.setIs24HourView(true);
             timePicker.setHour(0);
             timePicker.setMinute(0);
@@ -77,7 +77,7 @@ public class ManualActivity extends AppCompatActivity {
                             object.getString("tip"),
                             object.getInt("idCije")));
                 }
-                Spinner spinner2 = (Spinner) findViewById(R.id.spinOprema);
+                Spinner spinner2 = findViewById(R.id.spinOprema);
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(ManualActivity.this,
                         android.R.layout.simple_spinner_item, pop){
                     @Override
@@ -101,7 +101,7 @@ public class ManualActivity extends AppCompatActivity {
                 items[2]="Šetnja";
                 items[3]="Biciklizam";
 
-                Spinner spinner = (Spinner) findViewById(R.id.spinnerTip);
+                Spinner spinner = findViewById(R.id.spinnerTip);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(ManualActivity.this,
                         android.R.layout.simple_spinner_dropdown_item, items){
                     @Override
@@ -138,7 +138,7 @@ public class ManualActivity extends AppCompatActivity {
                     }
                 });
             }
-            catch (Exception e) {
+            catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });
@@ -167,17 +167,17 @@ public class ManualActivity extends AppCompatActivity {
         Intent intent=getIntent();
         String id=intent.getStringExtra("id"),ime=intent.getStringExtra("ime");
         url=intent.getStringExtra("URL");
-        TextInputEditText naslov=(TextInputEditText) findViewById(R.id.naslov);
-        TextView vrijeme=(TextView) findViewById(R.id.vrijeme);
-        TextInputEditText udaljenost=(TextInputEditText) findViewById(R.id.udalj);
-        TextInputEditText elev=(TextInputEditText) findViewById(R.id.elev);
-        TextView datum=(TextView) findViewById(R.id.datum);
+        TextInputEditText naslov=findViewById(R.id.naslov);
+        TextView vrijeme=findViewById(R.id.vrijeme);
+        TextInputEditText udaljenost=findViewById(R.id.udalj);
+        TextInputEditText elev=findViewById(R.id.elev);
+        TextView datum=findViewById(R.id.datum);
 
         String nas= Objects.requireNonNull(naslov.getText()).toString(),vri=vrijeme.getText().toString(),dist= Objects.requireNonNull(udaljenost.getText()).toString(),nmv= Objects.requireNonNull(elev.getText()).toString(),dat=datum.getText().toString();
         String locurl=url+"zav/unosAktivnosti.php",type = "act",vrsta="man",oprema=selOp;
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(ManualActivity.this,3);
-        TextView prazno=(TextView) findViewById(R.id.prazno);
+        TextView prazno=findViewById(R.id.prazno);
         if(nas.equals("") || vri.equals("") || dist.equals("") || nmv.equals("") || dat.equals("") || oprema.equals("") || tipAkt.equals("")){
             prazno.setText("Potrebno ispuniti sva polja!");
         }

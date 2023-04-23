@@ -32,8 +32,7 @@ public class Objave extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_objave);
-        ImageView img=(ImageView) findViewById(R.id.backOb);
-        img.setOnClickListener(view -> finish());
+        findViewById(R.id.backOb).setOnClickListener(view -> finish());
         Intent intent=getIntent();
         images=intent.getIntArrayExtra("images");
         listUs=intent.getParcelableArrayListExtra("listUs");
@@ -50,7 +49,7 @@ public class Objave extends AppCompatActivity {
                 }
             }
         }
-        LinearLayout l=(LinearLayout) findViewById(R.id.ll1);
+        LinearLayout l=findViewById(R.id.ll1);
         //dohvaćanje svih objava
         @SuppressLint({"SetTextI18n", "NonConstantResourceId"}) StringRequest request3 = new StringRequest(url+"zav/dohvatiSveObjave.php", response3 -> {
             try {
@@ -71,13 +70,13 @@ public class Objave extends AppCompatActivity {
                     for(Korisnik k:kojePratim){
                         if((k.getId()==o.getIdUsera()) || (o.getIdUsera()==Integer.parseInt(id))){
                             @SuppressLint("InflateParams") View ob=getLayoutInflater().inflate(R.layout.preview_objava,null);
-                            TextView ime=(TextView)ob.findViewById(R.id.name);
-                            TextView datum=(TextView)ob.findViewById(R.id.date);
-                            TextView naslov=(TextView)ob.findViewById(R.id.title);
-                            TextView tekst=(TextView)ob.findViewById(R.id.tekst1);
-                            TextView pov=(TextView)ob.findViewById(R.id.link);
-                            TextView like=(TextView)ob.findViewById(R.id.like);
-                            CircleImageView profile=(CircleImageView)ob.findViewById(R.id.profile_image);
+                            TextView ime=ob.findViewById(R.id.name);
+                            TextView datum=ob.findViewById(R.id.date);
+                            TextView naslov=ob.findViewById(R.id.title);
+                            TextView tekst=ob.findViewById(R.id.tekst1);
+                            TextView pov=ob.findViewById(R.id.link);
+                            TextView like=ob.findViewById(R.id.like);
+                            CircleImageView profile=ob.findViewById(R.id.profile_image);
                             LocalDateTime d=LocalDateTime.parse(o.getDatum(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                             final DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd", Locale.ENGLISH);
                             final DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("MM", Locale.ENGLISH);
@@ -93,7 +92,7 @@ public class Objave extends AppCompatActivity {
                             pov.setMovementMethod(LinkMovementMethod.getInstance());
                             pov.setText(Html.fromHtml(a,Html.FROM_HTML_MODE_COMPACT));
                             like.setText(o.getBrojLajkova()+" oznaka sviđa mi se");
-                            BottomNavigationView bnv=(BottomNavigationView)ob.findViewById(R.id.bottomAkt);
+                            BottomNavigationView bnv=ob.findViewById(R.id.bottomAkt);
                             bnv.setOnItemSelectedListener(item ->{
                                 switch (item.getItemId()){
                                     case R.id.lajk:
@@ -125,7 +124,7 @@ public class Objave extends AppCompatActivity {
                                                         item.setEnabled(false);
                                                     }
                                                 }
-                                                catch (Exception e) {
+                                                catch (Exception e) {e.printStackTrace();
                                                 }
                                             }, error2 -> {
                                             });
@@ -148,14 +147,14 @@ public class Objave extends AppCompatActivity {
                                 }
                                 return true;
                             });
-                            LinearLayout p=(LinearLayout)ob.findViewById(R.id.parent);
+                            LinearLayout p=ob.findViewById(R.id.parent);
                             l.addView(p);
                             break;
                         }
                     }
                 }
             }
-            catch (Exception e) {
+            catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });

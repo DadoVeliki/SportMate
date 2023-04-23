@@ -81,33 +81,34 @@ public class ProfileFragment extends Fragment {
         listMojiAkt=new ArrayList<>();
         ArrayList<Rute>listRut=((HOME)getActivity()).getRut();
         View prof=inflater.inflate(R.layout.fragment_profile,container,false);
-        LineChart lineChart=(LineChart) prof.findViewById(R.id.chart);
-        LinearLayout aktivnosti=(LinearLayout) prof.findViewById(R.id.prva);
-        LinearLayout stats=(LinearLayout) prof.findViewById(R.id.druga);
-        LinearLayout objave=(LinearLayout) prof.findViewById(R.id.treca);
-        LinearLayout oprema=(LinearLayout) prof.findViewById(R.id.cetvrta);
-        TextView nameProf=(TextView)prof.findViewById(R.id.tv1);
-        TextView opis=(TextView)prof.findViewById(R.id.tv2);
+        LineChart lineChart=prof.findViewById(R.id.chart);
+        LinearLayout aktivnosti=prof.findViewById(R.id.prva);
+        LinearLayout stats= prof.findViewById(R.id.druga);
+        LinearLayout objave=prof.findViewById(R.id.treca);
+        LinearLayout oprema=prof.findViewById(R.id.cetvrta);
+        TextView nameProf=prof.findViewById(R.id.tv1);
+        TextView opis=prof.findViewById(R.id.tv2);
         assert this.getArguments() != null;
-        nameProf.setText(this.getArguments().getString("ime"));
-        opis.setText(this.getArguments().getString("opis"));
+        //nameProf.setText(this.getArguments().getString("ime"));
+        //opis.setText(this.getArguments().getString("opis"));
 
-        TextView st=(TextView) prof.findViewById(R.id.opis2);
-        TextView ob=(TextView) prof.findViewById(R.id.opis3);
-        TextView ak=(TextView) prof.findViewById(R.id.opis1);
-        TextView bra=(TextView) prof.findViewById(R.id.bra);
-        TextView bike=(TextView) prof.findViewById(R.id.opis4);
-        TextView onimene=(TextView) prof.findViewById(R.id.onimene);
-        TextView janjih=(TextView) prof.findViewById(R.id.janjih);
-        CircleImageView avatar=(CircleImageView)prof.findViewById(R.id.avatar);
+        TextView st=prof.findViewById(R.id.opis2);
+        TextView ob=prof.findViewById(R.id.opis3);
+        TextView ak=prof.findViewById(R.id.opis1);
+        TextView bra=prof.findViewById(R.id.bra);
+        TextView bike=prof.findViewById(R.id.opis4);
+        TextView onimene=prof.findViewById(R.id.onimene);
+        TextView janjih=prof.findViewById(R.id.janjih);
+        CircleImageView avatar=prof.findViewById(R.id.avatar);
 
         String id=this.getArguments().getString("id");
         String url=this.getArguments().getString("URL");
         images=this.getArguments().getIntArray("images");
         e=this.getArguments().getString("email");
-
+new Thread(()->{
+    try {
 //dohvaćanje svih korisnika i slanje podataka od trenutnog prijavljenog
-        @SuppressLint("SetTextI18n") StringRequest request = new StringRequest(url+"zav/dohvatiSve.php", response -> {
+        @SuppressLint("SetTextI18n") StringRequest request = new StringRequest(url + "zav/dohvatiSve.php", response -> {
             try {
                 JSONArray array = new JSONArray(response);
                 for (int loop = 0; loop < array.length(); loop++) {
@@ -122,24 +123,25 @@ public class ProfileFragment extends Fragment {
                             object.getInt("slika"),
                             object.getString("opis")));
                 }
-                for (Korisnik k:listUs) {
-                    if(k.getEmail().equals(e)){
-                        brojPratitelja=k.getBrojPratitelji();
-                        br2=k.getBrojPratim();
+                for (Korisnik k : listUs) {
+                    if (k.getEmail().equals(e)) {
+                        brojPratitelja = k.getBrojPratitelji();
+                        br2 = k.getBrojPratim();
                         avatar.setImageResource(images[k.getSlika()]);
+                        nameProf.setText(k.getIme()+" "+k.getPrezime());
+                        opis.setText(k.getOpis());
                     }
                 }
-                onimene.setText(""+brojPratitelja);
-                janjih.setText(""+br2);
-            }
-            catch (Exception e) {
+                onimene.setText("" + brojPratitelja);
+                janjih.setText("" + br2);
+            } catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });
         Volley.newRequestQueue(getActivity().getApplicationContext()).add(request);
 
         //dohvaćanje svih aktivnosti
-        @SuppressLint("SetTextI18n") StringRequest request2 = new StringRequest(url+"zav/dohvatiSveAktivnosti.php", response2 -> {
+        @SuppressLint("SetTextI18n") StringRequest request2 = new StringRequest(url + "zav/dohvatiSveAktivnosti.php", response2 -> {
             try {
                 JSONArray array = new JSONArray(response2);
                 for (int loop = 0; loop < array.length(); loop++) {
@@ -159,26 +161,26 @@ public class ProfileFragment extends Fragment {
                             object.getString("oprema"),
                             object.getString("tipAkt")));
                 }
-                for(Aktivnost a:listAkt){
-                    if(a.getIdUsera()==Integer.parseInt(id)){
-                        oveGodine+=a.getUdaljenost();
+                for (Aktivnost a : listAkt) {
+                    if (a.getIdUsera() == Integer.parseInt(id)) {
+                        oveGodine += a.getUdaljenost();
                         brojAktivnosti++;
-                        if(zadnja.equals("")){
-                            zadnja=a.getDatum();
+                        if (zadnja.equals("")) {
+                            zadnja = a.getDatum();
                         }
                         listMojiAkt.add(a);
                     }
                 }
-                st.setText("Do sada: "+oveGodine+" km");
-                bra.setText(""+brojAktivnosti);
+                st.setText("Do sada: " + oveGodine + " km");
+                bra.setText("" + brojAktivnosti);
                 final DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd", Locale.ENGLISH);
                 final DateTimeFormatter dtf3 = DateTimeFormatter.ofPattern("MM", Locale.ENGLISH);
                 final DateTimeFormatter dtf4 = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH);
-                LocalDateTime d=LocalDateTime.parse(zadnja, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                ak.setText("Posljednja: "+dtf2.format(d)+". "+MojeMetode.kojiMjesec(dtf3,d)+" "+dtf4.format(d)+".");
-                List<Entry>entries=new ArrayList<>();
-                for(int i=0;i<10;i++){
-                    entries.add(new Entry(i,listMojiAkt.get(9-i).getUdaljenost()));
+                LocalDateTime d = LocalDateTime.parse(zadnja, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                ak.setText("Posljednja: " + dtf2.format(d) + ". " + MojeMetode.kojiMjesec(dtf3, d) + " " + dtf4.format(d) + ".");
+                List<Entry> entries = new ArrayList<>();
+                for (int i = 0; i < 10; i++) {
+                    entries.add(new Entry(i, listMojiAkt.get(9 - i).getUdaljenost()));
                 }
                 LineDataSet dataSet = new LineDataSet(entries, "");
                 dataSet.setColor(Color.parseColor("#5BC0F8"));
@@ -190,20 +192,19 @@ public class ProfileFragment extends Fragment {
 
                 LineData lineData = new LineData(dataSet);
                 lineChart.setData(lineData);
-                Description desc=new Description();
+                Description desc = new Description();
                 desc.setText("");
                 lineChart.setDescription(desc);
                 lineChart.getLegend().setEnabled(false);
                 lineChart.invalidate();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {e.printStackTrace();
             }
         }, error2 -> {
         });
         Volley.newRequestQueue(getActivity().getApplicationContext()).add(request2);
 
         //dohvaćanje svih objava
-        StringRequest request3 = new StringRequest(url+"zav/dohvatiSveObjave.php", response3 -> {
+        StringRequest request3 = new StringRequest(url + "zav/dohvatiSveObjave.php", response3 -> {
             try {
                 JSONArray array = new JSONArray(response3);
                 for (int loop = 0; loop < array.length(); loop++) {
@@ -218,21 +219,20 @@ public class ProfileFragment extends Fragment {
                             object.getString("link"),
                             object.getInt("brojLajkova")));
                 }
-                for(ObjavaC o:listOb){
-                    if(o.getIdUsera()==Integer.parseInt(id)){
+                for (ObjavaC o : listOb) {
+                    if (o.getIdUsera() == Integer.parseInt(id)) {
                         brojObjava++;
                     }
                 }
-                ob.setText(""+brojObjava);
-            }
-            catch (Exception e) {
+                ob.setText("" + brojObjava);
+            } catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });
         Volley.newRequestQueue(getActivity().getApplicationContext()).add(request3);
 
         //dohvaćanje svih odnosa
-        StringRequest request4 = new StringRequest(url+"zav/dohvatiSveOdnose.php", response4 -> {
+        StringRequest request4 = new StringRequest(url + "zav/dohvatiSveOdnose.php", response4 -> {
             try {
                 JSONArray array = new JSONArray(response4);
                 for (int loop = 0; loop < array.length(); loop++) {
@@ -242,14 +242,13 @@ public class ProfileFragment extends Fragment {
                             object.getInt("idPrati"),
                             object.getInt("idPracen")));
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });
         Volley.newRequestQueue(getActivity().getApplicationContext()).add(request4);
 //dohvaćanje sve opreme
-        StringRequest request5 = new StringRequest(url+"zav/dohvatiOpremu.php", response5 -> {
+        StringRequest request5 = new StringRequest(url + "zav/dohvatiOpremu.php", response5 -> {
             try {
                 JSONArray array = new JSONArray(response5);
                 for (int loop = 0; loop < array.length(); loop++) {
@@ -262,130 +261,131 @@ public class ProfileFragment extends Fragment {
                             object.getString("tip"),
                             object.getInt("idCije")));
                 }
-                for(Oprema o:listOp){
-                    if(o.getIdCije()==Integer.parseInt(id)){
-                        bike.setText(o.getMarka()+" "+o.getModel());
+                for (Oprema o : listOp) {
+                    if (o.getIdCije() == Integer.parseInt(id)) {
+                        bike.setText(o.getMarka() + " " + o.getModel());
                     }
                 }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });
         Volley.newRequestQueue(getActivity().getApplicationContext()).add(request5);
         aktivnosti.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(),PopisAktivnosti.class);
-            intent.putExtra("listAkt",listAkt);
-            intent.putExtra("listUs",listUs);
-            intent.putExtra("listRut",listRut);
-            intent.putExtra("id",id);
-            intent.putExtra("URL",url);
-            intent.putExtra("images",images);
+            Intent intent = new Intent(getContext(), PopisAktivnosti.class);
+            intent.putExtra("listAkt", listAkt);
+            intent.putExtra("listUs", listUs);
+            intent.putExtra("listRut", listRut);
+            intent.putExtra("id", id);
+            intent.putExtra("URL", url);
+            intent.putExtra("images", images);
             startActivity(intent);
         });
         stats.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(),Statistika.class);
-            intent.putExtra("id",id);
-            intent.putExtra("URL",url);
+            Intent intent = new Intent(getContext(), Statistika.class);
+            intent.putExtra("id", id);
+            intent.putExtra("URL", url);
             startActivity(intent);
         });
         objave.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(),Objave.class);
-            intent.putExtra("listAkt",listAkt);
-            intent.putExtra("listUs",listUs);
-            intent.putExtra("listOb",listOb);
-            intent.putExtra("id",id);
-            intent.putExtra("URL",url);
-            intent.putExtra("images",images);
-            intent.putParcelableArrayListExtra("listaOdnosa",listOd);
+            Intent intent = new Intent(getContext(), Objave.class);
+            intent.putExtra("listAkt", listAkt);
+            intent.putExtra("listUs", listUs);
+            intent.putExtra("listOb", listOb);
+            intent.putExtra("id", id);
+            intent.putExtra("URL", url);
+            intent.putExtra("images", images);
+            intent.putParcelableArrayListExtra("listaOdnosa", listOd);
             startActivity(intent);
         });
         oprema.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(), PopisOpreme.class);
-            intent.putExtra("URL",url);
-            intent.putExtra("listOp",listOp);
-            intent.putExtra("listAkt",listAkt);
-            intent.putExtra("id",id);
-            for(Oprema o:listOp){
-                Log.d("objava1:",o.getNadimak()+" "+o.getMarka()+" "+o.getModel());
+            Intent intent = new Intent(getContext(), PopisOpreme.class);
+            intent.putExtra("URL", url);
+            intent.putExtra("listOp", listOp);
+            intent.putExtra("listAkt", listAkt);
+            intent.putExtra("id", id);
+            for (Oprema o : listOp) {
+                Log.d("objava1:", o.getNadimak() + " " + o.getMarka() + " " + o.getModel());
             }
             startActivity(intent);
         });
 
-        LinearLayout kA=(LinearLayout) prof.findViewById(R.id.klikAkt);
+        LinearLayout kA = prof.findViewById(R.id.klikAkt);
         kA.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(),PopisAktivnosti.class);
-            intent.putExtra("listAkt",listAkt);
-            intent.putExtra("listUs",listUs);
-            intent.putExtra("listRut",listRut);
-            intent.putExtra("id",id);
-            intent.putExtra("URL",url);
-            intent.putExtra("images",images);
+            Intent intent = new Intent(getContext(), PopisAktivnosti.class);
+            intent.putExtra("listAkt", listAkt);
+            intent.putExtra("listUs", listUs);
+            intent.putExtra("listRut", listRut);
+            intent.putExtra("id", id);
+            intent.putExtra("URL", url);
+            intent.putExtra("images", images);
             startActivity(intent);
         });
-        LinearLayout kP=(LinearLayout) prof.findViewById(R.id.klikPra);
+        LinearLayout kP = prof.findViewById(R.id.klikPra);
         kP.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(),Pratitelji.class);
-            intent.putExtra("id",id);
-            intent.putExtra("URL",url);
-            intent.putParcelableArrayListExtra("lista",listUs);
-            intent.putParcelableArrayListExtra("listaOdnosa",listOd);
-            intent.putExtra("images",images);
-            intent.putExtra("br2",br2);
-            intent.putExtra("prvo",0);
+            Intent intent = new Intent(getContext(), Pratitelji.class);
+            intent.putExtra("id", id);
+            intent.putExtra("URL", url);
+            intent.putParcelableArrayListExtra("lista", listUs);
+            intent.putParcelableArrayListExtra("listaOdnosa", listOd);
+            intent.putExtra("images", images);
+            intent.putExtra("br2", br2);
+            intent.putExtra("prvo", 0);
             startActivity(intent);
         });
-        LinearLayout kP2=(LinearLayout) prof.findViewById(R.id.klikPratim);
+        LinearLayout kP2 = prof.findViewById(R.id.klikPratim);
         kP2.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(),Pratitelji.class);
-            intent.putExtra("id",id);
-            intent.putExtra("URL",url);
-            intent.putParcelableArrayListExtra("lista",listUs);
-            intent.putParcelableArrayListExtra("listaOdnosa",listOd);
-            intent.putExtra("images",images);
-            intent.putExtra("br2",br2);
-            intent.putExtra("prvo",1);
-            Log.d("br2prof",""+br2);
+            Intent intent = new Intent(getContext(), Pratitelji.class);
+            intent.putExtra("id", id);
+            intent.putExtra("URL", url);
+            intent.putParcelableArrayListExtra("lista", listUs);
+            intent.putParcelableArrayListExtra("listaOdnosa", listOd);
+            intent.putExtra("images", images);
+            intent.putExtra("br2", br2);
+            intent.putExtra("prvo", 1);
+            Log.d("br2prof", "" + br2);
             startActivity(intent);
         });
 
 
-        ImageView img=(ImageView) prof.findViewById(R.id.ljudi);
+        ImageView img =  prof.findViewById(R.id.ljudi);
         img.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(),PopisKorisnika.class);
-            intent.putParcelableArrayListExtra("lista",listUs);
-            intent.putParcelableArrayListExtra("listaOdnosa",listOd);
-            intent.putExtra("URL",url);
-            intent.putExtra("id",id);
-            intent.putExtra("br2",brojPratim);
-            intent.putExtra("images",images);
+            Intent intent = new Intent(getContext(), PopisKorisnika.class);
+            intent.putParcelableArrayListExtra("lista", listUs);
+            intent.putParcelableArrayListExtra("listaOdnosa", listOd);
+            intent.putExtra("URL", url);
+            intent.putExtra("id", id);
+            intent.putExtra("br2", brojPratim);
+            intent.putExtra("images", images);
             startActivity(intent);
         });
-        ImageView img2=(ImageView) prof.findViewById(R.id.edit);
+        ImageView img2 = prof.findViewById(R.id.edit);
         img2.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogStyle2);
             View dizajn = getLayoutInflater().inflate(R.layout.edit_user, null);
             builder.setView(dizajn);
             builder.show();
-            TextInputEditText ime=(TextInputEditText) dizajn.findViewById(R.id.ime);
-            TextInputEditText prezime=(TextInputEditText) dizajn.findViewById(R.id.prezime);
-            TextInputEditText bio=(TextInputEditText) dizajn.findViewById(R.id.bio);
-            for(Korisnik k:listUs){
-                if(k.getId()==Integer.parseInt(id)){
+            TextInputEditText ime =dizajn.findViewById(R.id.ime);
+            TextInputEditText prezime = dizajn.findViewById(R.id.prezime);
+            TextInputEditText bio =  dizajn.findViewById(R.id.bio);
+            for (Korisnik k : listUs) {
+                if (k.getId() == Integer.parseInt(id)) {
                     ime.setText(k.getIme());
                     prezime.setText(k.getPrezime());
                     bio.setText(k.getOpis());
                 }
             }
-            String locurl=url+"zav/urediKorisnika.php";
+            String locurl = url + "zav/urediKorisnika.php";
             String type = "uredi";
 
-            Button btn=(Button) dizajn.findViewById(R.id.button2);
+            Button btn = dizajn.findViewById(R.id.button2);
             btn.setOnClickListener(view1 -> {
-                BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(),11);
-                backgroundWorker.execute(locurl,type,id, Objects.requireNonNull(ime.getText()).toString(), Objects.requireNonNull(prezime.getText()).toString(), Objects.requireNonNull(bio.getText()).toString());
+                BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 11);
+                backgroundWorker.execute(locurl, type, id, Objects.requireNonNull(ime.getText()).toString(), Objects.requireNonNull(prezime.getText()).toString(), Objects.requireNonNull(bio.getText()).toString());
             });
         });
+    }catch (Exception e){e.printStackTrace();}
+}).start();
         return prof;
     }
 }

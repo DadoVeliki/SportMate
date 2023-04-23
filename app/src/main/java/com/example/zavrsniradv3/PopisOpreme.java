@@ -28,14 +28,13 @@ public class PopisOpreme extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oprema);
-        ImageView img=(ImageView) findViewById(R.id.backOp);
-        img.setOnClickListener(view -> finish());
+        findViewById(R.id.backOp).setOnClickListener(view -> finish());
         Intent intent=getIntent();
         url=intent.getStringExtra("URL");
         id=intent.getStringExtra("id");
         listaOpreme=new ArrayList<>();
         String id=intent.getStringExtra("id");
-        LinearLayout l=(LinearLayout) findViewById(R.id.linearBikes);
+        LinearLayout l=findViewById(R.id.linearBikes);
 
         //dohvaćanje sve opreme
         @SuppressLint("SetTextI18n") StringRequest request5 = new StringRequest(url+"zav/dohvatiOpremu.php", response5 -> {
@@ -54,9 +53,9 @@ public class PopisOpreme extends AppCompatActivity {
                 for(Oprema o:listaOpreme){
                     if(o.getIdCije()==Integer.parseInt(id)){
                         @SuppressLint("InflateParams") View op=getLayoutInflater().inflate(R.layout.prikaz_opreme,null);
-                        TextView nick=(TextView)op.findViewById(R.id.nick);
-                        TextView name=(TextView)op.findViewById(R.id.name);
-                        ImageView vrsta=(ImageView)op.findViewById(R.id.vrsta);
+                        TextView nick=op.findViewById(R.id.nick);
+                        TextView name=op.findViewById(R.id.name);
+                        ImageView vrsta=op.findViewById(R.id.vrsta);
 
                         nick.setText(o.getNadimak());
                         name.setText(o.getMarka()+" "+o.getModel());
@@ -66,9 +65,9 @@ public class PopisOpreme extends AppCompatActivity {
                         else if(o.getTip().equals("Tenisice")){
                             vrsta.setImageResource(R.drawable.patike);
                         }
-                        LinearLayout p=(LinearLayout)op.findViewById(R.id.parent);
+                        LinearLayout p=op.findViewById(R.id.parent);
                         l.addView(p);
-                        ImageView remove=(ImageView) op.findViewById(R.id.remove);
+                        ImageView remove= op.findViewById(R.id.remove);
                         remove.setOnClickListener(view -> {
                             String locUrl=url+"zav/ukloniOpremu.php";
                             String type = "uklOp";
@@ -79,13 +78,13 @@ public class PopisOpreme extends AppCompatActivity {
                 }
                 //sendList();
             }
-            catch (Exception e) {
+            catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });
         Volley.newRequestQueue(this).add(request5);
 
-        ImageView dodavanje=(ImageView) findViewById(R.id.add);
+        ImageView dodavanje= findViewById(R.id.add);
         dodavanje.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(PopisOpreme.this, R.style.AlertDialogStyle);
             View dizajn = getLayoutInflater().inflate(R.layout.dodavanje_opreme, null);
@@ -94,7 +93,7 @@ public class PopisOpreme extends AppCompatActivity {
             String[] items=new String[2];
             items[0]="Bicikl";
             items[1]="Tenisice";
-            Spinner spinner = (Spinner) dizajn.findViewById(R.id.spinner);
+            Spinner spinner = dizajn.findViewById(R.id.spinner);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(PopisOpreme.this,
                     android.R.layout.simple_spinner_dropdown_item, items);
             spinner.setAdapter(adapter);
@@ -111,11 +110,11 @@ public class PopisOpreme extends AppCompatActivity {
                 public void onNothingSelected(AdapterView<?> parent) {
                 }
             });
-            Button btn=(Button) dizajn.findViewById(R.id.button2);
+            Button btn=dizajn.findViewById(R.id.button2);
             btn.setOnClickListener(view1 -> {
-                TextInputEditText nadimak=(TextInputEditText) dizajn.findViewById(R.id.nick);
-                TextInputEditText marka=(TextInputEditText) dizajn.findViewById(R.id.marka);
-                TextInputEditText model=(TextInputEditText) dizajn.findViewById(R.id.model);
+                TextInputEditText nadimak=dizajn.findViewById(R.id.nick);
+                TextInputEditText marka=dizajn.findViewById(R.id.marka);
+                TextInputEditText model= dizajn.findViewById(R.id.model);
 
                 String nick= Objects.requireNonNull(nadimak.getText()).toString();
                 String mark= Objects.requireNonNull(marka.getText()).toString();

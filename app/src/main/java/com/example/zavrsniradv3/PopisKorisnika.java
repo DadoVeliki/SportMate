@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.android.volley.toolbox.StringRequest;
@@ -37,10 +36,9 @@ public class PopisKorisnika extends AppCompatActivity {
         String id=i.getStringExtra("id");
         br2=i.getIntExtra("br2",0);
         Log.d("br2",""+br2);
-        LinearLayout l=(LinearLayout)findViewById(R.id.ll2);
+        LinearLayout l=findViewById(R.id.ll2);
         listUs=i.getParcelableArrayListExtra("lista");
-        ImageView img=(ImageView) findViewById(R.id.backAkt);
-        img.setOnClickListener(view -> finish());
+        findViewById(R.id.backAkt).setOnClickListener(view -> finish());
         ArrayList<Integer>praceni=new ArrayList<>();
         //dohvaćanje svih odnosa
         @SuppressLint({"SetTextI18n", "ResourceType"}) StringRequest request4 = new StringRequest(url+"zav/dohvatiSveOdnose.php", response4 -> {
@@ -59,7 +57,7 @@ public class PopisKorisnika extends AppCompatActivity {
                             praceni.add(o.getIdPracen());
                         }
                     }
-                    catch(NumberFormatException n){
+                    catch(NumberFormatException n){n.printStackTrace();
                     }
                 }
                 for(Korisnik k:listUs){
@@ -69,14 +67,14 @@ public class PopisKorisnika extends AppCompatActivity {
                 for(Korisnik k:listUs){
                     if(k.getId()!=Integer.parseInt(id)) {
                         @SuppressLint("InflateParams") View us = getLayoutInflater().inflate(R.layout.prikaz_usera, null);
-                        TextView name = (TextView) us.findViewById(R.id.ime);
-                        TextView desc = (TextView) us.findViewById(R.id.op);
-                        CircleImageView profile=(CircleImageView)us.findViewById(R.id.profile_image);
+                        TextView name =  us.findViewById(R.id.ime);
+                        TextView desc = us.findViewById(R.id.op);
+                        CircleImageView profile=us.findViewById(R.id.profile_image);
                         name.setText(k.getIme() + " " + k.getPrezime());
                         desc.setText(k.getOpis());
                         profile.setImageResource(images[k.getSlika()]);
 
-                        Button btn = (Button) us.findViewById(R.id.btn);
+                        Button btn =us.findViewById(R.id.btn);
                         btn.setId(k.getId());
                         btn.setContentDescription("" + 0);
                         for (int a = 0; a < praceni.size(); a++) {
@@ -111,14 +109,14 @@ public class PopisKorisnika extends AppCompatActivity {
                             }
                         });
                        // if(k.getId()!=Integer.parseInt(id)){
-                        LinearLayout p = (LinearLayout) us.findViewById(R.id.parent);
+                        LinearLayout p = us.findViewById(R.id.parent);
                         l.addView(p);
                      //   }
 
                     }
                 }
             }
-            catch (Exception e) {
+            catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });

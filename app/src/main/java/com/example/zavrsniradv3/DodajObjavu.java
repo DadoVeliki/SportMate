@@ -24,16 +24,16 @@ public class DodajObjavu extends AppCompatActivity {
         Intent intent=getIntent();
         url=intent.getStringExtra("URL");
 
-        ImageView img=(ImageView) findViewById(R.id.backAkt);
+        ImageView img=findViewById(R.id.backAkt);
         img.setOnClickListener(view -> finish());
     }
     public void kreirajObjavu(View view){
         Intent intent=getIntent();
         String id=intent.getStringExtra("id");
         String ime=intent.getStringExtra("ime");
-        TextInputEditText naslov=(TextInputEditText) findViewById(R.id.naslov);
-        TextInputEditText opis=(TextInputEditText) findViewById(R.id.tekst);
-        TextInputEditText link=(TextInputEditText) findViewById(R.id.link);
+        TextInputEditText naslov=findViewById(R.id.naslov);
+        TextInputEditText opis=findViewById(R.id.tekst);
+        TextInputEditText link=findViewById(R.id.link);
 
         String nas= Objects.requireNonNull(naslov.getText()).toString();
         String op= Objects.requireNonNull(opis.getText()).toString();
@@ -45,7 +45,7 @@ public class DodajObjavu extends AppCompatActivity {
         String locurl=url+"zav/unosObjave.php";
         String type = "obj";
         BackgroundWorker backgroundWorker = new BackgroundWorker(DodajObjavu.this,4);
-        TextView prazno=(TextView) findViewById(R.id.prazno);
+        TextView prazno=findViewById(R.id.prazno);
         if(nas.equals("")){
             prazno.setText("Potrebno napisati naslov!");
         }

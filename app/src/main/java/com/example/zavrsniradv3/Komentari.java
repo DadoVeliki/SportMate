@@ -28,7 +28,7 @@ public class Komentari extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_komentari);
         listKom=new ArrayList<>();
-        ImageView img=(ImageView) findViewById(R.id.backAkt);
+        ImageView img=findViewById(R.id.backAkt);
         img.setOnClickListener(view -> finish());
         Intent i=getIntent();
         url=i.getStringExtra("URL");
@@ -37,9 +37,9 @@ public class Komentari extends AppCompatActivity {
         idOb=i.getStringExtra("idOb");
         lista=i.getParcelableArrayListExtra("lista");
         images=i.getIntArrayExtra("images");
-        ImageView obKom=(ImageView)findViewById(R.id.obKom);
+        ImageView obKom=findViewById(R.id.obKom);
         obKom.setOnClickListener(view -> {
-            EditText unos=(EditText) findViewById(R.id.editText1);
+            EditText unos=findViewById(R.id.editText1);
             String locUrl=url+"zav/unosKom.php";
             String type = "kom";
             BackgroundWorker backgroundWorker = new BackgroundWorker(Komentari.this,10);
@@ -47,7 +47,7 @@ public class Komentari extends AppCompatActivity {
             unos.setText("");
         });
 
-        LinearLayout l=(LinearLayout) findViewById(R.id.ll1);
+        LinearLayout l=findViewById(R.id.ll1);
         @SuppressLint("SetTextI18n") StringRequest request = new StringRequest(url+"zav/dohvatiKom.php", response -> {
             try {
                 JSONArray array = new JSONArray(response);
@@ -65,21 +65,21 @@ public class Komentari extends AppCompatActivity {
                         for(Korisnik k:lista){
                             if(k.getId()==c.getIdUsera()){
                                 @SuppressLint("InflateParams") View com=getLayoutInflater().inflate(R.layout.dizajn_kom,null);
-                                TextView ime=(TextView)com.findViewById(R.id.name);
-                                TextView tekst=(TextView)com.findViewById(R.id.tekst);
-                                CircleImageView profimg=(CircleImageView)com.findViewById(R.id.profile_image);
+                                TextView ime=com.findViewById(R.id.name);
+                                TextView tekst=com.findViewById(R.id.tekst);
+                                CircleImageView profimg=com.findViewById(R.id.profile_image);
 
                                 ime.setText(k.getIme()+" "+k.getPrezime());
                                 tekst.setText(c.getTekst());
                                 profimg.setImageResource(images[lista.get(c.getIdUsera()-1).getSlika()]);
-                                LinearLayout p=(LinearLayout)com.findViewById(R.id.parent);
+                                LinearLayout p=com.findViewById(R.id.parent);
                                 l.addView(p);
                             }
                         }
                     }
                 }
             }
-            catch (Exception e) {
+            catch (Exception e) {e.printStackTrace();
             }
         }, error -> {
         });

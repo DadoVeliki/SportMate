@@ -32,7 +32,7 @@ public class PratimFragment extends Fragment {
         ArrayList<Integer>pratim=new ArrayList<>();
         ArrayList<Odnos> listOd=this.getArguments().getParcelableArrayList("listaOdnosa");
         ArrayList<Korisnik>listUs=this.getArguments().getParcelableArrayList("lista");
-        LinearLayout l=(LinearLayout) fragPratim.findViewById(R.id.ll4);
+        LinearLayout l=fragPratim.findViewById(R.id.ll4);
         images=this.getArguments().getIntArray("images");
         br2=this.getArguments().getInt("br2");
         pratitelji=new ArrayList<>();
@@ -42,7 +42,7 @@ public class PratimFragment extends Fragment {
                     pratim.add(o.getIdPracen());
                 }
             }
-            catch(NumberFormatException n){
+            catch(NumberFormatException n){n.printStackTrace();
             }
         }
         for(Korisnik k:listUs){
@@ -50,15 +50,14 @@ public class PratimFragment extends Fragment {
         }
         for(int pr:pratim){
             @SuppressLint("InflateParams") View us = getLayoutInflater().inflate(R.layout.prikaz_usera, null);
-
-            TextView name = (TextView) us.findViewById(R.id.ime);
-            TextView desc = (TextView) us.findViewById(R.id.op);
+            TextView name = us.findViewById(R.id.ime);
+            TextView desc =us.findViewById(R.id.op);
             name.setText(listUs.get(pr-1).getIme()+" "+listUs.get(pr-1).getPrezime());
             desc.setText(listUs.get(pr-1).getOpis());
-            CircleImageView profile=(CircleImageView)us.findViewById(R.id.profile_image);
+            CircleImageView profile=us.findViewById(R.id.profile_image);
             profile.setImageResource(images[listUs.get(pr-1).getSlika()]);
 
-            Button btn = (Button) us.findViewById(R.id.btn);
+            Button btn = us.findViewById(R.id.btn);
             btn.setId(pr);
             btn.setContentDescription("0");
             btn.setText("PRATIM");
@@ -93,9 +92,8 @@ public class PratimFragment extends Fragment {
                     BackgroundWorker backgroundWorker = new BackgroundWorker(getContext().getApplicationContext(), 5);
                     backgroundWorker.execute(locurl, type, id, idOsoba, pratitelji.get(btn.getId() - 1) + "", br2 + "");
                 }
-
             });
-            LinearLayout p = (LinearLayout) us.findViewById(R.id.parent);
+            LinearLayout p =us.findViewById(R.id.parent);
             l.addView(p);
         }
 

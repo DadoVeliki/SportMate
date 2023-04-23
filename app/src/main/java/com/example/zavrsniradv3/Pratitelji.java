@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 
@@ -21,8 +20,7 @@ public class Pratitelji extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pratitelji);
-        ImageView img=(ImageView) findViewById(R.id.backAkt);
-        img.setOnClickListener(view -> finish());
+        findViewById(R.id.backAkt).setOnClickListener(view -> finish());
         Intent i=getIntent();
         prvo=i.getIntExtra("prvo",0);
         br2=i.getIntExtra("br2",0);

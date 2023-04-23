@@ -51,10 +51,9 @@ public class PopisAktivnosti extends AppCompatActivity {
         url=intent.getStringExtra("URL");
         listRut=intent.getParcelableArrayListExtra("listRut");
         listUs=intent.getParcelableArrayListExtra("listUs");
-        LinearLayout l=(LinearLayout) findViewById(R.id.ll1);
+        LinearLayout l=findViewById(R.id.ll1);
         Thread thread = new Thread(() -> {
-            ImageView img=(ImageView) findViewById(R.id.backAkt);
-            img.setOnClickListener(view -> finish());
+            findViewById(R.id.backAkt).setOnClickListener(view -> finish());
     //dohvaćanje svih aktivnosti
     @SuppressLint({"InflateParams", "SetTextI18n", "NonConstantResourceId"}) StringRequest request2 = new StringRequest(url+"zav/dohvatiSveAktivnosti.php", response2 -> {
         try {
@@ -84,7 +83,7 @@ public class PopisAktivnosti extends AppCompatActivity {
                 }
                 else{
                     akt=getLayoutInflater().inflate(R.layout.aktivnost,null);
-                    MapView map=(MapView)akt.findViewById(R.id.mapAkt);
+                    MapView map=akt.findViewById(R.id.mapAkt);
                     Thread thread1 = new Thread(() -> {
                         Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
                         Configuration.getInstance().setUserAgentValue(userAgent);
@@ -162,16 +161,16 @@ public class PopisAktivnosti extends AppCompatActivity {
                     mapController.setZoom(11.0);
                     mapController.setCenter(start);
                 }
-                TextView ime=(TextView)akt.findViewById(R.id.name);
-                TextView datum=(TextView)akt.findViewById(R.id.date);
-                TextView naslov=(TextView)akt.findViewById(R.id.title);
-                TextView udalj=(TextView)akt.findViewById(R.id.dist);
-                TextView nmv=(TextView)akt.findViewById(R.id.elev);
-                TextView vri=(TextView)akt.findViewById(R.id.time);
-                TextView avg=(TextView)akt.findViewById(R.id.avg);
-                TextView like=(TextView)akt.findViewById(R.id.like);
-                TextView oprema=(TextView)akt.findViewById(R.id.oprema);
-                ImageView tipAkt=(ImageView)akt.findViewById(R.id.tip);
+                TextView ime=akt.findViewById(R.id.name);
+                TextView datum=akt.findViewById(R.id.date);
+                TextView naslov=akt.findViewById(R.id.title);
+                TextView udalj=akt.findViewById(R.id.dist);
+                TextView nmv=akt.findViewById(R.id.elev);
+                TextView vri=akt.findViewById(R.id.time);
+                TextView avg=akt.findViewById(R.id.avg);
+                TextView like=akt.findViewById(R.id.like);
+                TextView oprema=akt.findViewById(R.id.oprema);
+                ImageView tipAkt=akt.findViewById(R.id.tip);
                 switch (a.getTipAkt()) {
                         case "Biciklizam":
                             tipAkt.setImageResource(R.drawable.bajk2);
@@ -183,7 +182,7 @@ public class PopisAktivnosti extends AppCompatActivity {
                             tipAkt.setImageResource(R.drawable.shoe);
                             break;
                     }
-                CircleImageView profile=(CircleImageView)akt.findViewById(R.id.profile_image);
+                CircleImageView profile=akt.findViewById(R.id.profile_image);
                 profile.setImageResource(images[listUs.get(a.getIdUsera()-1).getSlika()]);
 
                 LocalDateTime d=LocalDateTime.parse(a.getDatum(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -201,7 +200,7 @@ public class PopisAktivnosti extends AppCompatActivity {
                 avg.setText(a.getAvgBrzina()+" km/h");
                 like.setText(a.getBrojLajkova()+" oznaka sviđa mi se");
                 oprema.setText(a.getOprema());
-                BottomNavigationView bnv=(BottomNavigationView)akt.findViewById(R.id.bottomAkt);
+                BottomNavigationView bnv=akt.findViewById(R.id.bottomAkt);
                 bnv.setOnItemSelectedListener(item ->{
                     switch (item.getItemId()){
                         case R.id.lajk:
@@ -234,7 +233,7 @@ public class PopisAktivnosti extends AppCompatActivity {
                                         }
 
                                     }
-                                    catch (Exception e) {
+                                    catch (Exception e) {e.printStackTrace();
                                     }
                                 }, error2 -> {
                                 });
@@ -257,12 +256,12 @@ public class PopisAktivnosti extends AppCompatActivity {
                     }
                     return true;
                 });
-                LinearLayout p=(LinearLayout)akt.findViewById(R.id.parent);
+                LinearLayout p=akt.findViewById(R.id.parent);
                 l.addView(p);}
             }
             //}
         }
-        catch (Exception e) {
+        catch (Exception e) {e.printStackTrace();
         }
     }, error2 -> {
     });

@@ -6,7 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.util.Log;
 import android.widget.TextView;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -27,8 +27,7 @@ public class Statistika extends AppCompatActivity {
         Intent intent=getIntent();
         url=intent.getStringExtra("URL");
         id=intent.getStringExtra("id");
-        ImageView img=(ImageView) findViewById(R.id.backSt);
-        img.setOnClickListener(view -> finish());
+        findViewById(R.id.backSt).setOnClickListener(view -> finish());
         //dohvaćanje svih aktivnosti
         @SuppressLint("SetTextI18n") StringRequest request2 = new StringRequest(url+"zav/dohvatiSveAktivnosti.php", response2 -> {
             try {
@@ -53,6 +52,7 @@ public class Statistika extends AppCompatActivity {
                 int ukUdSvi=0;
                 float najduzaAkt=0;
                 int najveciElev=0;
+
                 for(Aktivnost a:listAkt){
                     if(a.getIdUsera()==Integer.parseInt(id)){
                         listMojiAkt.add(a);
@@ -67,22 +67,33 @@ public class Statistika extends AppCompatActivity {
                 }
                 int zbrojUdaljJa=0;
                 int zbrojElevJa=0;
+                int zbrojVremena=0;
+                int zbMin=0;
                 for(Aktivnost a:listMojiAkt){
                     zbrojUdaljJa+=a.getUdaljenost();
                     zbrojElevJa+=a.getNmv();
+                    zbrojVremena+=Integer.parseInt(a.getVrijeme().substring(1,2));
+                    zbMin+=Integer.parseInt(a.getVrijeme().substring(3,5));
                 }
-                TextView brJa=(TextView) findViewById(R.id.brAktJa);
-                TextView udJa=(TextView) findViewById(R.id.udaljJa);
-                TextView elJa=(TextView) findViewById(R.id.elevJa);
+                TextView brJa= findViewById(R.id.brAktJa);
+                TextView udJa=findViewById(R.id.udaljJa);
+                TextView elJa=findViewById(R.id.elevJa);
+                TextView vr=findViewById(R.id.vrijeme);
                 brJa.setText(""+listMojiAkt.size());
                 udJa.setText(zbrojUdaljJa+" km");
                 elJa.setText(zbrojElevJa+" m");
+                int brojac=0;
+                while(zbMin>59){
+                    zbMin-=60;
+                    brojac++;
+                }
+                vr.setText((zbrojVremena+brojac)+" h "+zbMin+" m");
 
                 int zbrojUdalj=0;
                 int zbrojElev=0;
-                TextView br10=(TextView) findViewById(R.id.brAkt10);
-                TextView ud10=(TextView) findViewById(R.id.udalj10);
-                TextView el10=(TextView) findViewById(R.id.elev10);
+                TextView br10=findViewById(R.id.brAkt10);
+                TextView ud10= findViewById(R.id.udalj10);
+                TextView el10= findViewById(R.id.elev10);
                 if(listMojiAkt.size()<10){
                     br10.setTextColor(Color.parseColor("#ff0000"));
                     ud10.setTextColor(Color.parseColor("#ff0000"));
@@ -101,16 +112,17 @@ public class Statistika extends AppCompatActivity {
                     el10.setText((zbrojElev/10.0f)+" m");
                 }
 
-                TextView brSvi=(TextView) findViewById(R.id.brAktSvi);
-                TextView udSvi=(TextView) findViewById(R.id.udaljSvi);
-                TextView najUd=(TextView) findViewById(R.id.najUd);
-                TextView najElev=(TextView) findViewById(R.id.najElev);
+                TextView brSvi= findViewById(R.id.brAktSvi);
+                TextView udSvi= findViewById(R.id.udaljSvi);
+                TextView najUd= findViewById(R.id.najUd);
+                TextView najElev= findViewById(R.id.najElev);
                 brSvi.setText(""+listAkt.size());
                 udSvi.setText(ukUdSvi+" km");
                 najUd.setText(Math.round(najduzaAkt)+" km");
                 najElev.setText(najveciElev+" m");
             }
             catch (Exception e) {
+                Log.e("e","greska");
             }
         }, error2 -> {
         });

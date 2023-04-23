@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -85,10 +83,13 @@ public class HomeFragment extends Fragment {
         ArrayList<Oprema>listOp=((HOME)getActivity()).getOp();
         ArrayList<Rute>listRut=((HOME)getActivity()).getRut();
         View home=inflater.inflate(R.layout.fragment_home, container, false);
-        LinearLayout l=(LinearLayout) home.findViewById(R.id.ll1);
+        LinearLayout l=home.findViewById(R.id.ll1);
         listLike=new ArrayList<>();
-        View akt;
+
         ArrayList<Korisnik>kojePratim=new ArrayList<>();
+        //new Thread(()->{
+           // try {
+        View akt;
         for(Korisnik k:listUs){
             for(Odnos o:listOd){
                 if((o.getIdKojiPrati()==Integer.parseInt(id)) && (o.getIdPracen()==k.getId())){
@@ -104,21 +105,13 @@ public class HomeFragment extends Fragment {
             }
             else{
                 akt=getLayoutInflater().inflate(R.layout.aktivnost,null);
-                MapView map=(MapView)akt.findViewById(R.id.mapAkt);
+                MapView map=akt.findViewById(R.id.mapAkt);
                 Thread thread = new Thread(() -> {
                     Configuration.getInstance().load(getActivity().getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()));
                     Configuration.getInstance().setUserAgentValue(userAgent);
 
                     map.setTileSource(TileSourceFactory.MAPNIK);
                     map.setMultiTouchControls(true);
-                    //map.setBuiltInZoomControls(false);
-                    /*for(Rute r:listRut){
-                        if (r.getIdAkt() == a.getId()) {
-                            poclat=r.getStartLat();
-                            poclong=r.getStartLong();
-                            break;
-                        }
-                    }*/
                     for(Rute r:listRut) {
                         if (r.getIdAkt() == a.getId()) {
                             new Thread(() -> {
@@ -164,16 +157,16 @@ public class HomeFragment extends Fragment {
                 mapController.setZoom(11.0);
                 mapController.setCenter(start);
             }
-            TextView ime=(TextView)akt.findViewById(R.id.name);
-            TextView datum=(TextView)akt.findViewById(R.id.date);
-            TextView naslov=(TextView)akt.findViewById(R.id.title);
-            TextView udalj=(TextView)akt.findViewById(R.id.dist);
-            TextView nmv=(TextView)akt.findViewById(R.id.elev);
-            TextView vri=(TextView)akt.findViewById(R.id.time);
-            TextView avg=(TextView)akt.findViewById(R.id.avg);
-            TextView like=(TextView)akt.findViewById(R.id.like);
-            ImageView tipAkt=(ImageView)akt.findViewById(R.id.tip);
-            TextView oprema=(TextView)akt.findViewById(R.id.oprema);
+            TextView ime=akt.findViewById(R.id.name);
+            TextView datum=akt.findViewById(R.id.date);
+            TextView naslov=akt.findViewById(R.id.title);
+            TextView udalj=akt.findViewById(R.id.dist);
+            TextView nmv=akt.findViewById(R.id.elev);
+            TextView vri=akt.findViewById(R.id.time);
+            TextView avg=akt.findViewById(R.id.avg);
+            TextView like=akt.findViewById(R.id.like);
+            ImageView tipAkt=akt.findViewById(R.id.tip);
+            TextView oprema=akt.findViewById(R.id.oprema);
             switch (a.getTipAkt()) {
                         case "Biciklizam":
                             tipAkt.setImageResource(R.drawable.bajk2);
@@ -185,7 +178,7 @@ public class HomeFragment extends Fragment {
                             tipAkt.setImageResource(R.drawable.shoe);
                             break;
                     }
-            CircleImageView profile=(CircleImageView)akt.findViewById(R.id.profile_image);
+            CircleImageView profile=akt.findViewById(R.id.profile_image);
             profile.setImageResource(images[listUs.get(a.getIdUsera()-1).getSlika()]);
 
             LocalDateTime d=LocalDateTime.parse(a.getDatum(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -203,7 +196,7 @@ public class HomeFragment extends Fragment {
             avg.setText(a.getAvgBrzina()+" km/h");
             like.setText(a.getBrojLajkova()+" oznaka sviđa mi se");
             oprema.setText(a.getOprema());
-            BottomNavigationView bnv=(BottomNavigationView)akt.findViewById(R.id.bottomAkt);
+            BottomNavigationView bnv=akt.findViewById(R.id.bottomAkt);
             bnv.setOnItemSelectedListener(item ->{
                 switch (item.getItemId()){
                     case R.id.lajk:
@@ -236,7 +229,7 @@ public class HomeFragment extends Fragment {
                                     }
 
                                 }
-                                catch (Exception e) {
+                                catch (Exception e) {e.printStackTrace();
                                 }
                             }, error2 -> {
                             });
@@ -260,7 +253,7 @@ public class HomeFragment extends Fragment {
                 }
                 return true;
             });
-            LinearLayout p=(LinearLayout)akt.findViewById(R.id.parent);
+            LinearLayout p=akt.findViewById(R.id.parent);
             l.addView(p);
             break;
                 }
@@ -272,13 +265,13 @@ public class HomeFragment extends Fragment {
             for(Korisnik k:kojePratim){
                 if((k.getId()==o.getIdUsera()) || (o.getIdUsera()==Integer.parseInt(id))){
             View ob=getLayoutInflater().inflate(R.layout.preview_objava,null);
-            TextView ime=(TextView)ob.findViewById(R.id.name);
-            TextView datum=(TextView)ob.findViewById(R.id.date);
-            TextView naslov=(TextView)ob.findViewById(R.id.title);
-            TextView tekst=(TextView)ob.findViewById(R.id.tekst1);
-            TextView pov=(TextView)ob.findViewById(R.id.link);
-            TextView like=(TextView)ob.findViewById(R.id.like);
-            CircleImageView profile=(CircleImageView)ob.findViewById(R.id.profile_image);
+            TextView ime=ob.findViewById(R.id.name);
+            TextView datum=ob.findViewById(R.id.date);
+            TextView naslov=ob.findViewById(R.id.title);
+            TextView tekst=ob.findViewById(R.id.tekst1);
+            TextView pov=ob.findViewById(R.id.link);
+            TextView like=ob.findViewById(R.id.like);
+            CircleImageView profile=ob.findViewById(R.id.profile_image);
             LocalDateTime d=LocalDateTime.parse(o.getDatum(),DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
             final DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("dd", Locale.ENGLISH);
@@ -295,7 +288,7 @@ public class HomeFragment extends Fragment {
             pov.setMovementMethod(LinkMovementMethod.getInstance());
             pov.setText(Html.fromHtml(a,Html.FROM_HTML_MODE_COMPACT));
             like.setText(o.getBrojLajkova()+" oznaka sviđa mi se");
-            BottomNavigationView bnv=(BottomNavigationView)ob.findViewById(R.id.bottomAkt);
+            BottomNavigationView bnv=ob.findViewById(R.id.bottomAkt);
             bnv.setOnItemSelectedListener(item ->{
                 switch (item.getItemId()){
                     case R.id.lajk:
@@ -328,7 +321,7 @@ public class HomeFragment extends Fragment {
                                     }
 
                                 }
-                                catch (Exception e) {
+                                catch (Exception e) {e.printStackTrace();
                                 }
                             }, error2 -> {
                             });
@@ -354,7 +347,7 @@ public class HomeFragment extends Fragment {
                 return true;
             });
 
-            LinearLayout p=(LinearLayout)ob.findViewById(R.id.parent);
+            LinearLayout p=ob.findViewById(R.id.parent);
             l.addView(p);
             break;
                 }
@@ -363,34 +356,40 @@ public class HomeFragment extends Fragment {
 
         String id=this.getArguments().getString("id");
         String ime=this.getArguments().getString("ime");
-        FloatingActionButton fab=(FloatingActionButton) home.findViewById(R.id.floatingActionButton);
-        fab2=(FloatingActionButton) home.findViewById(R.id.floatingActionButton2);//objava
-        fab1=(FloatingActionButton) home.findViewById(R.id.floatingActionButton3);//aktivnost
+        FloatingActionButton fab=home.findViewById(R.id.floatingActionButton);
+        fab2=home.findViewById(R.id.floatingActionButton2);//objava
+        fab1=home.findViewById(R.id.floatingActionButton3);//aktivnost
 
         fab.setOnClickListener(view -> {
-            if(!isFABOpen){
-                showFABMenu();
-            }else{
-                closeFABMenu();
-            }
+            new Thread(()->{
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            }).start();
         });
         fab1.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(),ManualActivity.class);
-            intent.putExtra("id",id+"");
-            intent.putExtra("ime",ime);
-            intent.putExtra("URL",url);
-            intent.putExtra("listOp",listOp);
-            startActivity(intent);
+            new Thread(()->{
+                Intent intent=new Intent(getContext(),ManualActivity.class);
+                intent.putExtra("id",id+"");
+                intent.putExtra("ime",ime);
+                intent.putExtra("URL",url);
+                intent.putExtra("listOp",listOp);
+                startActivity(intent);
+            }).start();
         });
         fab2.setOnClickListener(view -> {
-            Intent intent=new Intent(getContext(),DodajObjavu.class);
-            intent.putExtra("id",id);
-            intent.putExtra("ime",ime);
-            intent.putExtra("URL",url);
-            startActivity(intent);
+            new Thread(()->{
+                Intent intent=new Intent(getContext(),DodajObjavu.class);
+                intent.putExtra("id",id);
+                intent.putExtra("ime",ime);
+                intent.putExtra("URL",url);
+                startActivity(intent);
+            }).start();
         });
 
-        ImageView img2=(ImageView) home.findViewById(R.id.ljudi);
+        ImageView img2=home.findViewById(R.id.ljudi);
         int br2=this.getArguments().getInt("brojPratim");
         img2.setOnClickListener(view -> {
             Intent intent=new Intent(getContext(),PopisKorisnika.class);
@@ -402,6 +401,8 @@ public class HomeFragment extends Fragment {
             intent.putExtra("images",images);
             startActivity(intent);
         });
+          //  }catch (Exception e){}
+     //   }).start();
         return home;
     }
     private void showFABMenu(){
