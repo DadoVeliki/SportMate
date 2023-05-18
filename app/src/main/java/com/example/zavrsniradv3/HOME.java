@@ -34,7 +34,7 @@ public class HOME extends AppCompatActivity {
     public ArrayList<Oprema>getOp(){return listaOpreme;}
     public ArrayList<Rute>getRut(){return listRut;}
     int[] images={R.drawable.avatar,R.drawable.avatar2,R.drawable.avatar3,R.drawable.avatar4,R.drawable.avatar5,R.drawable.avatar6,R.drawable.avatar8,R.drawable.avatar9,R.drawable.avatar10,R.drawable.avatar11,R.drawable.avatar12,R.drawable.avatar13,R.drawable.avatar14,R.drawable.avatar15,R.drawable.avatar16,};
-
+    Thread thread;
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +76,15 @@ public class HOME extends AppCompatActivity {
             return true;
         });
 
-        @SuppressLint("InflateParams") View prof=getLayoutInflater().inflate(R.layout.fragment_profile,null);
+        /*@SuppressLint("InflateParams") View prof=getLayoutInflater().inflate(R.layout.fragment_profile,null);
         LinearLayout aktivnosti=prof.findViewById(R.id.prva);
         aktivnosti.setClickable(true);
         aktivnosti.setOnClickListener(view -> {
             Intent intent=new Intent(HOME.this,Statistika.class);
             HOME.this.startActivity(intent);
-        });
+        });*/
 
-        Thread thread = new Thread(() -> {
+        thread = new Thread(() -> {
 
     //dohvaćanje svih korisnika i slanje podataka od trenutnog prijavljenog
     StringRequest request = new StringRequest(url+"zav/dohvatiSve.php", response -> {

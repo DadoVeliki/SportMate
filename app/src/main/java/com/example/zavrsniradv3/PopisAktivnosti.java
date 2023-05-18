@@ -27,6 +27,7 @@ import org.osmdroid.views.overlay.Polyline;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -87,7 +88,7 @@ public class PopisAktivnosti extends AppCompatActivity {
                     Thread thread1 = new Thread(() -> {
                         Configuration.getInstance().load(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
                         Configuration.getInstance().setUserAgentValue(userAgent);
-
+                        ArrayList<GeoPoint> waypoints = new ArrayList<>();
                         map.setTileSource(TileSourceFactory.MAPNIK);
                         map.setMultiTouchControls(true);
                         //map.setBuiltInZoomControls(false);
@@ -100,59 +101,23 @@ public class PopisAktivnosti extends AppCompatActivity {
                         }
                         for(Rute r:listRut) {
                             if (r.getIdAkt() == a.getId()) {
-
-                               /*new Thread(new Runnable()
-    {
-        public void run()
-        {
-                    RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
-
-                    ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
-                    GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
-                    waypoints.add(startPoint);
-                    GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
-                    waypoints.add(endPoint);
-                    try
-                    {
-                        road = roadManager.getRoad(waypoints);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                    if(getActivity()==null){
-                        return;
-                    }
-                    getActivity().runOnUiThread(new Runnable()
-                    {
-                        public void run()
-                        {
-                            if (road.mStatus != Road.STATUS_OK)
-                            {
-
-                            }
-
-                            Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
-                            map.getOverlays().add(roadOverlay);
-                            map.invalidate();
-                        }
-                    });
-                      }
-                     }
-                     ).start();*/
-                                RoadManager roadManager = new OSRMRoadManager(PopisAktivnosti.this,userAgent);
-
-                                ArrayList<GeoPoint> waypoints = new ArrayList<>();
                                 GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
                                 waypoints.add(startPoint);
                                 GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
                                 waypoints.add(endPoint);
-                                road = roadManager.getRoad(waypoints);
-
-                                Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
-                                map.getOverlays().add(roadOverlay);
+                            }
+                        }
+                        for(int i=0;i<waypoints.size();i++){
+                            try{
+                                List<GeoPoint> routePoints = new ArrayList<>();
+                                routePoints.add(waypoints.get(i));
+                                routePoints.add(waypoints.get(i+1));
+                                Polyline polyline = new Polyline();
+                                polyline.setPoints(routePoints);
+                                map.getOverlayManager().add(polyline);
                                 map.invalidate();
                             }
+                            catch(Exception e){}
                         }
                     });
                     thread1.start();

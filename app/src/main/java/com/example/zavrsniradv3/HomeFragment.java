@@ -20,9 +20,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
-import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
@@ -31,6 +29,7 @@ import org.osmdroid.views.overlay.Polyline;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -65,8 +64,8 @@ public class HomeFragment extends Fragment {
     Boolean isFABOpen=false;
     FloatingActionButton fab1,fab2;
     String userAgent = System.getProperty("http.agent"),url="",id="";
-    Road road;
     public ArrayList<LikeRelation>listLike;
+    GeoPoint start;
     int[]images;
     @SuppressLint({"InflateParams", "SetTextI18n", "NonConstantResourceId"})
     @Override
@@ -104,55 +103,51 @@ public class HomeFragment extends Fragment {
                 akt=getLayoutInflater().inflate(R.layout.akt_izgled_manual,null);
             }
             else{
+                ArrayList<GeoPoint> waypoints = new ArrayList<>();
                 akt=getLayoutInflater().inflate(R.layout.aktivnost,null);
                 MapView map=akt.findViewById(R.id.mapAkt);
                 Thread thread = new Thread(() -> {
                     Configuration.getInstance().load(getActivity().getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()));
                     Configuration.getInstance().setUserAgentValue(userAgent);
 
-                    map.setTileSource(TileSourceFactory.MAPNIK);
+                    map.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
                     map.setMultiTouchControls(true);
+
                     for(Rute r:listRut) {
+                        int brojac=0;
                         if (r.getIdAkt() == a.getId()) {
+                            if(brojac==0){
+                                start=new GeoPoint(r.getStartLat(),r.getStartLong());
+                                brojac++;
+                            }
                             new Thread(() -> {
-                                RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
-                                ArrayList<GeoPoint> waypoints = new ArrayList<>();
-                                GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
-                                waypoints.add(startPoint);
-                                GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
-                                waypoints.add(endPoint);
-                                try { road = roadManager.getRoad(waypoints);  }
-                                catch (Exception e) { e.printStackTrace(); }
-                                if(getActivity()==null) return;
-                                getActivity().runOnUiThread(() -> {
-                                    Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
-                                    map.getOverlays().add(roadOverlay);
-                                    map.invalidate();
-                                });
+                                try{
+                                    GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
+                                    waypoints.add(startPoint);
+                                    GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
+                                    waypoints.add(endPoint);
+                                }
+                                catch (Exception e){
+
+                                }
                         }).start();
-                            try{
-                                RoadManager roadManager = new OSRMRoadManager(getContext(),userAgent);
-
-                                ArrayList<GeoPoint> waypoints = new ArrayList<>();
-                                GeoPoint startPoint = new GeoPoint(r.getStartLat(),r.getStartLong());
-                                waypoints.add(startPoint);
-                                GeoPoint endPoint = new GeoPoint(r.getEndLat(),r.getEndLong());
-                                waypoints.add(endPoint);
-                                road = roadManager.getRoad(waypoints);
-
-                                Polyline roadOverlay = RoadManager.buildRoadOverlay(road);
-                                map.getOverlays().add(roadOverlay);
-                                map.invalidate();
-                            }
-                            catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
                         }
+                    }
+                    for(int i=0;i<waypoints.size();i++){
+                        try{
+                            List<GeoPoint> routePoints = new ArrayList<>();
+                            routePoints.add(waypoints.get(i));
+                            routePoints.add(waypoints.get(i+1));
+                            Polyline polyline = new Polyline();
+                            polyline.setPoints(routePoints);
+                            map.getOverlayManager().add(polyline);
+                            map.invalidate();
+                        }
+                        catch(Exception e){}
                     }
                 });
                 thread.start();
-                GeoPoint start=new GeoPoint(46.4208585,16.53123);
+                start=new GeoPoint(46.4208585,16.53123);
                 IMapController mapController=map.getController();
                 mapController.setZoom(11.0);
                 mapController.setCenter(start);

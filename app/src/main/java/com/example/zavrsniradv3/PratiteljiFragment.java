@@ -75,6 +75,7 @@ public class PratiteljiFragment extends Fragment {
                         btn.setBackgroundColor(Color.WHITE);
                         btn.setTextColor(Color.parseColor("#FF5722"));
                         btn.setContentDescription("1");
+                        break;
                     }
                     else{
                         btn.setId(pr);

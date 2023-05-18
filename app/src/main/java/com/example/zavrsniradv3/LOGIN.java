@@ -20,7 +20,7 @@ public class LOGIN extends AppCompatActivity {
     TextInputEditText loginEmail,loginLozinka;
     String email,lozinka;
     public String url="http://192.168.0.187:80/";
-    //public String url="https://9852-95-168-107-19.eu.ngrok.io/";
+    //public String url="https://c3fb-95-168-121-49.ngrok-free.app/";
     public ArrayList<Korisnik>lista;
     boolean imali=false;
     public int odabrana=0;

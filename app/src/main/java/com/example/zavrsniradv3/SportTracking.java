@@ -37,7 +37,7 @@ public class SportTracking extends AppCompatActivity {
     private static final int REQUEST_LOCATION = 1;
     LocationManager locationManager;
     double udaljenost=0,elevation=0,pocLat=0,pocLong=0,pocElev=0,minuteUk=0,avg;
-    int idAkt,brojcek;
+    int idAkt,brojcek,ucestalost=0;
     Timer timer;
     TimerTask timerTask;
     Double vrijeme = 0.0;
@@ -54,6 +54,16 @@ public class SportTracking extends AppCompatActivity {
         Intent i=getIntent();
         url=i.getStringExtra("URL");
         tip=i.getStringExtra("tip");
+        if(tip.equals("Šetnja")){
+            ucestalost=15;
+        }
+        if(tip.equals("Trčanje")){
+            ucestalost=10;
+        }
+        if(tip.equals("Biciklizam")){
+            ucestalost=5;
+        }
+
         timer=new Timer();
         if(!proslo){
             uPokretu();
@@ -121,7 +131,7 @@ public class SportTracking extends AppCompatActivity {
 
                     avg=(udaljenost)/(minuteUk*60);
                     prosj.setText(String.format("%.2f", avg*3.6f));
-                    if(brojcek==5){
+                    if(brojcek==ucestalost){
                         listRut.add(new Rute(idAkt,pocLat,pocLong,lat,longi));
                         brojcek=0;
                     }

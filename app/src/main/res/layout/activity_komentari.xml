@@ -57,6 +57,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="650dp"
+        android:background="#0081C9"
         android:layout_height="50dp">
 
         <EditText
