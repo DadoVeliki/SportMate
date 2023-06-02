@@ -108,8 +108,8 @@ public class LOGIN extends AppCompatActivity {
     public void login(View view){
       //loginEmail.setText("luki@gmail.com");
       //loginLozinka.setText("123");
-         loginEmail.setText("davidlego009@gmail.com");
-        loginLozinka.setText("dUUo79GG");
+         //loginEmail.setText("davidlego009@gmail.com");
+        //loginLozinka.setText("dUUo79GG");
        //loginEmail.setText("dora@gmail.com");
        //loginLozinka.setText("123");
         String email= Objects.requireNonNull(loginEmail.getText()).toString();

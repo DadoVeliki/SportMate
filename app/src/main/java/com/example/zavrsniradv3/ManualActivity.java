@@ -178,7 +178,7 @@ public class ManualActivity extends AppCompatActivity {
 
         BackgroundWorker backgroundWorker = new BackgroundWorker(ManualActivity.this,3);
         TextView prazno=findViewById(R.id.prazno);
-        if(nas.equals("") || vri.equals("") || dist.equals("") || nmv.equals("") || dat.equals("") || oprema.equals("") || tipAkt.equals("")){
+        if(nas.equals("") || vri.equals("") || dist.equals("") || nmv.equals("") || dat.equals("") || tipAkt.equals("")){
             prazno.setText("Potrebno ispuniti sva polja!");
         }
         else{
