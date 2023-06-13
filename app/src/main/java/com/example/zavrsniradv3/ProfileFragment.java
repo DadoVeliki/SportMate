@@ -70,6 +70,8 @@ public class ProfileFragment extends Fragment {
     public ArrayList<Oprema>listOp;
     public ArrayList<Odnos>listOd;
     int[]images;
+    float zad10dist=0;
+    int zad10nmv=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -179,8 +181,14 @@ new Thread(()->{
                 LocalDateTime d = LocalDateTime.parse(zadnja, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
                 ak.setText("Posljednja: " + dtf2.format(d) + ". " + MojeMetode.kojiMjesec(dtf3, d) + " " + dtf4.format(d) + ".");
                 List<Entry> entries = new ArrayList<>();
+                int zbrojVremena=0;
+                int zbMin=0;
                 for (int i = 0; i < 10; i++) {
                     entries.add(new Entry(i, listMojiAkt.get(9 - i).getUdaljenost()));
+                    zad10dist+=listMojiAkt.get(9 - i).getUdaljenost();
+                    zad10nmv+=listMojiAkt.get(9 - i).getNmv();
+                    zbrojVremena+=Integer.parseInt(listMojiAkt.get(9 - i).getVrijeme().substring(1,2));
+                    zbMin+=Integer.parseInt(listMojiAkt.get(9 - i).getVrijeme().substring(3,5));
                 }
                 LineDataSet dataSet = new LineDataSet(entries, "");
                 dataSet.setColor(Color.parseColor("#5BC0F8"));
@@ -197,6 +205,18 @@ new Thread(()->{
                 lineChart.setDescription(desc);
                 lineChart.getLegend().setEnabled(false);
                 lineChart.invalidate();
+
+                TextView dist=prof.findViewById(R.id.dist);
+                TextView elev=prof.findViewById(R.id.elev);
+                TextView time=prof.findViewById(R.id.time);
+                dist.setText(zad10dist+" km");
+                elev.setText(zad10nmv+" m");
+                int brojac=0;
+                while(zbMin>59){
+                    zbMin-=60;
+                    brojac++;
+                }
+                time.setText((zbrojVremena+brojac)+" h "+zbMin+" m");
             } catch (Exception e) {e.printStackTrace();
             }
         }, error2 -> {

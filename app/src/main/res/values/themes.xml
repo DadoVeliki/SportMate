@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <!--0081C9-->
+    <!--#31B2FB-->
     <!--FF5722-->
     <!--005585-->
     <style name="Theme.ZavrsniRad" parent="Theme.MaterialComponents.DayNight.NoActionBar">
