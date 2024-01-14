@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="650dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="REGISTRACIJA" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="70dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#86E5FF"
+                android:id="@+id/ime"
+                android:maxLength="15"
+                android:hint="Ime (max. 15 znakova)" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="70dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#86E5FF"
+                android:id="@+id/prezime"
+                android:maxLength="15"
+                android:hint="Prezime (max. 15 znakova)" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="70dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:text="Odabrana profilna slika:"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textSize="15sp"
+                />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/odabrani"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+        <GridView
+            android:id="@+id/grid"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:columnWidth="50dp"
+            android:minHeight="90dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:padding="10dp"
+            />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="70dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#86E5FF"
+                android:maxLength="20"
+                android:id="@+id/bio"
+                android:hint="Info o tebi (max. 20 znakova)" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="70dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#86E5FF"
+                android:id="@+id/email"
+                android:hint="Email" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="70dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#86E5FF"
+                android:id="@+id/lozinka"
+                android:inputType="textPassword"
+                android:hint="Lozinka" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button2"
+            android:layout_gravity="center"
+            android:layout_width="300dp"
+            app:cornerRadius="10dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FF5722"
+            android:text="REGISTRIRAJ SE" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

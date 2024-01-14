@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:padding="10dp"
+        android:orientation="horizontal">
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/dado" />
+        <LinearLayout
+            android:layout_width="210dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/ime"
+                android:layout_width="200dp"
+                android:layout_height="25dp"
+                android:text="David Trstenjak"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/op"
+                android:layout_width="200dp"
+                android:layout_height="25dp"
+                android:text="---"
+                />
+        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="PRATI"
+            app:strokeColor="#FF5722"
+            android:backgroundTint="#FF5722"
+            app:strokeWidth="1dp"
+            android:id="@+id/btn"
+            />
+    </LinearLayout>
+</LinearLayout>

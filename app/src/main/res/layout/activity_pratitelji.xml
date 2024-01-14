@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Pratitelji">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                >
+                <ImageView
+                    android:id="@+id/backAkt"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:clickable="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_baseline_arrow_back_24"/>
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pratitelji"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/white" />
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <!--<TextView
+                android:id="@+id/pratitelji"
+                android:onClick="pratitelji"
+                android:layout_width="540px"
+                android:layout_height="40dp"
+                android:layout_marginTop="55dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="#FF5722"
+                android:text="PRATITELJI"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/pratim"
+                android:onClick="pratim"
+                android:layout_width="540px"
+                android:layout_height="40dp"
+                android:layout_marginTop="55dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:background="#FF5722"
+                android:text="PRATIM"
+                />-->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tablayout"
+                android:layout_width="1080px"
+                android:layout_height="40dp"
+                android:layout_marginTop="55dp">
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="540px"
+                    android:layout_height="40dp"
+                    android:text="PRATITELJI"
+                    android:onClick="pratitelji"
+                    />
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="540px"
+                    android:layout_height="40dp"
+                    android:text="PRATIM"
+                    android:onClick="pratim"
+                    />
+            </com.google.android.material.tabs.TabLayout>
+        </LinearLayout>
+<!--
+    <FrameLayout
+        android:id="@+id/frame2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp">
+
+    </FrameLayout>-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="95dp"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

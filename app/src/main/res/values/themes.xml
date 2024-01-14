@@ -1,0 +1,39 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <!--0081C9-->
+    <!--#31B2FB-->
+    <!--FF5722-->
+    <!--005585-->
+    <style name="Theme.ZavrsniRad" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#0081C9</item>
+        <item name="colorPrimaryVariant">#31B2FB</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:textColorHint">@color/white</item>
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">#3D3D90</item>
+        <item name="android:colorAccent">#ff0000</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorPrimary">#ff0000</item>
+    </style>
+    <style name="AlertDialogStyle2" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">@color/white</item>
+        <item name="android:colorAccent">#ff0000</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorPrimary">#ff0000</item>
+    </style>
+    <style name="AlertDialogStyle3" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">#31B2FB</item>
+        <item name="android:colorAccent">#ff0000</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorPrimary">#ff0000</item>
+    </style>
+</resources>
